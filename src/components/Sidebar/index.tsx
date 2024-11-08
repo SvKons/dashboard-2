@@ -1,15 +1,64 @@
-import React, { useState } from 'react';
+// import { useState } from 'react';
+// import { NavLink } from 'react-router-dom';
+// import { UserRole } from '../../types/UserRole';
+// import LeaderAside from '../LeaderAside';
+// import ManagerAside from '../ManagerAside';
+// import './Sidebar.scss';
+
+// interface SidebarProps {
+//     userRole: UserRole;
+//     onSortByDate: (viewType: string) => void;
+//     onSortByDirection: (viewType: string) => void;
+// }
+
+// type MenuKey = 'department' | 'employees';
+
+// const Sidebar = ({ userRole, onSortByDate, onSortByDirection }: SidebarProps) => {
+//     const [openMenus, setOpenMenus] = useState<Record<MenuKey, boolean>>({
+//         department: false,
+//         employees: false,
+//     });
+
+//     const handleMenuClick = (menu: MenuKey) => {
+//         setOpenMenus(prevState => ({
+//             ...prevState,
+//             [menu]: !prevState[menu],
+//         }));
+//     };
+
+//     return (
+//         <aside className="sidebar">
+//             <div className="sidebar__menu">
+//                 <NavLink to="/" className="sidebar__item">
+//                     <img src={require('./img/dashboard-icon.png')} alt="Dashboard" className="sidebar__item_icon" />
+//                     Dashboard
+//                 </NavLink>
+
+//                 {userRole === UserRole.Manager ? <ManagerAside openMenus={openMenus} handleMenuClick={handleMenuClick} onSortByDate={onSortByDate} onSortByDirection={onSortByDirection} /> : <LeaderAside />}
+//             </div>
+//         </aside>
+//     );
+// };
+
+// export default Sidebar;
+
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { UserRole } from '../../types/UserRole';
+import LeaderAside from '../LeaderAside';
+import ManagerAside from '../ManagerAside';
+import './Sidebar.scss';
 
 interface SidebarProps {
-    onSortByDate: () => void;
-    onSortByDirection: () => void;
+    userRole: UserRole;
+    onSortByDate: (viewType: string) => void;
+    onSortByDirection: (viewType: string) => void;
 }
 
 type MenuKey = 'department' | 'employees';
 
-const Sidebar: React.FC<SidebarProps> = ({ onSortByDate, onSortByDirection }) => {
-    const [openMenus, setOpenMenus] = useState<Record<MenuKey, boolean>>({
+const Sidebar = ({ userRole, onSortByDate, onSortByDirection }: SidebarProps) => {
+    const [openMenus, setOpenMenus] = useState<{ department: boolean; employees: boolean }>({
         department: false,
         employees: false,
     });
@@ -23,51 +72,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onSortByDate, onSortByDirection }) =>
 
     return (
         <aside className="sidebar">
-            <nav className="sidebar__menu">
-                <NavLink to="/">Dashboard</NavLink>
-                <NavLink
-                    to="/statistika"
-                    onClick={() => {
-                        handleMenuClick('department');
-                    }}
-                >
-                    Статистика отдела
+            <div className="sidebar__menu">
+                <NavLink to="/" className="sidebar__item">
+                    <img src={require('./img/dashboard-icon.png')} alt="Dashboard" className="sidebar__item_icon" />
+                    Dashboard
                 </NavLink>
-                <div className="sidebar__submenu">
-                    {openMenus.department && (
-                        <ul className="sidebar__submenu">
-                            <li className="sidebar__submenu-item">
-                                <button className="sidebar__button">По дате</button>
-                            </li>
-                            <li className="sidebar__submenu-item">
-                                <button className="sidebar__button">По направлению</button>
-                            </li>
-                        </ul>
-                    )}
-                </div>
-                <NavLink
-                    to="/uchastniki"
-                    onClick={() => {
-                        handleMenuClick('employees');
-                    }}
-                >
-                    Статистика сотрудников
-                </NavLink>
-                <div className="sidebar__submenu">
-                    {openMenus.employees && (
-                        <ul className="sidebar__submenu">
-                            <li className="sidebar__submenu-item">
-                                <button className="sidebar__button">По дате</button>
-                            </li>
-                            <li className="sidebar__submenu-item">
-                                <button className="sidebar__button">По направлению</button>
-                            </li>
-                        </ul>
-                    )}
-                </div>
-                <NavLink to="/tseli">Цели отдела</NavLink>
-                <NavLink to="/dostizheniya">Достижения</NavLink>
-            </nav>
+
+                {userRole === UserRole.Manager ? <ManagerAside openMenus={openMenus} handleMenuClick={handleMenuClick} onSortByDate={onSortByDate} onSortByDirection={onSortByDirection} /> : <LeaderAside />}
+            </div>
         </aside>
     );
 };

@@ -1,0 +1,79 @@
+.sidebar {
+    max-width: 350px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--black-dark-color);
+
+    &__menu {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        font-size: 1.375rem;
+        text-decoration: none;
+        color: var(--white-color);
+        background-color: var(--black-color);
+        padding: 20px 12px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        &:hover {
+            // background-color: var(--main-yellow);
+            color: var(--white-color);
+            // background: linear-gradient(90deg, rgba(255, 237, 0, 1) 0%, rgba(0, 0, 0, 0.022934173669467817) 100%);
+            box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgb(255 255 255 / 50%), 0px 0px 10px rgba(255, 212, 59, 0.5);
+        }
+
+        &:active {
+            background-color: var(--active-yellow);
+        }
+
+        &_icon {
+            width: 22px;
+            height: 22px;
+            margin-right: 10px;
+        }
+    }
+
+    &__submenu-list {
+        margin-left: 35px;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    &__submenu-item {
+        margin-bottom: 10px;
+    }
+
+    &__button-sort {
+        width: 100%;
+        background: none;
+        border: none;
+        color: var(--white-color);
+        background-color: var(--black-color);
+        font-size: 1.125rem;
+        text-align: left;
+        border-radius: 10px;
+        padding: 5px;
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        &:hover {
+            // background-color: var(--main-yellow);
+            color: var(--white-color);
+            // background: linear-gradient(90deg, rgba(255, 237, 0, 1) 0%, rgba(0, 0, 0, 0.022934173669467817) 100%);
+            box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgb(255 255 255 / 50%), 0px 0px 10px rgba(255, 212, 59, 0.5);
+        }
+
+        &:active {
+            background-color: var(--active-yellow);
+        }
+    }
+}

@@ -1,13 +1,13 @@
-@import 'src/variables.scss';
-
 .header {
+    flex-shrink: 0;
+
     &__container {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 10px 20px;
-        background-color: var(--light-color);
-        border-bottom: 1px solid #ccc;
+        background-color: var(--black-dark-color);
+        // border-bottom: 1px solid var(--light-grey);
     }
 
     &__logo {
@@ -27,26 +27,49 @@
 
     &__filter-item {
         font-size: 20px;
-        border: 1p solid #ccc;
         cursor: pointer;
+        position: relative;
+        color: var(--white-color);
+        background-color: var(--black-color);
+        border-radius: 10px;
+        padding: 8px 12px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        &_active {
+            box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgb(255 255 255 / 50%), 0px 0px 10px rgba(255, 212, 59, 0.5);
+        }
+
+        &:hover {
+            // background-color: var(--hover-yellow);
+            color: var(--white-color);
+            // background: linear-gradient(90deg, rgba(255, 237, 0, 1) 0%, rgba(0, 0, 0, 0.022934173669467817) 100%);
+            box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgb(255 255 255 / 50%), 0px 0px 10px rgba(255, 212, 59, 0.5);
+        }
+
+        &:active {
+            background-color: var(--active-yellow);
+        }
     }
 
     &__buttons {
+        position: relative;
         display: flex;
-        gap: 5px;
+        gap: 10px;
     }
 
     &__button {
-        padding: 8px;
         border: none;
         border-radius: 4px;
-        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+        background-color: var(--black-color);
+        padding: 8px;
+        cursor: pointer;
 
         &:hover {
-            background-color: #e8dc62;
+            // background-color: var(--main-yellow);
+            box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgb(255 255 255 / 50%), 0px 0px 10px rgba(255, 212, 59, 0.5);
         }
 
         &__icon {
@@ -55,7 +78,58 @@
         }
 
         &_settings {
+            width: 60px;
         }
-        width: 60px;
+
+        &_sublist {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--white-color);
+            border: 1px solid var(--light-grey);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            min-width: 100px;
+        }
+
+        &_subitem {
+            padding: 10px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--hover-grey);
+            }
+        }
+    }
+
+    &__date-picker-container {
+        position: relative;
+    }
+
+    &__datepicker {
+        position: absolute;
+        z-index: 1000;
+        margin-top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--white-color);
+        border: 1px solid var(--light-grey);
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    & .react-datepicker {
+        font-family: inherit;
+        font-size: 1rem;
+        border: none;
+    }
+
+    & .react-datepicker__header {
+        background-color: var(--hover-grey);
+    }
+
+    & .react-datepicker__navigation-icon::before {
+        border-color: var(--dark-grey);
     }
 }

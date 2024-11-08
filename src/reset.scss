@@ -101,10 +101,6 @@ section {
     display: block;
 }
 
-html {
-    height: 100%;
-}
-
 body {
     line-height: 1;
 }
@@ -150,12 +146,4 @@ optgroup,
 select,
 textarea {
     font-family: inherit;
-}
-
-body {
-    height: 100vh;
-}
-
-#root {
-    height: 100%;
 }
