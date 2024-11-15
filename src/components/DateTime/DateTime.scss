@@ -1,0 +1,13 @@
+.datetime-block {
+    font-size: 1.375rem;
+    text-decoration: none;
+    color: var(--white-color);
+    background-color: var(--black-color);
+    padding: 20px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &__text {
+        text-align: center;
+    }
+}

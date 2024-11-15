@@ -1,0 +1,32 @@
+.popular-courses {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    padding: 20px;
+    padding-left: 0;
+    padding-top: 0;
+
+    &__wrap {
+        color: var(--white-color);
+        background-color: var(--black-color);
+        border-radius: 10px;
+        padding: 20px 24px;
+    }
+
+    &__title {
+        font-size: 1.625rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    &__item {
+        font-size: 1.5rem;
+    }
+}

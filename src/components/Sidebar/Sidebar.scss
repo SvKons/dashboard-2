@@ -3,6 +3,9 @@
     width: 100%;
     height: 100%;
     background-color: var(--black-dark-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     &__menu {
         width: 100%;
@@ -75,5 +78,15 @@
         &:active {
             background-color: var(--active-yellow);
         }
+
+        &_active {
+            box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgb(255 255 255 / 50%), 0px 0px 10px rgba(255, 212, 59, 0.5);
+        }
     }
+}
+.date-time {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
 }

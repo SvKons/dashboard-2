@@ -1,20 +1,21 @@
-import './SettingsModal.scss';
+import Popup from '../Popup';
 
 interface SettingsModalProps {
     onClose: () => void;
 }
 
-const SettingsModal = ({ onClose }: SettingsModalProps) => {
+interface SettingsModalProps {
+    onClose: () => void;
+}
+
+const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
     return (
-        <div className="modal">
-            <div className="modal__content">
-                <button className="modal__close" onClick={onClose}>
-                    &times;
-                </button>
-                <h2>Настройки</h2>
+        <Popup onClose={onClose} title="Настройки">
+            <div>
                 {/* Настройки для отображения видимости блоков */}
+                <h3>Настройки видимости блоков</h3>
             </div>
-        </div>
+        </Popup>
     );
 };
 

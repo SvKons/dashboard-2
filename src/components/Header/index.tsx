@@ -1,69 +1,87 @@
 import { useEffect, useRef, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+// import DatePicker from 'react-datepicker';
+// import 'react-datepicker/dist/react-datepicker.css';
 import { useLocation } from 'react-router-dom';
+import { DateRangePicker } from 'react-date-range';
+import { ru } from 'date-fns/locale';
+// import 'react-date-range/dist/styles.css'; // main style file
+// import 'react-date-range/dist/theme/default.css'; // theme css file main style file// theme css file
+// import { addYears } from 'date-fns';
 import SettingsModal from '../SettingsModal';
 import './Header.scss';
+import LogInModal from '../LogInModal';
 
 interface HeaderProps {
-    sortOption: string | null;
+    // sortOption: string | null;
     filterOption: string;
     onFilterChange: (option: string) => void;
     onCustomPeriodSelect: (start: Date, end: Date) => void;
 }
 
-const Header = ({ sortOption, filterOption, onFilterChange, onCustomPeriodSelect }: HeaderProps) => {
+const Header = ({ filterOption, onFilterChange, onCustomPeriodSelect }: HeaderProps) => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-    const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+    const [isModalSettingsVisible, setIsModalSettingsVisible] = useState(false);
+    const [isLogIn, setIsLogIn] = useState(false);
+    // Для первого календаря
+    // const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+    // const [endDate, setEndDate] = useState<Date | undefined>(undefined);
     const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
     const [activeFilter, setActiveFilter] = useState(filterOption);
+    const [date, setDate] = useState({
+        startDate: new Date(),
+        endDate: new Date(),
+        key: 'selection',
+    });
+    const [openDate, setOpenDate] = useState(false);
 
     const datePickerRef = useRef<HTMLDivElement | null>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
-    const menuRef = useRef<HTMLDivElement | null>(null);
 
     const location = useLocation(); // Получаем текущий URL
 
-    const toggleMenu = () => {
-        setIsMenuVisible(!isMenuVisible);
-    };
-
     const openModal = () => {
-        setIsModalVisible(true);
+        setIsModalSettingsVisible(true);
         setIsMenuVisible(false);
     };
 
     const closeModal = () => {
-        setIsModalVisible(false);
+        setIsModalSettingsVisible(false);
+    };
+
+    const openLogInModal = () => {
+        setIsLogIn(true);
+    };
+
+    const closeModalLogIn = () => {
+        setIsLogIn(false);
     };
 
     const toggleDatePicker = () => {
-        setIsDatePickerVisible(prev => !prev);
+        setIsDatePickerVisible(!isDatePickerVisible);
     };
 
-    const handleDateRangeSelect = (dates: [Date | null, Date | null]) => {
-        const [start, end] = dates;
-        // Устанавливаем даты, преобразуем null в undefined для совместимости
-        setStartDate(start !== null ? start : undefined);
-        setEndDate(end !== null ? end : undefined);
+    // Первый календарь
+    // const handleDateRangeSelect = (dates: [Date | null, Date | null]) => {
+    //     const [start, end] = dates;
+    //     // Устанавливаем даты, преобразуем null в undefined для совместимости
+    //     setStartDate(start !== null ? start : undefined);
+    //     setEndDate(end !== null ? end : undefined);
 
-        // Закрываем календарь после выбора конечной даты
-        if (end) {
-            setIsDatePickerVisible(false);
-        }
-    };
+    //     // Закрываем календарь после выбора конечной даты
+    //     if (end) {
+    //         setIsDatePickerVisible(false);
+    //     }
+    // };
 
     const handleClickOutside = (event: MouseEvent) => {
-        // Закрываем календарь, если клик вне его области и кнопки
-        if (datePickerRef.current && buttonRef.current && !datePickerRef.current.contains(event.target as Node) && !buttonRef.current.contains(event.target as Node)) {
-            setIsDatePickerVisible(false);
-        }
+        // Закрываем календарь, если клик вне его области и кнопки - первый календарь
+        // if (datePickerRef.current && buttonRef.current && !datePickerRef.current.contains(event.target as Node) && !buttonRef.current.contains(event.target as Node)) {
+        //     setIsDatePickerVisible(false);
+        // }
 
-        // Закрываем меню, если клик вне его области и кнопки
-        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-            setIsMenuVisible(false);
+        // Проверка, был ли клик вне календаря
+        if (datePickerRef.current && !datePickerRef.current.contains(event.target as Node)) {
+            setOpenDate(false); // Закрытие календаря
         }
     };
 
@@ -71,17 +89,19 @@ const Header = ({ sortOption, filterOption, onFilterChange, onCustomPeriodSelect
         onFilterChange(option);
         setActiveFilter(option); // Обновляем активный фильтр
         if (option === 'choosePeriod') {
-            toggleDatePicker(); // Открываем календарь, если это выбрано
+            // Открываем календарь, если это выбрано
+            toggleDatePicker();
         }
     };
 
     // Определение активности Текущего месяца
     const isCurrentMonthActive = activeFilter === 'currentMonth' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics');
 
+    // Использование эффекта для добавления обработчика кликов
     useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside); // Добавление обработчика
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside); // Удаление обработчика при размонтировании
         };
     }, []);
 
@@ -92,6 +112,27 @@ const Header = ({ sortOption, filterOption, onFilterChange, onCustomPeriodSelect
         }
     }, [filterOption, onFilterChange]);
 
+    useEffect(() => {
+        // Проверяем, находимся ли мы на страницах статистики
+        const isStatsPage = ['/department-statistics', '/employees-statistics'].includes(location.pathname);
+
+        // Если мы не на странице статистики, сбрасываем activeFilter на 'currentMonth'
+        if (!isStatsPage) {
+            setActiveFilter('currentMonth');
+        } else {
+            // Если на странице статистики, устанавливаем activeFilter в filterOption
+            setActiveFilter(filterOption);
+        }
+    }, [location.pathname, filterOption]);
+
+    const handleChange = (ranges: any) => {
+        setDate(ranges.selection);
+    };
+
+    const handleClick = () => {
+        setOpenDate(!openDate);
+    };
+
     return (
         <div className="header">
             <header className="header__container">
@@ -101,7 +142,10 @@ const Header = ({ sortOption, filterOption, onFilterChange, onCustomPeriodSelect
                 <div className="header__filter-options">
                     <div className="header__filter-list">
                         <button className={`header__filter-item ${activeFilter === 'prevMonth' ? 'header__filter-item_active' : ''}`} onClick={() => handleFilterChange('prevMonth')}>
-                            Прошлый месяц
+                            Прошедший год
+                        </button>
+                        <button className={`header__filter-item ${activeFilter === 'prevMonth' ? 'header__filter-item_active' : ''}`} onClick={() => handleFilterChange('prevMonth')}>
+                            Прошедший месяц
                         </button>
                         <button className={`header__filter-item ${isCurrentMonthActive ? 'header__filter-item_active' : ''}`} onClick={() => handleFilterChange('currentMonth')}>
                             Текущий месяц
@@ -109,7 +153,17 @@ const Header = ({ sortOption, filterOption, onFilterChange, onCustomPeriodSelect
                         <button className={`header__filter-item ${activeFilter === 'nextMonth' ? 'header__filter-item_active' : ''}`} onClick={() => handleFilterChange('nextMonth')}>
                             Следующий месяц
                         </button>
-                        <div className="header__date-picker-container">
+                        <div className="header__date-picker">
+                            <button className={`header__filter-item ${activeFilter === 'choosePeriod' ? 'header__filter-item_active' : ''}`} onClick={handleClick} ref={buttonRef}>
+                                Выбрать период
+                            </button>
+                            {openDate && (
+                                <div ref={datePickerRef} className="header__date-range">
+                                    <DateRangePicker ranges={[date]} onChange={handleChange} locale={ru} />
+                                </div>
+                            )}
+                        </div>
+                        {/* <div className="header__date-picker-container">
                             <button className={`header__filter-item ${activeFilter === 'choosePeriod' ? 'header__filter-item_active' : ''}`} onClick={() => handleFilterChange('choosePeriod')} ref={buttonRef}>
                                 Выбрать период
                             </button>
@@ -118,32 +172,24 @@ const Header = ({ sortOption, filterOption, onFilterChange, onCustomPeriodSelect
                                     <DatePicker selected={startDate} onChange={handleDateRangeSelect} startDate={startDate} endDate={endDate} selectsRange inline />
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="header__buttons">
-                    <button className="header__button header__button_settings" onClick={toggleMenu}>
+                    <button className="header__button header__button_settings" onClick={openModal}>
                         <img src={require('./img/settings.png')} alt="Настройки" className="header__icon" />
                     </button>
-                    {isMenuVisible && (
-                        <div className="header__button_sublist" ref={menuRef}>
-                            <div className="header__button_subitem" onClick={openModal}>
-                                Настройки
-                            </div>
-                            <div className="header__button_subitem">Пункт 2</div>
-                        </div>
-                    )}
-                    <button className="header__button header__button_login">
+                    <button className="header__button header__button_login" onClick={openLogInModal}>
                         <svg className="header__icon" width="37" height="37" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21.583 33.917h7.709a3.083 3.083 0 0 0 3.083-3.084V6.167a3.083 3.083 0 0 0-3.083-3.084h-7.709" stroke="#fff" />
                             <path d="m16.958 24.667 6.167-6.167-6.167-6.167M23.125 18.5h-18.5" stroke="#fff" />
                         </svg>
                     </button>
-                    {isModalVisible && <SettingsModal onClose={closeModal} />}
                 </div>
             </header>
+            {isLogIn && <LogInModal onClose={closeModalLogIn} />}
 
-            {isModalVisible && <SettingsModal onClose={closeModal} />}
+            {isModalSettingsVisible && <SettingsModal onClose={closeModal} />}
         </div>
     );
 };

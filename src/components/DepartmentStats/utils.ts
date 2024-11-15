@@ -1,4 +1,4 @@
-export const getDepartmentData = (viewType: 'date' | 'direction', filterOption: string) => {
+export const getDepartmentData = (viewType: 'date' | 'direction', filterOption: string): { [key: string]: number[] } | { direction: string; value: number }[] => {
     if (viewType === 'date') {
         let filteredDataDepartment: { [key: string]: number[] } = {};
 

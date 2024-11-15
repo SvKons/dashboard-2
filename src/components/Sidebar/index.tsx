@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { UserRole } from '../../types/UserRole';
+import { UserRole } from '../../types/types';
 import LeaderAside from '../LeaderAside';
-import ManagerAside from '../ManagerAside';
+import PublicAside from '../PublicAside';
 import './Sidebar.scss';
+import DateTime from '../DateTime';
+import ManagerAside from '../ManagerAside';
 
 interface SidebarProps {
     userRole: UserRole;
@@ -34,11 +36,12 @@ const Sidebar = ({ userRole, onSortByDate, onSortByDirection }: SidebarProps) =>
                     Dashboard
                 </NavLink>
 
-                {userRole === UserRole.Manager ? (
-                    <ManagerAside openMenus={openMenus} handleMenuClick={handleMenuClick} onSortByDate={onSortByDate} onSortByDirection={onSortByDirection} />
-                ) : (
-                    <LeaderAside />
-                )}
+                {userRole === UserRole.Public && <PublicAside openMenus={openMenus} handleMenuClick={handleMenuClick} onSortByDate={onSortByDate} onSortByDirection={onSortByDirection} sortOption={null} />}
+                {userRole === UserRole.Manager && <ManagerAside />}
+                {userRole === UserRole.Leader && <LeaderAside />}
+            </div>
+            <div className="date-time">
+                <DateTime />
             </div>
         </aside>
     );

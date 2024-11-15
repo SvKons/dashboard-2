@@ -1,0 +1,122 @@
+// .fulfillment {
+//     display: flex;
+//     gap: 15px;
+//     width: 100%;
+//     padding: 20px;
+//     padding-top: 0;
+
+//     &__wrap {
+//         width: 100%;
+//         color: var(--white-color);
+//         background-color: var(--black-color);
+//         border-radius: 10px;
+//         padding: 20px 24px;
+//     }
+
+//     &__title {
+//         font-size: 1.625rem;
+//         font-weight: 600;
+//         margin-bottom: 20px;
+//     }
+
+//     &__item {
+//         display: flex;
+//         align-items: center;
+//         font-size: 1.5rem;
+//         margin: 10px 0;
+//     }
+
+//     &__name {
+//         flex: 1;
+//         min-width: 100px;
+//     }
+
+//     &__bar-container {
+//         flex: 2;
+//         background-color: #e0e0e0;
+//         border-radius: 5px;
+//         height: 25px;
+//         margin-left: 10px;
+//     }
+
+//     &__progress-bar {
+//         height: 100%;
+//         border-radius: 5px;
+//         text-align: center;
+//         color: white;
+//         font-weight: bold;
+//     }
+// }
+
+.fulfillment {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    padding: 20px;
+    padding-top: 0;
+
+    &__wrap {
+        width: 100%;
+        color: var(--white-color);
+        background-color: var(--black-color);
+        border-radius: 10px;
+        padding: 20px 24px;
+        overflow: hidden;
+    }
+
+    &__title {
+        font-size: 1.625rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    &__scroll-container {
+        height: 170px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    &__list {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        animation: scroll 20s linear infinite;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        margin: 10px 0;
+    }
+
+    &__name {
+        flex: 1;
+        min-width: 100px;
+    }
+
+    &__bar-container {
+        flex: 2;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        height: 25px;
+        margin-left: 10px;
+    }
+
+    &__progress-bar {
+        height: 100%;
+        border-radius: 5px;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+    }
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}

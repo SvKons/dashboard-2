@@ -1,11 +1,29 @@
-import React from 'react';
+import FulfillmentEmployeesPlan from '../FulfillmentEmployeesPlan';
+import ManagerInfoBlock from '../ManagerInfoBlock';
+import PopularCourses from '../PopularCourses';
+import TopManagers from '../TopManagers';
+import TotalStatsBlock from '../TotalStatsBlock';
+import './Dashboard.scss';
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+    salesData: { [key: string]: number[] }; // Интерфейс для пропсов Dashboard
+    filterOption: string; // Добавим filterOption
+}
+
+const Dashboard = ({ salesData, filterOption }: DashboardProps) => {
     return (
-        <>
-            <h1>Добро пожаловать на Dashboard</h1>
-            <p>Это главная страница приложения.</p>
-        </>
+        <div className="main-block">
+            <div className="main-block__right">
+                <TotalStatsBlock filterOption={filterOption} />
+                <div className="main-block__content">
+                    <TopManagers />
+                    <PopularCourses />
+                </div>
+                <FulfillmentEmployeesPlan />
+            </div>
+
+            <ManagerInfoBlock />
+        </div>
     );
 };
 
