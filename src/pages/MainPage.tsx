@@ -87,8 +87,14 @@ const MainPage = () => {
                     <Routes>
                         {/* Пути для публичной части */}
                         <Route path="/" element={<Dashboard salesData={salesData} filterOption={filterOption} />} />
-                        <Route path="/department-statistics" element={<DepartmentStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />} />
-                        <Route path="/employees-statistics" element={<EmployeeStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />} />
+                        <Route
+                            path="/department-statistics"
+                            element={<DepartmentStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />}
+                        />
+                        <Route
+                            path="/employees-statistics"
+                            element={<EmployeeStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />}
+                        />
                         <Route path="/goals" element={<Goals />} />
                         <Route path="/achievements" element={<Achievements />} />
                         {/* Пути для админа */}

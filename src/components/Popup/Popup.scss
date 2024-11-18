@@ -62,13 +62,6 @@
         background: transparent;
         outline: none;
         padding: 10px 0;
-
-        &:focus + .modal-log__label,
-        &:not(:placeholder-shown) + .modal-log__label {
-            top: -20px;
-            font-size: 0.75rem;
-            color: var(--main-yellow);
-        }
     }
 
     &__label {
@@ -120,4 +113,11 @@
             transition: 0.5s;
         }
     }
+}
+
+.modal__input:focus + .modal__label,
+.modal__input:not(:placeholder-shown) + .modal__label {
+    top: -20px;
+    font-size: 0.75rem;
+    color: var(--main-yellow);
 }
