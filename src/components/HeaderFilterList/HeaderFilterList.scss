@@ -1,0 +1,45 @@
+.filter-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    &__item {
+        font-size: 20px;
+        cursor: pointer;
+        position: relative;
+        color: var(--white-color);
+        background-color: var(--black-color);
+        border-radius: 10px;
+        padding: 8px 12px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        &_active {
+            box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgb(255 255 255 / 50%), 0px 0px 10px rgba(255, 212, 59, 0.5);
+        }
+
+        &:hover {
+            // background-color: var(--hover-yellow);
+            color: var(--white-color);
+            // background: linear-gradient(90deg, rgba(255, 237, 0, 1) 0%, rgba(0, 0, 0, 0.022934173669467817) 100%);
+            box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgb(255 255 255 / 50%), 0px 0px 10px rgba(255, 212, 59, 0.5);
+        }
+
+        &:active {
+            background-color: var(--active-yellow);
+        }
+    }
+
+    &__date-picker {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    &__date-range {
+        position: absolute;
+        top: 60px;
+        z-index: 10000;
+    }
+}

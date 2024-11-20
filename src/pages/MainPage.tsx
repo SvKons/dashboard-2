@@ -31,7 +31,7 @@ const MainPage = () => {
     const [currentUser] = useState({
         id: '1',
         name: 'Marisa',
-        role: UserRole.Public,
+        role: UserRole.Leader,
     });
 
     // Обработчики фильтрации периода
@@ -80,21 +80,15 @@ const MainPage = () => {
 
     return (
         <>
-            <Header filterOption={filterOption} onFilterChange={setFilterOption} onCustomPeriodSelect={handleCustomPeriodSelect} />
+            <Header userRole={currentUser.role} filterOption={filterOption} onFilterChange={setFilterOption} onCustomPeriodSelect={handleCustomPeriodSelect} />
             <div className="main-content">
                 <Sidebar userRole={currentUser.role} onSortByDate={handleSortByDate} onSortByDirection={handleSortByDirection} />
                 <main className="content">
                     <Routes>
                         {/* Пути для публичной части */}
-                        <Route path="/" element={<Dashboard salesData={salesData} filterOption={filterOption} />} />
-                        <Route
-                            path="/department-statistics"
-                            element={<DepartmentStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />}
-                        />
-                        <Route
-                            path="/employees-statistics"
-                            element={<EmployeeStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />}
-                        />
+                        <Route path="/" element={<Dashboard userRole={currentUser.role} salesData={salesData} filterOption={filterOption} />} />
+                        <Route path="/department-statistics" element={<DepartmentStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />} />
+                        <Route path="/employees-statistics" element={<EmployeeStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />} />
                         <Route path="/goals" element={<Goals />} />
                         <Route path="/achievements" element={<Achievements />} />
                         {/* Пути для админа */}

@@ -27,11 +27,11 @@
     &__item {
         display: flex;
         flex-direction: column;
-        max-width: 150px;
+        max-width: 217px;
     }
 
     &__img-wrap {
-        max-width: 100px;
+        max-width: 150px;
         width: 100%;
         align-self: center;
         margin-bottom: 15px;
@@ -39,12 +39,13 @@
 
     &__img {
         width: 100%;
-        max-height: 100px;
+        max-height: 150px;
         object-fit: cover;
         border-radius: 50%;
     }
 
     &__info {
+        font-size: 1.125rem;
         text-align: center;
     }
 }

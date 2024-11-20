@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { DateRangePicker } from 'react-date-range';
 import { ru } from 'date-fns/locale';
 import { useLocation } from 'react-router-dom';
+import './HeaderFilterList.scss';
 
 interface FilterListProps {
     // activeFilter: string;
@@ -45,8 +46,7 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption }: Filte
     };
 
     // Определение активности Текущего месяца
-    const isCurrentMonthActive =
-        activeFilter === 'currentMonth' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics');
+    const isCurrentMonthActive = activeFilter === 'currentMonth' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics');
 
     // Использование эффекта для добавления обработчика кликов
     useEffect(() => {
@@ -82,42 +82,26 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption }: Filte
     }, [filterOption]);
 
     return (
-        <div className="header__filter-list">
-            <button
-                className={`header__filter-item ${activeFilter === 'prevYear' ? 'header__filter-item_active' : ''}`}
-                onClick={() => handleFilterChange('prevYear')}
-            >
+        <div className="filter-list">
+            <button className={`filter-list__item ${activeFilter === 'prevYear' ? 'filter-list__item_active' : ''}`} onClick={() => handleFilterChange('prevYear')}>
                 Прошедший год
             </button>
-            <button
-                className={`header__filter-item ${activeFilter === 'prevMonth' ? 'header__filter-item_active' : ''}`}
-                onClick={() => handleFilterChange('prevMonth')}
-            >
+            <button className={`filter-list__item ${activeFilter === 'prevMonth' ? 'filter-list__item_active' : ''}`} onClick={() => handleFilterChange('prevMonth')}>
                 Прошедший месяц
             </button>
-            <button
-                className={`header__filter-item ${isCurrentMonthActive ? 'header__filter-item_active' : ''}`}
-                onClick={() => handleFilterChange('currentMonth')}
-            >
+            <button className={`filter-list__item ${isCurrentMonthActive ? 'filter-list__item_active' : ''}`} onClick={() => handleFilterChange('currentMonth')}>
                 Текущий месяц
             </button>
-            <button
-                className={`header__filter-item ${activeFilter === 'nextMonth' ? 'header__filter-item_active' : ''}`}
-                onClick={() => handleFilterChange('nextMonth')}
-            >
+            <button className={`filter-list__item ${activeFilter === 'nextMonth' ? 'filter-list__item_active' : ''}`} onClick={() => handleFilterChange('nextMonth')}>
                 Следующий месяц
             </button>
 
-            <div className="header__date-picker">
-                <button
-                    className={`header__filter-item ${activeFilter === 'choosePeriod' ? 'header__filter-item_active' : ''}`}
-                    onClick={() => handleFilterChange('choosePeriod')}
-                    ref={buttonRef}
-                >
+            <div className="filter-list__date-picker">
+                <button className={`filter-list__item ${activeFilter === 'choosePeriod' ? 'filter-list__item_active' : ''}`} onClick={() => handleFilterChange('choosePeriod')} ref={buttonRef}>
                     Выбрать период
                 </button>
                 {openDate && (
-                    <div ref={datePickerRef} className="header__date-range">
+                    <div ref={datePickerRef} className="filter-list__date-range">
                         <DateRangePicker ranges={[date]} onChange={handleChange} locale={ru} />
                     </div>
                 )}

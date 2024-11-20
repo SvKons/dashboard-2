@@ -1,4 +1,4 @@
-.manager-tasks {
+.tasks {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -13,6 +13,7 @@
     }
 
     &__list {
+        font-size: 1.125rem;
         display: flex;
         flex-direction: column;
         gap: 5px;
