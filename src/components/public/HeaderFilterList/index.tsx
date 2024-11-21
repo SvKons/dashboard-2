@@ -47,7 +47,6 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption }: Filte
 
     // Определение активности Текущего месяца
     const isCurrentMonthActive = activeFilter === 'currentMonth' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics');
-
     // Использование эффекта для добавления обработчика кликов
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside); // Добавление обработчика
@@ -83,21 +82,34 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption }: Filte
 
     return (
         <div className="filter-list">
-            <button className={`filter-list__item ${activeFilter === 'prevYear' ? 'filter-list__item_active' : ''}`} onClick={() => handleFilterChange('prevYear')}>
+            <button
+                className={`filter-list__item ${activeFilter === 'prevYear' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics') ? 'filter-list__item_active' : ''}`}
+                onClick={() => handleFilterChange('prevYear')}
+            >
                 Прошедший год
             </button>
-            <button className={`filter-list__item ${activeFilter === 'prevMonth' ? 'filter-list__item_active' : ''}`} onClick={() => handleFilterChange('prevMonth')}>
+            <button
+                className={`filter-list__item ${activeFilter === 'prevMonth' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics') ? 'filter-list__item_active' : ''}`}
+                onClick={() => handleFilterChange('prevMonth')}
+            >
                 Прошедший месяц
             </button>
             <button className={`filter-list__item ${isCurrentMonthActive ? 'filter-list__item_active' : ''}`} onClick={() => handleFilterChange('currentMonth')}>
                 Текущий месяц
             </button>
-            <button className={`filter-list__item ${activeFilter === 'nextMonth' ? 'filter-list__item_active' : ''}`} onClick={() => handleFilterChange('nextMonth')}>
+            <button
+                className={`filter-list__item ${activeFilter === 'nextMonth' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics') ? 'filter-list__item_active' : ''}`}
+                onClick={() => handleFilterChange('nextMonth')}
+            >
                 Следующий месяц
             </button>
 
             <div className="filter-list__date-picker">
-                <button className={`filter-list__item ${activeFilter === 'choosePeriod' ? 'filter-list__item_active' : ''}`} onClick={() => handleFilterChange('choosePeriod')} ref={buttonRef}>
+                <button
+                    className={`filter-list__item ${activeFilter === 'choosePeriod' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics') ? 'filter-list__item_active' : ''}`}
+                    onClick={() => handleFilterChange('choosePeriod')}
+                    ref={buttonRef}
+                >
                     Выбрать период
                 </button>
                 {openDate && (

@@ -1,9 +1,9 @@
 import { UserRole } from '../../types/types';
-import FulfillmentEmployeesPlan from '../FulfillmentEmployeesPlan';
+import FulfillmentEmployeesPlan from '../public/FulfillmentEmployeesPlan';
 
-import PopularCourses from '../PopularCourses';
-import TopManagers from '../TopManagers';
-import TotalStatsBlock from '../TotalStatsBlock';
+import PopularCourses from '../public/PopularCourses';
+import TopManagers from '../public/TopManagers';
+import TotalStatsBlock from '../public/TotalStatsBlock';
 import UserInfoBlock from '../UserInfoBlock';
 import './Dashboard.scss';
 

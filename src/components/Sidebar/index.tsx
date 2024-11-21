@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { UserRole } from '../../types/types';
-import LeaderAside from '../LeaderAside';
-import PublicAside from '../PublicAside';
+import LeaderAside from '../leader/LeaderAside';
+import PublicAside from '../public/PublicAside';
 import './Sidebar.scss';
 import DateTime from '../DateTime';
-import ManagerAside from '../ManagerAside';
+import ManagerAside from '../manager/ManagerAside';
 
 interface SidebarProps {
     userRole: UserRole;

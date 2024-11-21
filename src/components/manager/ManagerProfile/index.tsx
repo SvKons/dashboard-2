@@ -1,4 +1,4 @@
-import Profile, { IProfile } from '../Profile';
+import Profile, { IProfile } from '../../Profile';
 
 const mockProfileData: IProfile = {
     photo: 'https://picsum.photos/209/311',

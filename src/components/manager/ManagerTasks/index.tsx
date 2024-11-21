@@ -1,4 +1,4 @@
-import UserTasks from '../UserTasks';
+import UserTasks from '../../UserTasks';
 
 const mockTasks = [
     'Подготовить отчет по проекту A',

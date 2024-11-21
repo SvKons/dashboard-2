@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import AchievementManagement from '../components/AchievementManagement';
-import Achievements from '../components/Achievements';
+import AchievementManagement from '../components/leader/AchievementManagement';
+import Achievements from '../components/public/Achievements';
 import Dashboard from '../components/Dashboard';
-import DataEntry from '../components/DataEntry';
-import DepartmentStats from '../components/DepartmentStats';
-import { getDepartmentData } from '../components/DepartmentStats/utils';
-import EmployeeManagement from '../components/EmployeeManagement';
-import EmployeeStats from '../components/EmployeeStats';
-import GoalManagement from '../components/GoalManagement';
-import Goals from '../components/Goals';
+import DataEntry from '../components/manager/DataEntry';
+import DepartmentStats from '../components/public/DepartmentStats';
+import { getDepartmentData } from '../components/public/DepartmentStats/utils';
+import EmployeeManagement from '../components/leader/EmployeeManagement';
+import EmployeeStats from '../components/public/EmployeeStats';
+import GoalManagement from '../components/leader/GoalManagement';
+import Goals from '../components/public/Goals';
 import Header from '../components/Header';
-import Ideas from '../components/Ideas';
+import Ideas from '../components/leader/Ideas';
 import Profiles from '../components/Profiles';
-import Reports from '../components/Reports';
+import Reports from '../components/leader/Reports';
 import Sidebar from '../components/Sidebar';
-import StatisticsManagement from '../components/StatisticsManagement';
+import StatisticsManagement from '../components/leader/StatisticsManagement';
 import { UserRole } from '../types/types';
-import OfferIdeas from '../components/OfferIdeas';
-import MyProfile from '../components/MyProfile';
-import MyStatistics from '../components/MyStatistics';
+import OfferIdeas from '../components/manager/OfferIdeas';
+import MyProfile from '../components/manager/MyProfile';
+import MyStatistics from '../components/manager/MyStatistics';
 
 const MainPage = () => {
     const [sortOption, setSortOption] = useState<'date' | 'direction'>('date'); // 'date' по умолчанию

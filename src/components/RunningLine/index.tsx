@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState } from 'react';
-import { duplicateEmployeeManagerData, managerData } from '../ManagerRunningLine/utils';
-import { duplicateRunningLineData, runningLineData, duplicateEmployeeData, employeeData } from '../LeaderRunningLine/utils';
+import { duplicateRunningLineData, runningLineData, duplicateEmployeeData, employeeData, duplicateEmployeeManagerData, managerData } from './utils';
 import './RunningLine.scss';
-import ManagerRunningLine from '../ManagerRunningLine';
-import LeaderRunningLine from '../LeaderRunningLine';
+import ManagerRunningLine from '../manager/ManagerRunningLine';
+import LeaderRunningLine from '../leader/LeaderRunningLine';
+
 const buttonsDataManager = [
     { id: 'sales', label: 'Сумма продаж' },
     { id: 'transactions', label: 'Количество сделок' },

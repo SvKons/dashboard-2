@@ -2,10 +2,10 @@ import { useState } from 'react';
 import SettingsModal from '../SettingsModal';
 import './Header.scss';
 import LogInModal from '../LogInModal';
-import HeaderFilterList from '../HeaderFilterList';
+import HeaderFilterList from '../public/HeaderFilterList';
 import { UserRole } from '../../types/types';
-import ManagerRunningLine from '../ManagerRunningLine';
-import LeaderRunningLine from '../LeaderRunningLine';
+import ManagerRunningLine from '../manager/ManagerRunningLine';
+import LeaderRunningLine from '../leader/LeaderRunningLine';
 import RunningLine from '../RunningLine';
 
 interface HeaderProps {

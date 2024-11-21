@@ -1,11 +1,13 @@
 import { memo } from 'react';
-import ManagerAchievements from '../ManagerAchievements';
-import ManagerProfile from '../ManagerProfile';
-import ManagerTasks from '../ManagerTasks';
+import ManagerAchievements from '../manager/ManagerAchievements';
+
+import ManagerTasks from '../manager/ManagerTasks';
 import { UserRole } from '../../types/types';
-import LeaderTasks from '../LeaderTasks';
-import LeaderProfile from '../LeaderProfile';
+
 import './UserInfoBlock.scss';
+import ManagerProfile from '../manager/ManagerProfile';
+import LeaderProfile from '../leader/LeaderProfile';
+import LeaderTasks from '../leader/LeaderTasks';
 
 interface UserInfoBlockProps {
     userRole: UserRole;
