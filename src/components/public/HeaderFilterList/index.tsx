@@ -83,12 +83,6 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption }: Filte
     return (
         <div className="filter-list">
             <button
-                className={`filter-list__item ${activeFilter === 'prevYear' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics') ? 'filter-list__item_active' : ''}`}
-                onClick={() => handleFilterChange('prevYear')}
-            >
-                Прошедший год
-            </button>
-            <button
                 className={`filter-list__item ${activeFilter === 'prevMonth' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics') ? 'filter-list__item_active' : ''}`}
                 onClick={() => handleFilterChange('prevMonth')}
             >

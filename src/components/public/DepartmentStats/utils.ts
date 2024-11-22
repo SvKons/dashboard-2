@@ -1,5 +1,5 @@
-export const getDepartmentData = (viewType: 'date' | 'direction', filterOption: string): { [key: string]: number[] } | { direction: string; value: number }[] => {
-    if (viewType === 'date') {
+export const getDepartmentData = (viewType: 'total-stats' | 'direction', filterOption: string): { [key: string]: number[] } | { direction: string; value: number }[] => {
+    if (viewType === 'total-stats') {
         let filteredDataDepartment: { [key: string]: number[] } = {};
 
         if (filterOption === 'prevMonth') {
@@ -142,4 +142,26 @@ export const getDepartmentData = (viewType: 'date' | 'direction', filterOption: 
     }
 
     return [];
+};
+
+// Моковые данные для расчетов метрик
+export const mockMetricsData = {
+    prevMonth: {
+        totalPayments: 15000,
+        yearlyPayments: 5000,
+        totalTransactions: 100,
+        leads: 1000,
+    },
+    currentMonth: {
+        totalPayments: 20000,
+        yearlyPayments: 6000,
+        totalTransactions: 150,
+        leads: 1200,
+    },
+    nextMonth: {
+        totalPayments: 25000,
+        yearlyPayments: 7000,
+        totalTransactions: 200,
+        leads: 1500,
+    },
 };

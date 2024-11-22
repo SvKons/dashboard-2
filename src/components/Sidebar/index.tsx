@@ -9,13 +9,13 @@ import ManagerAside from '../manager/ManagerAside';
 
 interface SidebarProps {
     userRole: UserRole;
-    onSortByDate: (viewType: string) => void;
+    onSortByTotalStats: (viewType: string) => void;
     onSortByDirection: (viewType: string) => void;
 }
 
 type MenuKey = 'department' | 'employees';
 
-const Sidebar = ({ userRole, onSortByDate, onSortByDirection }: SidebarProps) => {
+const Sidebar = ({ userRole, onSortByTotalStats, onSortByDirection }: SidebarProps) => {
     const [openMenus, setOpenMenus] = useState<{ department: boolean; employees: boolean }>({
         department: false,
         employees: false,
@@ -36,7 +36,7 @@ const Sidebar = ({ userRole, onSortByDate, onSortByDirection }: SidebarProps) =>
                     Dashboard
                 </NavLink>
 
-                {userRole === UserRole.Public && <PublicAside openMenus={openMenus} handleMenuClick={handleMenuClick} onSortByDate={onSortByDate} onSortByDirection={onSortByDirection} sortOption={null} />}
+                {userRole === UserRole.Public && <PublicAside openMenus={openMenus} handleMenuClick={handleMenuClick} onSortByTotalStats={onSortByTotalStats} onSortByDirection={onSortByDirection} sortOption={null} />}
                 {userRole === UserRole.Manager && <ManagerAside />}
                 {userRole === UserRole.Leader && <LeaderAside />}
             </div>

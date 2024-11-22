@@ -20,7 +20,7 @@ const TotalStatsBlock = ({ filterOption }: TotalStatsBlockProps) => {
         const currentFilter = location.pathname === '/' ? 'currentMonth' : filterOption;
 
         const fetchSalesData = () => {
-            const data = getDepartmentData('date', currentFilter) as { [key: string]: number[] };
+            const data = getDepartmentData('total-stats', currentFilter) as { [key: string]: number[] };
             const sales = Object.values(data)
                 .flat()
                 .reduce((acc, curr) => acc + curr, 0);

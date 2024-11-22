@@ -7,23 +7,23 @@ import { getEmployeeData } from './utils';
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend, ChartDataLabels);
 
 interface EmployeeStatsProps {
-    viewType: 'date' | 'direction';
+    viewType: 'total-stats' | 'direction';
     sortOption: string | null;
     filterOption: string;
 }
 
 const EmployeeStats = ({ sortOption, filterOption, viewType }: EmployeeStatsProps) => {
-    const [dataByDate, setDataByDate] = useState<{ [key: string]: { [employee: string]: number } }>({});
+    const [dataByDate, setDataByTotalStats] = useState<{ [key: string]: { [employee: string]: number } }>({});
     const [dataByDirection, setDataByDirection] = useState<{ employee: string; direction: string; value: number }[]>([]);
 
     useEffect(() => {
         const fetchData = () => {
-            if (viewType === 'date') {
-                setDataByDirection([]); // Очищаем данные По направлению, если выбрано По дате
+            if (viewType === 'total-stats') {
+                setDataByDirection([]); // Очищаем данные По направлению, если выбрано Общая статистика
                 const filteredDataEmployee = getEmployeeData(viewType, filterOption) as { [key: string]: { [employee: string]: number } };
-                setDataByDate(filteredDataEmployee);
+                setDataByTotalStats(filteredDataEmployee);
             } else if (viewType === 'direction') {
-                setDataByDate({}); // Очищаем данные По дате, если выбрано По направлению
+                setDataByTotalStats({}); // Очищаем данные Общая статистика, если выбрано По направлению
                 const filteredDataEmployee = getEmployeeData(viewType, filterOption) as { employee: string; direction: string; value: number }[];
                 setDataByDirection(filteredDataEmployee);
             }
@@ -163,9 +163,9 @@ const EmployeeStats = ({ sortOption, filterOption, viewType }: EmployeeStatsProp
 
     return (
         <div className="diagrams-block">
-            <h1 className="diagrams-block__title">Статистика сотрудников - {viewType === 'date' ? 'По дате' : 'По направлению'}</h1>
+            <h1 className="diagrams-block__title">Статистика сотрудников - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h1>
             <div className="chart-container">
-                {viewType === 'date' ? <Bar data={barChartData} options={barOptions} className="chart-container__block" /> : <Doughnut data={donutChartData} options={donutOptions} className="chart-container__block chart-container__block_donut" />}
+                {viewType === 'total-stats' ? <Bar data={barChartData} options={barOptions} className="chart-container__block" /> : <Doughnut data={donutChartData} options={donutOptions} className="chart-container__block chart-container__block_donut" />}
             </div>
         </div>
     );

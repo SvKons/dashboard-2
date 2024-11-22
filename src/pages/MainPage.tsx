@@ -22,7 +22,7 @@ import MyProfile from '../components/manager/MyProfile';
 import MyStatistics from '../components/manager/MyStatistics';
 
 const MainPage = () => {
-    const [sortOption, setSortOption] = useState<'date' | 'direction'>('date'); // 'date' по умолчанию
+    const [sortOption, setSortOption] = useState<'total-stats' | 'direction'>('total-stats'); // 'total-stats' по умолчанию
     const [filterOption, setFilterOption] = useState<string>('currentMonth'); // по умолчанию 'currentMonth'
     const [salesData, setSalesData] = useState<{ [key: string]: number[] }>({});
     const location = useLocation();
@@ -31,7 +31,7 @@ const MainPage = () => {
     const [currentUser] = useState({
         id: '1',
         name: 'Marisa',
-        role: UserRole.Leader,
+        role: UserRole.Public,
     });
 
     // Обработчики фильтрации периода
@@ -45,11 +45,11 @@ const MainPage = () => {
     };
 
     // Обработчики сортировки по дате и по направлению, принимает параметр viewType, который указывает, какой тип сортировки выбран - отдел или сотрудники
-    const handleSortByDate = (viewType: string) => handleSortChange(viewType, 'date');
+    const handleSortByDate = (viewType: string) => handleSortChange(viewType, 'total-stats');
     const handleSortByDirection = (viewType: string) => handleSortChange(viewType, 'direction');
 
     // Функция отвечает за обновления состояния сортировки в компоненте и навигацию к соответствующему маршруту (отдел/сотрудники+дата/направление)
-    const handleSortChange = (viewType: string, sortType: 'date' | 'direction') => {
+    const handleSortChange = (viewType: string, sortType: 'total-stats' | 'direction') => {
         setSortOption(sortType);
         navigate(`/${viewType}-statistics?sort=${sortType}`);
     };
@@ -65,13 +65,13 @@ const MainPage = () => {
         const queryParams = new URLSearchParams(location.search);
         const sortParam = queryParams.get('sort');
         if (sortParam) {
-            setSortOption(sortParam as 'date' | 'direction');
+            setSortOption(sortParam as 'total-stats' | 'direction');
         }
     }, [location]);
 
     useEffect(() => {
         const fetchSalesData = () => {
-            const data = getDepartmentData('date', filterOption) as { [key: string]: number[] };
+            const data = getDepartmentData('total-stats', filterOption) as { [key: string]: number[] };
             setSalesData(data);
         };
 
@@ -82,7 +82,7 @@ const MainPage = () => {
         <>
             <Header userRole={currentUser.role} filterOption={filterOption} onFilterChange={setFilterOption} onCustomPeriodSelect={handleCustomPeriodSelect} />
             <div className="main-content">
-                <Sidebar userRole={currentUser.role} onSortByDate={handleSortByDate} onSortByDirection={handleSortByDirection} />
+                <Sidebar userRole={currentUser.role} onSortByTotalStats={handleSortByDate} onSortByDirection={handleSortByDirection} />
                 <main className="content">
                     <Routes>
                         {/* Пути для публичной части */}

@@ -1,5 +1,5 @@
-export const getEmployeeData = (viewType: 'date' | 'direction', filterOption: string) => {
-    if (viewType === 'date') {
+export const getEmployeeData = (viewType: 'total-stats' | 'direction', filterOption: string) => {
+    if (viewType === 'total-stats') {
         let filteredDataEmployee: { [key: string]: { [employee: string]: number } } = {};
 
         if (filterOption === 'prevMonth') {

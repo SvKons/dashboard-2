@@ -2,72 +2,66 @@ import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, ChartOptions, 
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { useEffect, useState } from 'react';
 import { Bar, Doughnut } from 'react-chartjs-2';
-import { getDepartmentData } from './utils';
+import { getDepartmentData, mockMetricsData } from './utils';
+import MetricsBlock from '../../MetricsBlock';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, ArcElement, Legend, ChartDataLabels);
-
 interface DepartmentStatsProps {
-    viewType: 'date' | 'direction';
+    viewType: 'total-stats' | 'direction';
     sortOption: string | null;
     filterOption: string;
 }
 
 const DepartmentStats = ({ viewType, sortOption, filterOption }: DepartmentStatsProps) => {
-    const [dataByDate, setDataByDate] = useState<{ [key: string]: number[] }>({});
+    const [dataByTotalStats, setDataByTotalStats] = useState<{ [key: string]: number[] }>({});
     const [dataByDirection, setDataByDirection] = useState<{ direction: string; value: number }[]>([]);
+    const [metrics, setMetrics] = useState<{ totalPayments: number; yearlyPaymentsPercentage: number; averageCheck: number; conversionRate: number }>({
+        totalPayments: 0,
+        yearlyPaymentsPercentage: 0,
+        averageCheck: 0,
+        conversionRate: 0,
+    });
 
     useEffect(() => {
         const fetchData = () => {
-            if (viewType === 'date') {
-                setDataByDirection([]); // Очистка данных По направлению, если выбрано По дате
+            if (viewType === 'total-stats') {
+                setDataByDirection([]); // Очистка данных По направлению, если выбрано Общая статистика
                 const filteredDataDepartment = getDepartmentData(viewType, filterOption) as { [key: string]: number[] };
-                setDataByDate(filteredDataDepartment);
+                setDataByTotalStats(filteredDataDepartment);
+                if (filterOption in mockMetricsData) {
+                    const calculatedMetrics = calculateMetrics(filterOption as keyof typeof mockMetricsData);
+                    setMetrics(calculatedMetrics);
+                }
             } else if (viewType === 'direction') {
-                setDataByDate({}); // Очистка данных по дате, если выбрано По направлению
+                setDataByTotalStats({}); // Очистка данных Общая статистика, если выбрано По направлению
                 const filteredDataDepartment = getDepartmentData(viewType, filterOption) as { direction: string; value: number }[];
                 setDataByDirection(filteredDataDepartment);
             }
         };
-
         fetchData();
     }, [viewType, filterOption, sortOption]);
 
-    // Получение данных с API
-    /*
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let response;
-                if (viewType === 'date') {
-                    setDataByDirection([]); // Очистка данных По направлению, если выбрано По дате
-                    response = await fetch(`ссылка`);
-                } else if (viewType === 'direction') {
-                    setDataByDate({}); // Очистка данных по дате, если выбрано По направлению
-                    response = await fetch(`ссылка`);
-                }
+    const calculateMetrics = (filterOption: keyof typeof mockMetricsData) => {
+        const { totalPayments, yearlyPayments, totalTransactions, leads } = mockMetricsData[filterOption];
+        const averageCheck = totalPayments / totalTransactions;
+        const yearlyPaymentsPercentage = (yearlyPayments / totalTransactions) * 100;
+        const conversionRate = (totalTransactions / leads) * 100;
 
-                const data = await response.json();
-                if (viewType === 'date') {
-                    setDataByDate(data);
-                } else if (viewType === 'direction') {
-                    setDataByDirection(data);
-                }
-            } catch (error) {
-                console.error('Ошибка при получении данных департаментов:', error);
-            }
+        return {
+            totalPayments,
+            yearlyPaymentsPercentage,
+            averageCheck,
+            conversionRate,
         };
-
-        fetchData();
-    }, [viewType, filterOption, sortOption]);
-    */
+    };
 
     // Настройки для столбчатой диаграммы
     const barChartData = {
-        labels: Object.keys(dataByDate),
+        labels: Object.keys(dataByTotalStats),
         datasets: [
             {
                 label: 'Продажи',
-                data: Object.values(dataByDate).flat(),
+                data: Object.values(dataByTotalStats).flat(),
                 backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)', 'rgb(201, 203, 207)'],
                 hoverBackgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(255, 159, 64, 0.8)', 'rgba(255, 205, 86, 0.8)', 'rgba(75, 192, 192, 0.8)', 'rgba(54, 162, 235, 0.8)', 'rgba(153, 102, 255, 0.8)', 'rgba(201, 203, 207, 0.8)'],
             },
@@ -164,9 +158,15 @@ const DepartmentStats = ({ viewType, sortOption, filterOption }: DepartmentStats
 
     return (
         <div className="diagrams-block">
-            <h1 className="diagrams-block__title">Статистика департаментов - {viewType === 'date' ? 'По дате' : 'По направлению'}</h1>
+            <h3 className="diagrams-block__title">Статистика департаментов - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h3>
+            {viewType === 'total-stats' && <MetricsBlock metrics={metrics} />}
+
             <div className="chart-container">
-                {viewType === 'date' ? <Bar data={barChartData} options={barOptions} className="chart-container__block" /> : <Doughnut data={donutChartData} options={donutOptions} className="chart-container__block chart-container__block_donut" />}
+                {viewType === 'total-stats' ? (
+                    <Bar style={{ height: '896px' }} data={barChartData} options={barOptions} className="chart-container__block" />
+                ) : (
+                    <Doughnut data={donutChartData} options={donutOptions} className="chart-container__block chart-container__block_donut" />
+                )}
             </div>
         </div>
     );
