@@ -1,9 +1,12 @@
-.manager-block {
+.manager-info {
     display: flex;
-    flex-direction: column;
-    gap: 23px;
-    max-width: 410px;
-    width: 100%;
-    padding: 20px;
-    padding-left: 0;
+    gap: 20px;
+
+    &__manager-block {
+        display: flex;
+        flex-direction: column;
+        gap: 23px;
+        max-width: 410px;
+        width: 100%;
+    }
 }

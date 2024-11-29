@@ -7,7 +7,7 @@ import './Sidebar.scss';
 import DateTime from '../DateTime';
 import ManagerAside from '../manager/ManagerAside';
 
-interface SidebarProps {
+interface ISidebarProps {
     userRole: UserRole;
     onSortByTotalStats: (viewType: string) => void;
     onSortByDirection: (viewType: string) => void;
@@ -15,7 +15,7 @@ interface SidebarProps {
 
 type MenuKey = 'department' | 'employees';
 
-const Sidebar = ({ userRole, onSortByTotalStats, onSortByDirection }: SidebarProps) => {
+const Sidebar = ({ userRole, onSortByTotalStats, onSortByDirection }: ISidebarProps) => {
     const [openMenus, setOpenMenus] = useState<{ department: boolean; employees: boolean }>({
         department: false,
         employees: false,
@@ -31,7 +31,7 @@ const Sidebar = ({ userRole, onSortByTotalStats, onSortByDirection }: SidebarPro
     return (
         <aside className="sidebar">
             <div className="sidebar__menu">
-                <NavLink to="/" className="sidebar__item">
+                <NavLink to="/" className={({ isActive }) => `sidebar__item ${isActive ? 'sidebar__item_active' : ''}`}>
                     <img src={require('./img/dashboard-icon.png')} alt="Dashboard" className="sidebar__item_icon" />
                     Dashboard
                 </NavLink>

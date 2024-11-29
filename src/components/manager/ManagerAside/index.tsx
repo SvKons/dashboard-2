@@ -1,26 +1,22 @@
 import { NavLink } from 'react-router-dom';
+import { INavItem } from '../../../types/types';
 
-const ManagerAside = () => {
-    return (
-        <>
-            <NavLink to="/lk/my-profile" className="sidebar__item">
-                <img src={require('./img/statistics-icon.png')} alt="Управление статистикой" className="sidebar__item_icon" />
-                Мой профиль
-            </NavLink>
-            <NavLink to="/lk/data-entry" className="sidebar__item">
-                <img src={require('./img/database-icon.png')} alt="Ввод данных" className="sidebar__item_icon" />
-                Ввод данных
-            </NavLink>
-            <NavLink to="/lk/my-statistics" className="sidebar__item">
-                <img src={require('./img/statistics-icon.png')} alt="Отчеты" className="sidebar__item_icon" />
-                Моя статистика
-            </NavLink>
-            <NavLink to="/lk/offer-ideas" className="sidebar__item">
-                <img src={require('./img/ideas-icon.png')} alt="Идеи" className="sidebar__item_icon" />
-                Предложить идею
-            </NavLink>
-        </>
-    );
-};
+const navItems: INavItem[] = [
+    { path: '/lk/my-profile', icon: require('./img/statistics-icon.png'), alt: 'Мой профиль', label: 'Мой профиль' },
+    { path: '/lk/data-entry', icon: require('./img/database-icon.png'), alt: 'Ввод данных', label: 'Ввод данных' },
+    { path: '/lk/my-statistics', icon: require('./img/statistics-icon.png'), alt: 'Отчеты', label: 'Моя статистика' },
+    { path: '/lk/offer-ideas', icon: require('./img/ideas-icon.png'), alt: 'Идеи', label: 'Предложить идею' },
+];
 
-export default ManagerAside;
+const MmanagerAside = () => (
+    <>
+        {navItems.map(item => (
+            <NavLink to={item.path} key={item.path} className={({ isActive }) => `sidebar__item ${isActive ? 'sidebar__item_active' : ''}`}>
+                <img src={item.icon} alt={item.alt} className="sidebar__item_icon" />
+                {item.label}
+            </NavLink>
+        ))}
+    </>
+);
+
+export default MmanagerAside;

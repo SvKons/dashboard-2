@@ -6,7 +6,7 @@ export interface IRunningLineItem {
 
 // Дублирование массива
 export const duplicateRunningLineData = (data: IRunningLineItem[]): IRunningLineItem[] => {
-    return [...data, ...data];
+    return [...data, ...data, ...data];
 };
 
 export const runningLineData: IRunningLineItem[] = [
@@ -23,7 +23,7 @@ export interface IEmployeeSales {
 
 // Дублирование массива для данных сотрудников
 export const duplicateEmployeeData = (data: IEmployeeSales[]): IEmployeeSales[] => {
-    return [...data, ...data];
+    return [...data, ...data, ...data];
 };
 
 export const employeeData: IEmployeeSales[] = [
@@ -57,7 +57,7 @@ export interface IManagerData {
 
 // Функция для дублирования данных
 export const duplicateEmployeeManagerData = (data: IManagerData[]): IManagerData[] => {
-    return [...data, ...data];
+    return [...data, ...data, ...data];
 };
 
 // Данные для менеджера

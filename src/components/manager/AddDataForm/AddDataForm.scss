@@ -1,0 +1,121 @@
+.add-data {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &__wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    &__info {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__label {
+        font-size: 1.125rem;
+        color: var(--white-color);
+        flex-grow: 1;
+
+        &_checkbox {
+            font-size: 1.625rem;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+    }
+
+    &__input {
+        min-width: 600px;
+        font-size: 1.125rem;
+        outline: none;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    &__checkboxes {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    &__checkbox {
+        display: none;
+    }
+
+    &__custom-checkbox {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        border: 2px solid var(--black-color);
+        background-color: var(--white-color);
+        position: relative;
+        cursor: pointer;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid black;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            display: none;
+        }
+
+        &:hover {
+            box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgba(255, 255, 255, 0.5), 0px 0px 10px rgba(255, 212, 59, 0.5);
+        }
+    }
+
+    &__checkbox:checked + &__custom-checkbox {
+        background-color: var(--main-yellow);
+    }
+
+    &__checkbox:checked + &__custom-checkbox::after {
+        display: block;
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 30px;
+    }
+
+    &__button {
+        box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
+        &_save {
+            &:hover {
+                box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgba(255, 255, 255, 0.5), 0px 0px 10px rgba(255, 212, 59, 0.5);
+            }
+
+            &:active {
+                color: var(--black-color);
+                background-color: var(--active-yellow);
+            }
+        }
+
+        &_cancel {
+            &:hover {
+                box-shadow: inset 0px 0px 10px rgba(251, 16, 16, 0.8), inset 0px 0px 10px rgba(230, 135, 135, 0.5), 0px 0px 10px rgba(251, 16, 16, 0.8);
+            }
+
+            &:active {
+                color: var(--white-color);
+                background-color: var(--main-red);
+            }
+        }
+    }
+}

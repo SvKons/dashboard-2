@@ -2,11 +2,11 @@
 import { Link } from 'react-router-dom';
 import Popup from '../Popup';
 
-interface SettingsModalLogInProps {
+interface ISettingsModalLogInProps {
     onClose: () => void;
 }
 
-const LogInModal = ({ onClose }: SettingsModalLogInProps) => {
+const LogInModal = ({ onClose }: ISettingsModalLogInProps) => {
     return (
         <Popup onClose={onClose} title="Вход в личный кабинет">
             <form className="modal__form">

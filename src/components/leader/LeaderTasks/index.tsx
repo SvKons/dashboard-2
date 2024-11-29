@@ -1,6 +1,6 @@
-import UserTasks from '../../UserTasks';
+import TasksBlock from '../../TasksBlock';
 
-const mockTasks = [
+const mockLeaderTasks = [
     'Провести совещание с командой',
     'Обсудить стратегию на следующий квартал',
     'Проверить отчеты по проектам',
@@ -11,7 +11,7 @@ const mockTasks = [
 ];
 
 const LeaderTasks = () => {
-    return <UserTasks tasks={mockTasks} title="Задачи на сегодня" />;
+    return <TasksBlock initialTasks={mockLeaderTasks} />;
 };
 
 export default LeaderTasks;

@@ -5,6 +5,10 @@
     flex-direction: column;
     justify-content: space-between;
 
+    &_spacing {
+        gap: 25px;
+    }
+
     &__title {
         font-size: 1.625rem;
         margin-bottom: 20px;
@@ -27,33 +31,6 @@
         margin: 0 auto;
     }
 
-    &__circle {
-        width: 100px;
-        height: 100px;
-        border: 3px solid rgba(255, 212, 59, 0.5);
-        border-radius: 50%;
-        position: relative;
-    }
-
-    &__pie {
-        position: relative;
-        width: 120px;
-        height: 120px;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%) rotate(-90deg);
-
-        & svg circle {
-            fill: transparent;
-            stroke: rgba(255, 212, 59, 0.8);
-            stroke-width: 14;
-            stroke-dasharray: 314;
-            stroke-dashoffset: 314;
-            -webkit-animation: pieChart 3.8s linear forwards;
-            animation: pieChart 3.8s linear forwards;
-        }
-    }
-
     &__counter {
         position: absolute;
         left: 50%;
@@ -61,15 +38,5 @@
         transform: translate(-50%, -50%);
         color: var(--white-color);
         font-weight: 500;
-    }
-
-    svg:not(:root) {
-        overflow: hidden;
-    }
-}
-
-@keyframes pieChart {
-    100% {
-        stroke-dashoffset: 78.5;
     }
 }

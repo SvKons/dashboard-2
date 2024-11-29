@@ -1,14 +1,14 @@
 import Popup from '../Popup';
 
-interface SettingsModalProps {
+interface ISettingsModalProps {
     onClose: () => void;
 }
 
-interface SettingsModalProps {
+interface ISettingsModalProps {
     onClose: () => void;
 }
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
+const SettingsModal = ({ onClose }: ISettingsModalProps) => {
     return (
         <Popup onClose={onClose} title="Настройки">
             <div>

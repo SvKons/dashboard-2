@@ -6,7 +6,7 @@
     color: var(--white-color);
     background-color: var(--black-color);
     border-radius: 10px;
-    padding: 20px 10px;
+    padding: 20px;
     min-height: 375px;
 
     &__img-wrap {
@@ -29,10 +29,28 @@
         height: 100%;
     }
 
+    &__top-info {
+        margin-bottom: 15px;
+    }
+
     &__name {
+        position: relative;
         font-size: 2rem;
         font-weight: 600;
+        max-width: 348px;
+        margin: 0 auto;
         margin-bottom: 5px;
+    }
+
+    &__name-edit {
+        width: 100%;
+        font-size: 1.25rem;
+        text-align: center;
+        color: var(--white-color);
+        background: transparent;
+        border: none;
+        outline: none;
+        margin-bottom: 15px;
     }
 
     &__position {
@@ -41,5 +59,23 @@
 
     &__quote {
         font-style: italic;
+    }
+
+    &__name-wrap {
+        position: relative;
+        color: var(--white-color);
+
+        &:hover .profile__edit-icon {
+            opacity: 1;
+        }
+    }
+
+    &__edit-icon {
+        position: absolute;
+        top: 30%;
+        right: 18px;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
     }
 }

@@ -1,12 +1,12 @@
 import './Button.scss';
 
-interface ButtonProps {
+interface IButtonProps {
     label: string;
     onClick: () => void;
     className?: string;
 }
 
-const Button = ({ label, onClick, className = '' }: ButtonProps) => {
+const Button = ({ label, onClick, className = '' }: IButtonProps) => {
     return (
         <button className={`my-button ${className}`} onClick={onClick}>
             {label}

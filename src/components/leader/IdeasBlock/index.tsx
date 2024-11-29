@@ -1,94 +1,104 @@
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { IconButton } from '@mui/material';
-import { Idea, ideas as initialIdeas } from './utils';
+import { useState, useEffect } from 'react';
+import { IdeaStatus, IIdeasForm } from '../../manager/OfferIdeas/utils';
+import { predefinedIdeas, IIdeaWithStatus, LOCAL_STORAGE_KEY } from './utils';
 import Button from '../../Button';
 import './IdeasBlock.scss';
-import { useState, useEffect } from 'react';
 
-interface IdeaWithStatus extends Idea {
-    status: 'pending' | 'approved' | 'rejected'; // Добавляем статус
+interface IIdeaButton {
+    label: string;
+    filter: 'all' | IdeaStatus;
 }
 
+const buttonsIdeaList: IIdeaButton[] = [
+    { label: 'Все идеи', filter: 'all' },
+    { label: 'Новые идеи', filter: IdeaStatus.Pending },
+    { label: 'Одобренные', filter: IdeaStatus.Approved },
+    { label: 'Отклоненные', filter: IdeaStatus.Rejected },
+];
+
 const IdeasBlock = () => {
-    // Загружаем данные из localStorage или инициализируем с начальным статусом
-    const [ideas, setIdeas] = useState<IdeaWithStatus[]>(() => {
-        const savedIdeas = localStorage.getItem('ideas');
-        if (savedIdeas) {
-            return JSON.parse(savedIdeas) as IdeaWithStatus[]; // Используем сохраненные данные
-        }
-        // Если данных нет, добавляем статус к начальным идеям
-        return initialIdeas.map(idea => ({
-            ...idea,
-            status: 'pending',
-        }));
-    });
+    const [ideas, setIdeas] = useState<IIdeaWithStatus[]>([]);
+    const [filter, setFilter] = useState<IdeaStatus | 'all'>('all');
 
-    const [filter, setFilter] = useState<'all' | 'approved' | 'rejected'>('all'); // Фильтрация по типу идеи
-
-    // Сохраняем данные в localStorage при изменении состояния идей
     useEffect(() => {
-        localStorage.setItem('ideas', JSON.stringify(ideas));
-    }, [ideas]);
+        // Загружаем идеи из localStorage
+        const storedIdeas = localStorage.getItem(LOCAL_STORAGE_KEY);
+        const localIdeas: IIdeasForm[] = storedIdeas ? JSON.parse(storedIdeas) : [];
 
-    // Функция для обработки изменения статуса идеи
-    const handleStatusChange = (id: number, status: 'approved' | 'rejected') => {
+        // Сначала объединяем predefinedIdeas с локальными идеями
+        const mergedIdeas: IIdeaWithStatus[] = [
+            ...predefinedIdeas, // Предварительно заданные идеи
+            ...localIdeas.map((idea: IIdeasForm) => ({
+                id: idea.id.toString(), // Преобразуем id в строку
+                offer: idea.offer,
+                employeeName: 'Менеджер',
+                status: idea.status,
+            })),
+        ];
+
+        setIdeas(mergedIdeas);
+    }, []); // useEffect вызывается только один раз при монтировании компонента
+
+    const handleStatusChange = (id: string, status: IdeaStatus) => {
         const updatedIdeas = ideas.map(idea => (idea.id === id ? { ...idea, status } : idea));
-        setIdeas(updatedIdeas); // Обновляем состояние идей
+        setIdeas(updatedIdeas);
+
+        // Сохраняем только идеи, которые были добавлены пользователем
+        const localIdeas = updatedIdeas.filter(idea => !predefinedIdeas.some(predefined => predefined.id === idea.id));
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(localIdeas));
     };
 
-    // Фильтрация идей в зависимости от выбранного фильтра
-    const filteredIdeas = ideas.filter(idea => {
-        if (filter === 'all') return true;
-        return idea.status === filter;
-    });
-
-    // Обработчики для кнопок фильтрации
-    const handleFilterChange = (newFilter: 'all' | 'approved' | 'rejected') => {
-        setFilter(newFilter);
-    };
+    const filteredIdeas = ideas.filter(idea => (filter === 'all' ? true : idea.status === filter));
 
     return (
-        <>
+        <div className="ideas-block">
             <h3 className="ideas-title">Идеи сотрудников</h3>
             <div className="table-ideas">
                 <div className="table-ideas__buttons">
-                    <Button className="table-ideas__button" label="Все идеи" onClick={() => handleFilterChange('all')} />
-                    <Button className="table-ideas__button" label="Одобренные идеи" onClick={() => handleFilterChange('approved')} />
-                    <Button className="table-ideas__button" label="Отклоненные идеи" onClick={() => handleFilterChange('rejected')} />
+                    {buttonsIdeaList.map(({ label, filter: buttonFilter }) => (
+                        <Button key={buttonFilter} label={label} onClick={() => setFilter(buttonFilter)} className={`table-ideas__button ${filter === buttonFilter ? 'table-ideas__button_active' : ''}`} />
+                    ))}
                 </div>
+
                 <table className="table-ideas__table">
                     <thead className="table-ideas__table-head">
                         <tr className="table-ideas__table-row">
                             <th className="table-ideas__cell">№</th>
                             <th className="table-ideas__cell">Идея</th>
                             <th className="table-ideas__cell">Автор идеи</th>
+                            <th className="table-ideas__cell">Статус</th>
                         </tr>
                     </thead>
                     <tbody className="table-ideas__table-body">
                         {filteredIdeas.map((idea, index) => (
                             <tr className="table-ideas__table-row" key={idea.id}>
                                 <td className="table-ideas__cell-body">{index + 1}</td>
-                                <td className="table-ideas__cell-body">{idea.idea}</td>
+                                <td className="table-ideas__cell-body">{idea.offer}</td>
+                                <td className="table-ideas__cell-body">{idea.employeeName}</td>
                                 <td className="table-ideas__cell-body">
-                                    <div className="table-ideas__wrap-content">
-                                        {idea.employeeName}
-                                        <div className="table-ideas__icon-idea">
-                                            <IconButton onClick={() => handleStatusChange(idea.id, 'approved')}>
-                                                <CheckCircleIcon aria-label="CheckCircle" color="success" />
-                                            </IconButton>
-                                            <IconButton onClick={() => handleStatusChange(idea.id, 'rejected')}>
-                                                <BlockIcon aria-label="Block" color="error" />
-                                            </IconButton>
+                                    <span>
+                                        <div className="table-ideas__wrap-content">
+                                            {idea.status === IdeaStatus.Pending ? 'Новая' : idea.status === IdeaStatus.Approved ? 'Одобрена' : 'Отклонена'}
+                                            <div className="table-ideas__icon-idea">
+                                                <IconButton onClick={() => handleStatusChange(idea.id, IdeaStatus.Approved)}>
+                                                    <CheckCircleIcon aria-label="CheckCircle" color="success" />
+                                                </IconButton>
+                                                <IconButton onClick={() => handleStatusChange(idea.id, IdeaStatus.Rejected)}>
+                                                    <BlockIcon aria-label="Block" color="error" />
+                                                </IconButton>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </span>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     );
 };
 

@@ -4,7 +4,7 @@ import { ru } from 'date-fns/locale';
 import { useLocation } from 'react-router-dom';
 import './HeaderFilterList.scss';
 
-interface FilterListProps {
+interface IFilterListProps {
     // activeFilter: string;
     // sortOption: string | null;
     onFilterChange: (option: string) => void;
@@ -13,7 +13,7 @@ interface FilterListProps {
     date: { startDate: Date; endDate: Date; key: string };
 }
 
-const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption }: FilterListProps) => {
+const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption }: IFilterListProps) => {
     const [activeFilter, setActiveFilter] = useState(filterOption);
     const [openDate, setOpenDate] = useState(false);
 

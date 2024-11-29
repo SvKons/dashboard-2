@@ -4,11 +4,9 @@ import './Header.scss';
 import LogInModal from '../LogInModal';
 import HeaderFilterList from '../public/HeaderFilterList';
 import { UserRole } from '../../types/types';
-import ManagerRunningLine from '../manager/ManagerRunningLine';
-import LeaderRunningLine from '../leader/LeaderRunningLine';
 import RunningLine from '../RunningLine';
 
-interface HeaderProps {
+interface IHeaderProps {
     // sortOption: string | null;
     filterOption: string;
     onFilterChange: (option: string) => void;
@@ -16,7 +14,7 @@ interface HeaderProps {
     userRole: UserRole;
 }
 
-const Header = ({ filterOption, onFilterChange, onCustomPeriodSelect, userRole }: HeaderProps) => {
+const Header = ({ filterOption, onFilterChange, onCustomPeriodSelect, userRole }: IHeaderProps) => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const [isModalSettingsVisible, setIsModalSettingsVisible] = useState(false);
     const [isLogIn, setIsLogIn] = useState(false);

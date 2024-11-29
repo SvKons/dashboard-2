@@ -1,35 +1,24 @@
 import { NavLink } from 'react-router-dom';
+import { INavItem } from '../../../types/types';
+
+const navItems: INavItem[] = [
+    { path: '/lk/statistics-management', icon: require('./img/statistics-icon.png'), alt: 'Управление статистикой', label: 'Управление статистикой' },
+    { path: '/lk/goal-leader', icon: require('./img/goal-management-icon.png'), alt: 'Управление целями', label: 'Управление целями' },
+    { path: '/lk/employee-management', icon: require('./img/employee-management-icon.png'), alt: 'Управление сотрудниками', label: 'Управление сотрудниками' },
+    { path: '/lk/achievement-management', icon: require('./img/achievement-management-icon.png'), alt: 'Управление достижениями', label: 'Управление достижениями' },
+    { path: '/lk/reports', icon: require('./img/reports-icon.png'), alt: 'Отчеты', label: 'Отчеты' },
+    { path: '/lk/leader-profiles', icon: require('./img/profiles-icon.png'), alt: 'Профили', label: 'Мой профиль' },
+    { path: '/lk/ideas', icon: require('./img/ideas-icon.png'), alt: 'Идеи', label: 'Посмотреть идеи' },
+];
 
 const LeaderMenu = () => (
     <>
-        <NavLink to="/lk/statistics-management" className="sidebar__item">
-            <img src={require('./img/statistics-icon.png')} alt="Управление статистикой" className="sidebar__item_icon" />
-            Управление статистикой
-        </NavLink>
-        <NavLink to="/lk/goal-management" className="sidebar__item">
-            <img src={require('./img/goal-management-icon.png')} alt="Управление целями" className="sidebar__item_icon" />
-            Управление целями
-        </NavLink>
-        <NavLink to="/lk/employee-management" className="sidebar__item">
-            <img src={require('./img/employee-management-icon.png')} alt="Управление участниками" className="sidebar__item_icon" />
-            Управление участниками
-        </NavLink>
-        <NavLink to="/lk/achievement-management" className="sidebar__item">
-            <img src={require('./img/achievement-management-icon.png')} alt="Управление достижениями" className="sidebar__item_icon" />
-            Управление достижениями
-        </NavLink>
-        <NavLink to="/lk/reports" className="sidebar__item">
-            <img src={require('./img/reports-icon.png')} alt="Отчеты" className="sidebar__item_icon" />
-            Отчеты
-        </NavLink>
-        <NavLink to="/lk/profiles" className="sidebar__item">
-            <img src={require('./img/profiles-icon.png')} alt="Профили" className="sidebar__item_icon" />
-            Все профили
-        </NavLink>
-        <NavLink to="/lk/ideas" className="sidebar__item">
-            <img src={require('./img/ideas-icon.png')} alt="Идеи" className="sidebar__item_icon" />
-            Посмотреть идеи
-        </NavLink>
+        {navItems.map(item => (
+            <NavLink to={item.path} key={item.path} className={({ isActive }) => `sidebar__item ${isActive ? 'sidebar__item_active' : ''}`}>
+                <img src={item.icon} alt={item.alt} className="sidebar__item_icon" />
+                {item.label}
+            </NavLink>
+        ))}
     </>
 );
 

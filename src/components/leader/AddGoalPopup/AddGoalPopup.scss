@@ -1,0 +1,78 @@
+.add-goal {
+    &__container {
+        margin-bottom: 30px;
+    }
+
+    &__wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &__buttons-wrap {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 30px;
+    }
+
+    &__info {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__label {
+        font-size: 1.125rem;
+        color: var(--white-color);
+        flex-grow: 1;
+    }
+
+    &__textarea,
+    &__select {
+        min-width: 600px;
+        max-height: 600px;
+        font-size: 1.125rem;
+        outline: none;
+        border-radius: 10px;
+        resize: vertical;
+        padding: 10px;
+    }
+
+    &__button {
+        box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
+
+        &_save {
+            &:hover {
+                box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgba(255, 255, 255, 0.5), 0px 0px 10px rgba(255, 212, 59, 0.5);
+            }
+
+            &:active {
+                color: var(--black-color);
+                background-color: var(--active-yellow);
+            }
+        }
+
+        &_cancel {
+            &:hover {
+                box-shadow: inset 0px 0px 10px rgba(251, 16, 16, 0.8), inset 0px 0px 10px rgba(230, 135, 135, 0.5), 0px 0px 10px rgba(251, 16, 16, 0.8);
+            }
+
+            &:active {
+                color: var(--white-color);
+                background-color: var(--main-red);
+            }
+        }
+
+        &_common-goal,
+        &_employee-goal {
+            box-shadow: unset;
+            background: none;
+        }
+    }
+}

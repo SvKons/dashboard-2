@@ -8,11 +8,9 @@ import DepartmentStats from '../components/public/DepartmentStats';
 import { getDepartmentData } from '../components/public/DepartmentStats/utils';
 import EmployeeManagement from '../components/leader/EmployeeManagement';
 import EmployeeStats from '../components/public/EmployeeStats';
-import GoalManagement from '../components/leader/GoalManagement';
 import Goals from '../components/public/Goals';
 import Header from '../components/Header';
-import Ideas from '../components/leader/Ideas';
-import Profiles from '../components/Profiles';
+import LeaderProfile from '../components/LeaderProfiles';
 import Reports from '../components/leader/Reports';
 import Sidebar from '../components/Sidebar';
 import StatisticsManagement from '../components/leader/StatisticsManagement';
@@ -20,6 +18,8 @@ import { UserRole } from '../types/types';
 import OfferIdeas from '../components/manager/OfferIdeas';
 import MyProfile from '../components/manager/MyProfile';
 import MyStatistics from '../components/manager/MyStatistics';
+import IdeasBlock from '../components/leader/IdeasBlock';
+import GoalLeaderBlock from '../components/leader/GoalLeaderBlock';
 
 const MainPage = () => {
     const [sortOption, setSortOption] = useState<'total-stats' | 'direction'>('total-stats'); // 'total-stats' по умолчанию
@@ -31,7 +31,7 @@ const MainPage = () => {
     const [currentUser] = useState({
         id: '1',
         name: 'Marisa',
-        role: UserRole.Public,
+        role: UserRole.Leader,
     });
 
     // Обработчики фильтрации периода
@@ -93,14 +93,14 @@ const MainPage = () => {
                         <Route path="/achievements" element={<Achievements />} />
                         {/* Пути для админа */}
                         <Route path="/lk/statistics-management" element={<StatisticsManagement />} />
-                        <Route path="/lk/goal-management" element={<GoalManagement />} />
+                        <Route path="/lk/goal-leader" element={<GoalLeaderBlock />} />
                         <Route path="/lk/achievement-management" element={<AchievementManagement />} />
                         <Route path="/lk/employee-management" element={<EmployeeManagement />} />
                         <Route path="/lk/reports" element={<Reports />} />
-                        <Route path="/lk/profiles" element={<Profiles />} />
-                        <Route path="/lk/ideas" element={<Ideas />} />
+                        <Route path="/lk/leader-profiles" element={<LeaderProfile userRole={currentUser.role} />} />
+                        <Route path="/lk/ideas" element={<IdeasBlock />} />
                         {/* Пути для менеджера */}
-                        <Route path="/lk/my-profile" element={<MyProfile />} />
+                        <Route path="/lk/my-profile" element={<MyProfile userRole={currentUser.role} />} />
                         <Route path="/lk/offer-ideas" element={<OfferIdeas />} />
                         <Route path="/lk/my-statistics" element={<MyStatistics />} />
                         <Route path="/lk/data-entry" element={<DataEntry />} />

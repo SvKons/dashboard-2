@@ -10,14 +10,14 @@
     &__container {
         overflow: hidden;
         white-space: nowrap;
-        max-width: 700px;
+        max-width: 1080px;
         height: 100%;
         display: flex;
         gap: 20px;
         color: var(--white-color);
 
         &_sizes {
-            max-width: 900px;
+            max-width: 1260px;
         }
     }
 
@@ -149,6 +149,6 @@
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-50%); // Уход за половину длины (учитывая дублирование)
+        transform: translateX(-33%); // Уход за половину длины (учитывая дублирование)
     }
 }

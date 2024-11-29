@@ -1,0 +1,11 @@
+.stats-manager {
+    &__top-block {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    &__block {
+        width: 50%;
+    }
+}

@@ -4,11 +4,11 @@ import { getDepartmentData } from '../DepartmentStats/utils';
 import StatCard from '../StatCard';
 import './TotalStatsBlock.scss';
 
-interface TotalStatsBlockProps {
+interface ITotalStatsBlockProps {
     filterOption: string; // Фильтр
 }
 
-const TotalStatsBlock = ({ filterOption }: TotalStatsBlockProps) => {
+const TotalStatsBlock = ({ filterOption }: ITotalStatsBlockProps) => {
     const [totalSales, setTotalSales] = useState<number>(0);
     const [newClients, setNewClients] = useState<number>(0);
     const [averageCheck, setAverageCheck] = useState<number>(0);
@@ -45,18 +45,25 @@ const TotalStatsBlock = ({ filterOption }: TotalStatsBlockProps) => {
         fetchForecast();
     }, [filterOption, location.pathname]);
 
+    const stats = [
+        { title: 'Сумма продаж за текущий месяц', value: `${totalSales} руб.`, imgUrl: require('./img/res-react-dash-bear.svg').default },
+        { title: 'Количество новых клиентов', value: `${newClients} новых счастливых студентов` },
+        { title: 'Средний чек', value: `${averageCheck} руб.` },
+        { title: 'Прогноз выполнения плана', value: `${forecast}%` },
+    ];
+
     return (
         <div className="stats-block">
             <div className="stats-block__content">
                 <h2 className="stats-block__title">Общая статистика</h2>
                 <div className="stats-block__wrap">
-                    <StatCard title="Сумма продаж за текущий месяц" value={`${totalSales} руб.`} imgUrl={require('./img/res-react-dash-bear.svg').default} />
-                    <StatCard title="Количество новых клиентов" value={`${newClients} новых счастливых студентов`} />
-                    <StatCard title="Средний чек" value={`${averageCheck} руб.`} />
-                    <StatCard title="Прогноз выполнения плана" value={`${forecast}%`} imgUrl={require('./img/res-react-dash-bull.svg').default} showCircle />
+                    {stats.map((stat, index) => (
+                        <StatCard key={index} title={stat.title} value={stat.value} imgUrl={stat.imgUrl} />
+                    ))}
                 </div>
             </div>
         </div>
     );
 };
+
 export default TotalStatsBlock;

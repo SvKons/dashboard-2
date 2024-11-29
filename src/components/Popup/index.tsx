@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 import './Popup.scss';
 
-interface ModalProps {
+interface IModalProps {
     onClose: () => void;
     title: string;
     children: React.ReactNode;
 }
 
-const Popup = ({ onClose, title, children }: ModalProps) => {
+const Popup = ({ onClose, title, children }: IModalProps) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

@@ -3,6 +3,7 @@ import { duplicateRunningLineData, runningLineData, duplicateEmployeeData, emplo
 import './RunningLine.scss';
 import ManagerRunningLine from '../manager/ManagerRunningLine';
 import LeaderRunningLine from '../leader/LeaderRunningLine';
+import Button from '../Button';
 
 const buttonsDataManager = [
     { id: 'sales', label: 'Сумма продаж' },
@@ -20,40 +21,40 @@ const RunningLine = ({ role }: { role: 'manager' | 'leader' }) => {
     const duplicatedData = duplicateRunningLineData(runningLineData);
     const duplicatedEmployeeData = duplicateEmployeeData(employeeData);
 
-    const [activeButton, setActiveButton] = useState<string>(role === 'manager' ? 'sales' : 'first');
+    const buttonsData = role === 'manager' ? buttonsDataManager : buttonsDataLeader;
+
+    const [activeButtonIndex, setActiveButtonIndex] = useState<number>(0);
     const lineRef = useRef<HTMLDivElement>(null);
 
-    const handleButtonClick = (buttonId: string) => {
-        setActiveButton(buttonId);
+    const handleButtonClick = (index: number) => {
+        setActiveButtonIndex(index);
     };
 
     const setupAnimation = (line: HTMLDivElement | null) => {
         if (line) {
             const items = Array.from(line.children) as HTMLElement[];
             const totalWidth = items.reduce((acc, item) => acc + item.offsetWidth, 0);
-            const animationDuration = totalWidth / 100; // Скорость движения
+            const animationDuration = totalWidth / 200; // Скорость движения
             line.style.animation = `scrollSales ${animationDuration}s linear infinite`;
         }
     };
 
     useEffect(() => {
         setupAnimation(lineRef.current);
-    }, [activeButton]);
+    }, [activeButtonIndex]);
 
     return (
         <div className="running-line">
             <div className="running-line__buttons">
-                {(role === 'manager' ? buttonsDataManager : buttonsDataLeader).map(button => (
-                    <button key={button.id} className={`running-line__button ${activeButton === button.id ? 'running-line__button_active' : ''}`} onClick={() => handleButtonClick(button.id)}>
-                        {button.label}
-                    </button>
+                {buttonsData.map((button, index) => (
+                    <Button key={button.id} label={button.label} className={`running-line__button ${activeButtonIndex === index ? 'running-line__button_active' : ''}`} onClick={() => handleButtonClick(index)} />
                 ))}
             </div>
 
             {role === 'manager' ? (
-                <ManagerRunningLine duplicatedManagerData={duplicatedManagerData} activeButton={activeButton} lineRef={lineRef} />
+                <ManagerRunningLine duplicatedManagerData={duplicatedManagerData} activeButton={buttonsData[activeButtonIndex].id} lineRef={lineRef} />
             ) : (
-                <LeaderRunningLine activeButton={activeButton} lineRef={lineRef} duplicatedData={duplicatedData} duplicatedEmployeeData={duplicatedEmployeeData} />
+                <LeaderRunningLine activeButton={buttonsData[activeButtonIndex].id} lineRef={lineRef} duplicatedData={duplicatedData} duplicatedEmployeeData={duplicatedEmployeeData} />
             )}
         </div>
     );

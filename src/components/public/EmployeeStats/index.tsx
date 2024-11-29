@@ -1,77 +1,36 @@
 import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, ChartOptions, Tooltip, Legend, LinearScale } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { useEffect, useState } from 'react';
-import { Bar, Doughnut } from 'react-chartjs-2';
-import { getEmployeeData } from './utils';
+import { Doughnut } from 'react-chartjs-2';
+import { getEmployeeData, IEmployee } from './utils';
+import './EmployeeStats.scss';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend, ChartDataLabels);
 
-interface EmployeeStatsProps {
+interface IEmployeeStatsProps {
     viewType: 'total-stats' | 'direction';
     sortOption: string | null;
     filterOption: string;
 }
 
-const EmployeeStats = ({ sortOption, filterOption, viewType }: EmployeeStatsProps) => {
-    const [dataByDate, setDataByTotalStats] = useState<{ [key: string]: { [employee: string]: number } }>({});
+const EmployeeStats = ({ sortOption, filterOption, viewType }: IEmployeeStatsProps) => {
+    const [dataByDate, setDataByTotalStats] = useState<IEmployee[]>([]);
     const [dataByDirection, setDataByDirection] = useState<{ employee: string; direction: string; value: number }[]>([]);
 
     useEffect(() => {
         const fetchData = () => {
             if (viewType === 'total-stats') {
                 setDataByDirection([]); // Очищаем данные По направлению, если выбрано Общая статистика
-                const filteredDataEmployee = getEmployeeData(viewType, filterOption) as { [key: string]: { [employee: string]: number } };
+                const filteredDataEmployee = getEmployeeData(viewType, filterOption) as IEmployee[];
                 setDataByTotalStats(filteredDataEmployee);
             } else if (viewType === 'direction') {
-                setDataByTotalStats({}); // Очищаем данные Общая статистика, если выбрано По направлению
+                setDataByTotalStats([]); // Очищаем данные Общая статистика, если выбрано По направлению
                 const filteredDataEmployee = getEmployeeData(viewType, filterOption) as { employee: string; direction: string; value: number }[];
                 setDataByDirection(filteredDataEmployee);
             }
         };
         fetchData();
     }, [viewType, filterOption, sortOption]);
-
-    // Получение данных с API
-    /*
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let response;
-                if (viewType === 'date') {
-                    setDataByDirection([]); // Очищаем данные По направлению, если выбрано По дате
-                    response = await fetch(`ссылка`);
-                } else if (viewType === 'direction') {
-                    setDataByDate({}); // Очищаем данные По дате, если выбрано По направлению
-                    response = await fetch(`ссылка`);
-                }
-
-                const data = await response.json();
-                if (viewType === 'date') {
-                    setDataByDate(data); // Предполагается, что данные приходят в нужном формате
-                } else if (viewType === 'direction') {
-                    setDataByDirection(data);
-                }
-            } catch (error) {
-                console.error('Ошибка при получении данных сотрудников:', error);
-            }
-        };
-        fetchData();
-    }, [viewType, filterOption, sortOption]);
-    */
-
-    // Настройки для столбчатой диаграммы
-    const barChartData = {
-        labels: Object.keys(dataByDate),
-        datasets:
-            Object.keys(dataByDate).length > 0
-                ? Object.keys(dataByDate[Object.keys(dataByDate)[0]]).map((employee, index) => ({
-                      label: employee,
-                      data: Object.keys(dataByDate).map(date => dataByDate[date][employee]),
-                      backgroundColor: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.6)`,
-                      hoverBackgroundColor: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.8)`,
-                  }))
-                : [],
-    };
 
     // Настройки для круговой диаграммы
     const donutChartData = {
@@ -85,47 +44,6 @@ const EmployeeStats = ({ sortOption, filterOption, viewType }: EmployeeStatsProp
                 hoverBorderColor: '#000',
             },
         ],
-    };
-
-    // Данные для столбчатой диаграммы
-    const barOptions = {
-        responsive: true,
-        color: '#fff',
-        animation: {
-            animateScale: true,
-            duration: 2000,
-            easing: 'easeOutQuad' as const,
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: '#fff', // Цвет меток на оси X
-                },
-                grid: {
-                    color: 'rgba(255, 255, 255, 0.5)', // Цвет сетки на оси X
-                },
-            },
-            y: {
-                ticks: {
-                    color: '#fff', // Цвет меток на оси Y
-                },
-                grid: {
-                    color: 'rgba(255, 255, 255, 0.5)', // Цвет сетки на оси X
-                },
-            },
-        },
-        plugins: {
-            legend: {
-                display: true,
-                position: 'top' as const,
-            },
-            tooltip: {
-                enabled: true,
-            },
-            datalabels: {
-                color: '#fff',
-            },
-        },
     };
 
     // Данные для круговой диаграммы
@@ -160,12 +78,74 @@ const EmployeeStats = ({ sortOption, filterOption, viewType }: EmployeeStatsProp
             },
         },
     };
+    // Расчет общего плана выручки
+    const totalRevenue = dataByDate.reduce((acc, employee) => acc + employee.revenue, 0);
+
+    // Расчет вклада в факт. сбор для каждого сотрудника
+    const employeesWithContribution = dataByDate.map(employee => ({
+        ...employee,
+        contributionToFact: (employee.revenue / totalRevenue) * 100,
+    }));
 
     return (
         <div className="diagrams-block">
             <h1 className="diagrams-block__title">Статистика сотрудников - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h1>
             <div className="chart-container">
-                {viewType === 'total-stats' ? <Bar data={barChartData} options={barOptions} className="chart-container__block" /> : <Doughnut data={donutChartData} options={donutOptions} className="chart-container__block chart-container__block_donut" />}
+                {viewType === 'total-stats' ? (
+                    <div className="employee-table">
+                        <table className="employee-table__table">
+                            <thead className="employee-table__table-head">
+                                <tr className="employee-table__table-row">
+                                    <th className="employee-table__cell" rowSpan={2}>
+                                        №
+                                    </th>
+                                    <th className="employee-table__cell" rowSpan={2}>
+                                        ФИО сотрудника
+                                    </th>
+                                    <th className="employee-table__cell" rowSpan={2}>
+                                        Кол-во
+                                    </th>
+                                    <th className="employee-table__cell" rowSpan={2}>
+                                        Выручка
+                                    </th>
+                                    <th className="employee-table__cell" rowSpan={2}>
+                                        % годовых оплат
+                                    </th>
+                                    <th className="employee-table__cell" colSpan={2}>
+                                        Доп. цели
+                                    </th>
+                                    <th className="employee-table__cell" rowSpan={2}>
+                                        Конверсия лидов
+                                    </th>
+                                    <th className="employee-table__cell" rowSpan={2}>
+                                        Вклад в факт. сбора
+                                    </th>
+                                </tr>
+                                <tr className="employee-table__table-row">
+                                    <th className="employee-table__cell">Кол-во</th>
+                                    <th className="employee-table__cell">Выручка</th>
+                                </tr>
+                            </thead>
+                            <tbody className="employee-table__table-body">
+                                {employeesWithContribution.map((employee, index) => (
+                                    <tr className="employee-table__table-row" key={employee.name}>
+                                        <td className="employee-table__cell-body">{index + 1}</td>
+                                        <td className="employee-table__cell-body">{employee.name}</td>
+                                        <td className="employee-table__cell-body">{employee.salesCount}</td>
+                                        <td className="employee-table__cell-body">{employee.revenue}</td>
+                                        <td className="employee-table__cell-body">{employee.annualPaymentsPercentage}%</td>
+                                        <td className="employee-table__cell-body">{employee.additionalGoals.salesCount}</td>
+                                        <td className="employee-table__cell-body">{employee.additionalGoals.amount}</td>
+                                        <td className="employee-table__cell-body">{employee.leadConversion}%</td>
+                                        <td className="employee-table__cell-body">{employee.contributionToFact.toFixed(2)}%</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                ) : (
+                    <Doughnut data={donutChartData} options={donutOptions} className="chart-container__block chart-container__block_donut" />
+                )}
             </div>
         </div>
     );

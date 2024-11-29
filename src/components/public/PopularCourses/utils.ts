@@ -1,9 +1,9 @@
-export interface Course {
+export interface ICourse {
     title: string;
     sales: number;
 }
 
-export const courses: Course[] = [
+export const courses: ICourse[] = [
     { title: 'Управление проектами', sales: Math.floor(Math.random() * 1000) },
     { title: 'Цифровой маркетинг', sales: Math.floor(Math.random() * 1000) },
     { title: 'Программирование на Python', sales: Math.floor(Math.random() * 1000) },

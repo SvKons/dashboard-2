@@ -1,11 +1,11 @@
-export interface Manager {
+export interface IManager {
     firstName?: string;
     lastName?: string;
     sales: number;
     photo?: string;
 }
 
-export const managers: Manager[] = [
+export const managers: IManager[] = [
     { firstName: 'Иван', lastName: 'Иванов', sales: 150000, photo: 'https://picsum.photos/205/308' },
     { firstName: 'Петр', lastName: 'Петров', sales: 200000, photo: 'https://picsum.photos/225/305' },
     { firstName: 'Сидор', lastName: 'Сидоров', sales: 180000, photo: 'https://picsum.photos/240/305' },

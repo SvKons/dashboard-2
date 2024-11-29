@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import Button from '../../Button';
-import { Member } from '../MemberManagement/utils';
+import { IMember } from '../MemberManagement/utils';
 import './AddEmployeeForm.scss';
 
-interface AddMemberFormProps {
-    onSave: (member: Member) => void;
+interface IAddMemberFormProps {
+    onSave: (member: IMember) => void;
     onCancel: () => void;
-    initialValues: Member | null;
+    initialValues: IMember | null;
 }
 
-const AddEmployeeForm = ({ onSave, onCancel, initialValues }: AddMemberFormProps) => {
+const AddEmployeeForm = ({ onSave, onCancel, initialValues }: IAddMemberFormProps) => {
     const [formState, setFormState] = useState({
+        id: '',
         name: '',
         position: '',
         email: '',
@@ -21,6 +22,7 @@ const AddEmployeeForm = ({ onSave, onCancel, initialValues }: AddMemberFormProps
     useEffect(() => {
         if (initialValues) {
             setFormState({
+                id: initialValues.id,
                 name: initialValues.name,
                 position: initialValues.position,
                 email: initialValues.email,

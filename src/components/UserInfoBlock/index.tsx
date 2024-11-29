@@ -6,18 +6,21 @@ import { UserRole } from '../../types/types';
 
 import './UserInfoBlock.scss';
 import ManagerProfile from '../manager/ManagerProfile';
-import LeaderProfile from '../leader/LeaderProfile';
 import LeaderTasks from '../leader/LeaderTasks';
+import LeaderProfileInfo from '../leader/LeaderProfileInfo';
 
-interface UserInfoBlockProps {
+interface IUserInfoBlockProps {
     userRole: UserRole;
 }
 
-const UserInfoBlock = memo(({ userRole }: UserInfoBlockProps) => {
+const UserInfoBlock = memo(({ userRole }: IUserInfoBlockProps) => {
     return (
-        <div className="manager-block">
-            {userRole === UserRole.Manager ? <ManagerProfile /> : <LeaderProfile />}
-            {userRole === UserRole.Manager && <ManagerAchievements />}
+        <div className="manager-info">
+            <div className="manager-info__manager-block">
+                {userRole === UserRole.Manager ? <ManagerProfile /> : <LeaderProfileInfo />}
+                {userRole === UserRole.Manager && <ManagerAchievements />}
+            </div>
+
             {userRole === UserRole.Manager ? <ManagerTasks /> : <LeaderTasks />}
         </div>
     );

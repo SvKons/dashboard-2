@@ -1,7 +1,7 @@
 import './PopularCourses.scss';
-import { Course, courses } from './utils';
+import { ICourse, courses } from './utils';
 
-const getTopSellingCourses = (courses: Course[], topN: number): Course[] => {
+const getTopSellingCourses = (courses: ICourse[], topN: number): ICourse[] => {
     return courses.sort((a, b) => b.sales - a.sales).slice(0, topN);
 };
 

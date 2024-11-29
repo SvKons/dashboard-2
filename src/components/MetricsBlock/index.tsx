@@ -1,6 +1,6 @@
 import './MetricsBlock.scss';
 
-interface MetricsBlockProps {
+interface IMetricsBlockProps {
     metrics: {
         totalPayments: number;
         yearlyPaymentsPercentage: number;
@@ -9,7 +9,7 @@ interface MetricsBlockProps {
     };
 }
 
-const MetricsBlock = ({ metrics }: MetricsBlockProps) => {
+const MetricsBlock = ({ metrics }: IMetricsBlockProps) => {
     return (
         <div className="metrics-block">
             <div className="metrics-block__metric-wrap">

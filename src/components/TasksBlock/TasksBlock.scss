@@ -1,0 +1,44 @@
+.tasks-block {
+    background-color: var(--black-color);
+    border-radius: 20px;
+
+    &__wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    & .css-jupps9-MuiInputBase-root-MuiOutlinedInput-root {
+        color: var(--white-color);
+        border: 1px solid var(--white-color);
+    }
+
+    & .css-oeq6yz-MuiButtonBase-root-MuiIconButton-root {
+        color: var(--white-color);
+    }
+
+    &__textarea {
+        min-width: 400px;
+        min-height: 244px;
+        font-size: 1.125rem;
+        outline: none;
+        border-radius: 10px;
+        resize: none;
+        padding: 10px;
+    }
+
+    &__button {
+        justify-content: center;
+        box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgba(255, 255, 255, 0.5), 0px 0px 10px rgba(255, 212, 59, 0.5);
+
+        &:hover {
+            background-color: var(--hover-grey);
+            color: var(--black-color);
+        }
+    }
+}
+
+.css-1chuxo2-MuiPickersCalendarHeader-label {
+    text-transform: uppercase;
+}

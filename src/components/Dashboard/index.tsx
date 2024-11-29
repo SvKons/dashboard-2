@@ -4,16 +4,15 @@ import FulfillmentEmployeesPlan from '../public/FulfillmentEmployeesPlan';
 import PopularCourses from '../public/PopularCourses';
 import TopManagers from '../public/TopManagers';
 import TotalStatsBlock from '../public/TotalStatsBlock';
-import UserInfoBlock from '../UserInfoBlock';
 import './Dashboard.scss';
 
-interface DashboardProps {
-    salesData: { [key: string]: number[] }; // Интерфейс для пропсов Dashboard
-    filterOption: string; // Добавим filterOption
+interface IDashboardProps {
+    salesData: { [key: string]: number[] };
+    filterOption: string;
     userRole: UserRole;
 }
 
-const Dashboard = ({ userRole, salesData, filterOption }: DashboardProps) => {
+const Dashboard = ({ filterOption }: IDashboardProps) => {
     return (
         <div className="main-block">
             <div className="main-block__right">
@@ -24,8 +23,6 @@ const Dashboard = ({ userRole, salesData, filterOption }: DashboardProps) => {
                 </div>
                 <FulfillmentEmployeesPlan />
             </div>
-
-            {(userRole === UserRole.Manager || userRole === UserRole.Leader) && <UserInfoBlock userRole={userRole} />}
         </div>
     );
 };

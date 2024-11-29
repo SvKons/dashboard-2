@@ -4,8 +4,9 @@ export enum UserRole {
     Public = 'public',
 }
 
-// export interface IProfileManagerInfo {
-//     photo: string;
-//     name: string;
-//     position: string;
-// }
+export interface INavItem {
+    path: string;
+    icon: string;
+    alt: string;
+    label: string;
+}

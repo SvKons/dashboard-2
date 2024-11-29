@@ -1,5 +1,5 @@
-import { employees } from './utils';
 import './FulfillmentEmployeesPlan.scss';
+import { employees } from './utils';
 
 // Функция для получения цвета прогресс-бара в зависимости от процента выполнения
 const getProgressBarColor = (percentage: number): string => {
@@ -20,7 +20,7 @@ const getProgressBarColor = (percentage: number): string => {
 //     console.error('Error fetching employees:', error);
 //     return [];
 //   } finally {
-//
+
 //   }
 // }
 

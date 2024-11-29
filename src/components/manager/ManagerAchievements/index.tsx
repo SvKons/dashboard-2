@@ -2,44 +2,44 @@ import { useEffect, useState } from 'react';
 import './ManagerAchievements.scss';
 
 export interface IManagerAchievements {
-    id: number;
+    id: string;
     imageUrl: string;
     description: string;
 }
 
 const mockAchievements: IManagerAchievements[] = [
     {
-        id: 1,
+        id: '1',
         imageUrl: 'https://picsum.photos/200/300',
         description: 'Сертификат лучшего менеджера 2022',
     },
     {
-        id: 2,
+        id: '2',
         imageUrl: 'https://picsum.photos/200/301',
         description: 'Успешное завершение 10 проектов',
     },
     {
-        id: 3,
+        id: '3',
         imageUrl: 'https://picsum.photos/210/302',
         description: 'Повышение команды на 20%',
     },
     {
-        id: 4,
+        id: '4',
         imageUrl: 'https://picsum.photos/250/310',
         description: 'Награда за лучший проект 2021',
     },
     {
-        id: 5,
+        id: '5',
         imageUrl: 'https://picsum.photos/205/305',
         description: 'Сертификат по управлению Agile',
     },
     {
-        id: 6,
+        id: '6',
         imageUrl: 'https://picsum.photos/200/311',
         description: 'Публикация статьи в специализированном журнале',
     },
     {
-        id: 7,
+        id: '7',
         imageUrl: 'https://picsum.photos/200/323',
         description: 'Участие в конференции по менеджменту',
     },
@@ -49,16 +49,6 @@ const ManagerAchievements = () => {
     const [achievements, setAchievements] = useState<IManagerAchievements[]>([]);
 
     useEffect(() => {
-        // Код для получения данных с бэка
-        // const fetchAchievements = async () => {
-        //     const response = await fetch('https://api.example');
-        //     const data: IManagerAchievements[] = await response.json();
-        //     setAchievements(data);
-        // };
-
-        // fetchAchievements();
-
-        // Моковые данные
         setAchievements(mockAchievements);
     }, []);
 

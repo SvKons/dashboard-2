@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 type MenuKey = 'department' | 'employees';
 
-interface PublicAsideProps {
+interface IPublicAsideProps {
     openMenus: Record<MenuKey, boolean>;
     handleMenuClick: (menu: MenuKey) => void;
     onSortByTotalStats: (viewType: string) => void;
@@ -11,7 +11,7 @@ interface PublicAsideProps {
     sortOption: string | null;
 }
 
-const PublicAside = ({ openMenus, handleMenuClick, onSortByTotalStats, onSortByDirection, sortOption }: PublicAsideProps) => {
+const PublicAside = ({ openMenus, handleMenuClick, onSortByTotalStats, onSortByDirection, sortOption }: IPublicAsideProps) => {
     const navigate = useNavigate();
 
     const [activeSort, setActiveSort] = useState({ type: 'department', order: 'total-stats' }); // По умолчанию 'Общая статистика', выделяет активную кнопку Общая статистика/По направлению

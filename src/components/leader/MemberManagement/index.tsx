@@ -1,19 +1,17 @@
 import { useState, useEffect } from 'react';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
-import { Member, members as initialMembers } from './utils';
+import { IMember, members as initialMembers } from './utils';
 import Button from '../../Button';
 import Popup from '../../Popup';
 import AddEmployeeForm from '../AddEmployeeForm';
 import './MemberManagement.scss';
+import EditDeleteIcons from '../../EditDeleteIcons';
 
 const LOCAL_STORAGE_KEY = 'members';
 
 const MemberManagement = () => {
-    const [members, setMembers] = useState<Member[]>([]);
+    const [members, setMembers] = useState<IMember[]>([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [formState, setFormState] = useState<Member | null>(null);
+    const [formState, setFormState] = useState<IMember | null>(null);
 
     useEffect(() => {
         const storedMembers = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -26,7 +24,7 @@ const MemberManagement = () => {
         }
     }, []);
 
-    const handleSaveMember = (newMember: Member) => {
+    const handleSaveMember = (newMember: IMember) => {
         if (formState) {
             const updatedMembers = members.map(member => (member.name === formState.name ? newMember : member));
             setMembers(updatedMembers);
@@ -86,14 +84,7 @@ const MemberManagement = () => {
                                 <td className="table-employee__cell-body">
                                     <div className="table-employee__wrap-content">
                                         {member.phone}
-                                        <div className="table-employee__icon-employee">
-                                            <IconButton aria-label="edit" onClick={() => handleEditMember(index)}>
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton aria-label="delete" onClick={() => handleDeleteMember(index)}>
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </div>
+                                        <EditDeleteIcons<number> onEdit={index => handleEditMember(index)} onDelete={index => handleDeleteMember(index)} data={index} />
                                     </div>
                                 </td>
                             </tr>

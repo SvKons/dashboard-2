@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import './UserTasks.scss';
 
-interface TasksProps {
+interface ITasksProps {
     tasks: string[];
     title: string;
 }
 
-const UserTasks = ({ tasks, title }: TasksProps) => {
+const UserTasks = ({ tasks, title }: ITasksProps) => {
     const [taskList, setTaskList] = useState<string[]>([]);
 
     useEffect(() => {

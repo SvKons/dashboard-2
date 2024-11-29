@@ -1,23 +1,15 @@
-export interface Idea {
-    id: number;
-    idea: string;
+import { IdeaStatus } from '../../manager/OfferIdeas/utils';
+
+export const LOCAL_STORAGE_KEY = 'ideasList';
+
+export interface IIdeaWithStatus {
+    id: string;
+    offer: string;
     employeeName: string;
+    status: IdeaStatus;
 }
 
-export const ideas: Idea[] = [
-    { id: 1, idea: 'Создать курсы по подготовке к экзаменам для иностранных студентов', employeeName: 'Иван Иванов' },
-    { id: 2, idea: 'Запуск онлайн-курсов по программированию для школьников', employeeName: 'Мария Смирнова' },
-    { id: 3, idea: 'Разработка приложения для изучения иностранных языков', employeeName: 'Алексей Петров' },
-    { id: 4, idea: 'Курс по управлению проектами для студентов бакалавриата', employeeName: 'Екатерина Васильева' },
-    { id: 5, idea: 'Онлайн-курсы по подготовке к поступлению в магистратуру', employeeName: 'Никита Волков' },
-    { id: 6, idea: 'Разработка курсов по повышению квалификации для преподавателей', employeeName: 'Анна Белова' },
-    { id: 7, idea: 'Курс по финансовой грамотности для школьников и студентов', employeeName: 'Игорь Федоров' },
-    { id: 8, idea: 'Вебинар для родителей по выбору образовательных программ для детей', employeeName: 'Ольга Михайлова' },
-    { id: 9, idea: 'Онлайн-консультации по карьере для студентов', employeeName: 'Дмитрий Павлов' },
-    { id: 10, idea: 'Запуск платформы для дистанционного обучения для людей с ограниченными возможностями', employeeName: 'Марина Козлова' },
-    { id: 11, idea: 'Серия мастер-классов по soft skills для студентов', employeeName: 'Сергей Орлов' },
-    { id: 12, idea: 'Разработка курсов по стартапам и предпринимательству для студентов', employeeName: 'Татьяна Соколова' },
-    { id: 13, idea: 'Курс по подготовке к сдаче TOEFL и IELTS', employeeName: 'Виктория Чернова' },
-    { id: 14, idea: 'Организация конференций для обмена опытом среди преподавателей', employeeName: 'Роман Дмитриев' },
-    { id: 15, idea: 'Образовательные курсы по созданию образовательных платформ', employeeName: 'Юлия Попова' },
+export const predefinedIdeas: IIdeaWithStatus[] = [
+    { id: '1', offer: 'Идея 1', employeeName: 'Иван Иванов', status: IdeaStatus.Pending },
+    { id: '2', offer: 'Идея 2', employeeName: 'Мария Смирнова', status: IdeaStatus.Approved },
 ];

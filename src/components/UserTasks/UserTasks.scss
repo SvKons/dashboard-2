@@ -1,11 +1,13 @@
 .tasks {
+    max-width: 450px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     color: var(--white-color);
     background-color: var(--black-color);
     border-radius: 10px;
-    padding: 20px 10px;
+    padding: 20px;
+    word-wrap: break-word;
 
     &__title {
         font-size: 1.5rem;

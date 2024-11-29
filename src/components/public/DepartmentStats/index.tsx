@@ -6,13 +6,13 @@ import { getDepartmentData, mockMetricsData } from './utils';
 import MetricsBlock from '../../MetricsBlock';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, ArcElement, Legend, ChartDataLabels);
-interface DepartmentStatsProps {
+interface IDepartmentStatsProps {
     viewType: 'total-stats' | 'direction';
     sortOption: string | null;
     filterOption: string;
 }
 
-const DepartmentStats = ({ viewType, sortOption, filterOption }: DepartmentStatsProps) => {
+const DepartmentStats = ({ viewType, sortOption, filterOption }: IDepartmentStatsProps) => {
     const [dataByTotalStats, setDataByTotalStats] = useState<{ [key: string]: number[] }>({});
     const [dataByDirection, setDataByDirection] = useState<{ direction: string; value: number }[]>([]);
     const [metrics, setMetrics] = useState<{ totalPayments: number; yearlyPaymentsPercentage: number; averageCheck: number; conversionRate: number }>({
