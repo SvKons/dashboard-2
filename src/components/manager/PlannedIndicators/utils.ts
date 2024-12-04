@@ -15,7 +15,7 @@ export interface IEmployeeData {
 
 export const tableData: IEmployeeData[] = [
     {
-        employeeName: 'Петров Петр Петрович',
+        employeeName: 'Иванова Мария Ивановна',
         rows: [
             {
                 category: 'Сумма',

@@ -1,13 +1,16 @@
-.table-employee {
+.table-mcard {
     padding: 20px 0;
     overflow-x: auto;
     overflow-y: auto;
-    // max-height: calc(100vh - 230px);
 
     &__table {
         width: 100%;
         border-collapse: collapse;
         text-align: left;
+    }
+
+    &__table-row {
+        background-color: var(--white-color);
     }
 
     &__cell,
@@ -21,19 +24,6 @@
         color: var(--white-color);
         background-color: var(--black-color);
         font-weight: bold;
-    }
-
-    &__wrap-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    &__table-row:hover {
-        background-color: var(--light-grey);
-    }
-
-    &__table-row {
-        background-color: var(--white-color);
+        text-align: center;
     }
 }

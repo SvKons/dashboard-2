@@ -55,7 +55,7 @@ const IdeasBlock = () => {
 
     return (
         <div className="ideas-block">
-            <h3 className="ideas-title">Идеи сотрудников</h3>
+            <h3 className="title">Идеи сотрудников</h3>
             <div className="table-ideas">
                 <div className="table-ideas__buttons">
                     {buttonsIdeaList.map(({ label, filter: buttonFilter }) => (

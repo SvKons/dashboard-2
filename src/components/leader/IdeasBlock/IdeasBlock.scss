@@ -1,14 +1,8 @@
-.ideas-title {
-    color: var(--white-color);
-    font-size: 1.625rem;
-    font-weight: 600;
-}
-
 .table-ideas {
     padding: 20px 0;
     overflow-x: auto;
     overflow-y: auto;
-    max-height: calc(100vh - 230px);
+    // max-height: calc(100vh - 230px);
 
     &__table {
         width: 100%;

@@ -25,25 +25,28 @@ const MainPage = () => {
     const [sortOption, setSortOption] = useState<'total-stats' | 'direction'>('total-stats'); // 'total-stats' по умолчанию
     const [filterOption, setFilterOption] = useState<string>('currentMonth'); // по умолчанию 'currentMonth'
     const [salesData, setSalesData] = useState<{ [key: string]: number[] }>({});
+    const [customPeriod, setCustomPeriod] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
+
     const location = useLocation();
     const navigate = useNavigate();
 
     const [currentUser] = useState({
         id: '1',
         name: 'Marisa',
-        role: UserRole.Leader,
+        role: UserRole.Manager,
     });
 
     // Обработчики фильтрации периода
-    // const handleFilterChange = (option: string) => {
-    //     setFilterOption(option);
-    // };
-
-    // Обработчик выбора периода (НЕ РЕАЛИЗОВАНО), можно просто выбрать период в календаре
-    const handleCustomPeriodSelect = (start: Date, end: Date) => {
-        console.log('Выбранный период:', start, end);
+    const handleFilterChange = (option: string) => {
+        setFilterOption(option);
     };
 
+    // Обработчик выбора периода
+    const handleCustomPeriodSelect = (start: Date, end: Date) => {
+        console.log('Выбранный период:', start, end);
+        setCustomPeriod({ startDate: start, endDate: end });
+        setFilterOption('customPeriod'); // Устанавливаем фильтр на кастомный период
+    };
     // Обработчики сортировки по дате и по направлению, принимает параметр viewType, который указывает, какой тип сортировки выбран - отдел или сотрудники
     const handleSortByDate = (viewType: string) => handleSortChange(viewType, 'total-stats');
     const handleSortByDirection = (viewType: string) => handleSortChange(viewType, 'direction');
@@ -71,16 +74,16 @@ const MainPage = () => {
 
     useEffect(() => {
         const fetchSalesData = () => {
-            const data = getDepartmentData('total-stats', filterOption) as { [key: string]: number[] };
+            const data = getDepartmentData('total-stats', filterOption, customPeriod) as { [key: string]: number[] };
             setSalesData(data);
         };
 
         fetchSalesData();
-    }, [filterOption]);
+    }, [filterOption, customPeriod]);
 
     return (
         <>
-            <Header userRole={currentUser.role} filterOption={filterOption} onFilterChange={setFilterOption} onCustomPeriodSelect={handleCustomPeriodSelect} />
+            <Header userRole={currentUser.role} filterOption={filterOption} onFilterChange={setFilterOption} onCustomPeriodSelect={handleCustomPeriodSelect} sortOption={sortOption} />
             <div className="main-content">
                 <Sidebar userRole={currentUser.role} onSortByTotalStats={handleSortByDate} onSortByDirection={handleSortByDirection} />
                 <main className="content">
@@ -90,11 +93,11 @@ const MainPage = () => {
                         <Route path="/department-statistics" element={<DepartmentStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />} />
                         <Route path="/employees-statistics" element={<EmployeeStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />} />
                         <Route path="/goals" element={<Goals />} />
-                        <Route path="/achievements" element={<Achievements />} />
+                        <Route path="/achievements" element={<Achievements userRole={currentUser.role} />} />
                         {/* Пути для админа */}
                         <Route path="/lk/statistics-management" element={<StatisticsManagement />} />
                         <Route path="/lk/goal-leader" element={<GoalLeaderBlock />} />
-                        <Route path="/lk/achievement-management" element={<AchievementManagement />} />
+                        <Route path="/lk/achievement-management" element={<AchievementManagement userRole={currentUser.role} />} />
                         <Route path="/lk/employee-management" element={<EmployeeManagement />} />
                         <Route path="/lk/reports" element={<Reports />} />
                         <Route path="/lk/leader-profiles" element={<LeaderProfile userRole={currentUser.role} />} />

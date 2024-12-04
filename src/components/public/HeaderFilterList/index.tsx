@@ -5,15 +5,16 @@ import { useLocation } from 'react-router-dom';
 import './HeaderFilterList.scss';
 
 interface IFilterListProps {
-    // activeFilter: string;
-    // sortOption: string | null;
+    activeFilter: string;
+    sortOption: string | null;
     onFilterChange: (option: string) => void;
     filterOption: string;
     setDate: (date: { startDate: Date; endDate: Date; key: string }) => void;
+    onCustomPeriodSelect: (start: Date, end: Date) => void;
     date: { startDate: Date; endDate: Date; key: string };
 }
 
-const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption }: IFilterListProps) => {
+const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption, onCustomPeriodSelect }: IFilterListProps) => {
     const [activeFilter, setActiveFilter] = useState(filterOption);
     const [openDate, setOpenDate] = useState(false);
 
@@ -30,7 +31,8 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption }: IFilt
     };
 
     const handleChange = (ranges: any) => {
-        setDate(ranges.selection);
+        setDate(ranges.selection); // Устанавливаем выбранный диапазон
+        onCustomPeriodSelect(ranges.selection.startDate, ranges.selection.endDate); // Передаем выбранные даты в родительский компонент
     };
 
     const handleFilterChange = (option: string) => {
@@ -47,6 +49,7 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption }: IFilt
 
     // Определение активности Текущего месяца
     const isCurrentMonthActive = activeFilter === 'currentMonth' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics');
+
     // Использование эффекта для добавления обработчика кликов
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside); // Добавление обработчика

@@ -10,36 +10,52 @@ interface IDepartmentStatsProps {
     viewType: 'total-stats' | 'direction';
     sortOption: string | null;
     filterOption: string;
+    customPeriod?: { startDate: Date | null; endDate: Date | null };
 }
 
-const DepartmentStats = ({ viewType, sortOption, filterOption }: IDepartmentStatsProps) => {
+interface DepartmentStatsProps {
+    date: { startDate: Date; endDate: Date; key: string };
+    data: Array<{ date: string; value: number }>; // Пример данных с датой и значением
+}
+
+interface MetricsType {
+    totalPayments: number;
+    yearlyPaymentsPercentage: number;
+    averageCheck: number;
+    conversionRate: number;
+}
+
+const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: IDepartmentStatsProps) => {
     const [dataByTotalStats, setDataByTotalStats] = useState<{ [key: string]: number[] }>({});
     const [dataByDirection, setDataByDirection] = useState<{ direction: string; value: number }[]>([]);
-    const [metrics, setMetrics] = useState<{ totalPayments: number; yearlyPaymentsPercentage: number; averageCheck: number; conversionRate: number }>({
+    const [metrics, setMetrics] = useState<MetricsType>({
         totalPayments: 0,
         yearlyPaymentsPercentage: 0,
         averageCheck: 0,
         conversionRate: 0,
     });
 
+    console.log('Данные для столбчатой диаграммы:', dataByTotalStats);
+
     useEffect(() => {
         const fetchData = () => {
             if (viewType === 'total-stats') {
-                setDataByDirection([]); // Очистка данных По направлению, если выбрано Общая статистика
-                const filteredDataDepartment = getDepartmentData(viewType, filterOption) as { [key: string]: number[] };
+                setDataByDirection([]); // Очистка данных по направлениям
+                const filteredDataDepartment = getDepartmentData(viewType, filterOption, customPeriod) as { [key: string]: number[] };
+                console.log('Данные для столбчатой диаграммы:', filteredDataDepartment); // Отладочная информация
                 setDataByTotalStats(filteredDataDepartment);
                 if (filterOption in mockMetricsData) {
                     const calculatedMetrics = calculateMetrics(filterOption as keyof typeof mockMetricsData);
                     setMetrics(calculatedMetrics);
                 }
             } else if (viewType === 'direction') {
-                setDataByTotalStats({}); // Очистка данных Общая статистика, если выбрано По направлению
-                const filteredDataDepartment = getDepartmentData(viewType, filterOption) as { direction: string; value: number }[];
+                setDataByTotalStats({});
+                const filteredDataDepartment = getDepartmentData(viewType, filterOption, customPeriod) as { direction: string; value: number }[];
                 setDataByDirection(filteredDataDepartment);
             }
         };
         fetchData();
-    }, [viewType, filterOption, sortOption]);
+    }, [viewType, filterOption, sortOption, customPeriod]);
 
     const calculateMetrics = (filterOption: keyof typeof mockMetricsData) => {
         const { totalPayments, yearlyPayments, totalTransactions, leads } = mockMetricsData[filterOption];
@@ -158,7 +174,7 @@ const DepartmentStats = ({ viewType, sortOption, filterOption }: IDepartmentStat
 
     return (
         <div className="diagrams-block">
-            <h3 className="diagrams-block__title">Статистика департаментов - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h3>
+            <h3 className="title">Статистика департаментов - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h3>
             {viewType === 'total-stats' && <MetricsBlock metrics={metrics} />}
 
             <div className="chart-container">

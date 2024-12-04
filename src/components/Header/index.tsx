@@ -7,14 +7,14 @@ import { UserRole } from '../../types/types';
 import RunningLine from '../RunningLine';
 
 interface IHeaderProps {
-    // sortOption: string | null;
+    sortOption: string | null;
     filterOption: string;
     onFilterChange: (option: string) => void;
     onCustomPeriodSelect: (start: Date, end: Date) => void;
     userRole: UserRole;
 }
 
-const Header = ({ filterOption, onFilterChange, onCustomPeriodSelect, userRole }: IHeaderProps) => {
+const Header = ({ filterOption, onFilterChange, onCustomPeriodSelect, userRole, sortOption }: IHeaderProps) => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const [isModalSettingsVisible, setIsModalSettingsVisible] = useState(false);
     const [isLogIn, setIsLogIn] = useState(false);
@@ -49,7 +49,7 @@ const Header = ({ filterOption, onFilterChange, onCustomPeriodSelect, userRole }
                     <img className="header__logo" src={require('./img/logo.png')} alt="Логотип" />
                 </div>
                 <div className="header__filter-options">
-                    {userRole === UserRole.Public && <HeaderFilterList filterOption={filterOption} setDate={setDate} date={date} onFilterChange={onFilterChange} />}
+                    {userRole === UserRole.Public && <HeaderFilterList filterOption={filterOption} setDate={setDate} date={date} onFilterChange={onFilterChange} activeFilter={activeFilter} sortOption={sortOption} onCustomPeriodSelect={onCustomPeriodSelect} />}
                     {userRole === UserRole.Manager ? <RunningLine role="manager" /> : userRole === UserRole.Leader ? <RunningLine role="leader" /> : null}
                 </div>
                 <div className="header__buttons">

@@ -10,3 +10,12 @@ export interface INavItem {
     alt: string;
     label: string;
 }
+
+export interface IManagerTitle {
+    id: number;
+    name: string;
+    sales: number;
+    achievements: string[];
+    title: string;
+    userRole: UserRole;
+}

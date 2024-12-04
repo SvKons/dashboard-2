@@ -6,6 +6,13 @@
     }
 
     &__block {
-        width: 50%;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    &__right-blocks {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
     }
 }

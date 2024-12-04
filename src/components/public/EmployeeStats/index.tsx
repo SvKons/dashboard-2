@@ -89,7 +89,7 @@ const EmployeeStats = ({ sortOption, filterOption, viewType }: IEmployeeStatsPro
 
     return (
         <div className="diagrams-block">
-            <h1 className="diagrams-block__title">Статистика сотрудников - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h1>
+            <h1 className="title">Статистика сотрудников - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h1>
             <div className="chart-container">
                 {viewType === 'total-stats' ? (
                     <div className="employee-table">
