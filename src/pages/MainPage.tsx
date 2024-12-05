@@ -33,13 +33,13 @@ const MainPage = () => {
     const [currentUser] = useState({
         id: '1',
         name: 'Marisa',
-        role: UserRole.Manager,
+        role: UserRole.Public,
     });
 
     // Обработчики фильтрации периода
-    const handleFilterChange = (option: string) => {
-        setFilterOption(option);
-    };
+    // const handleFilterChange = (option: string) => {
+    //     setFilterOption(option);
+    // };
 
     // Обработчик выбора периода
     const handleCustomPeriodSelect = (start: Date, end: Date) => {
@@ -47,23 +47,25 @@ const MainPage = () => {
         setCustomPeriod({ startDate: start, endDate: end });
         setFilterOption('customPeriod'); // Устанавливаем фильтр на кастомный период
     };
-    // Обработчики сортировки по дате и по направлению, принимает параметр viewType, который указывает, какой тип сортировки выбран - отдел или сотрудники
+
+    // Обработчики сортировки по дате и по направлению
     const handleSortByDate = (viewType: string) => handleSortChange(viewType, 'total-stats');
     const handleSortByDirection = (viewType: string) => handleSortChange(viewType, 'direction');
 
-    // Функция отвечает за обновления состояния сортировки в компоненте и навигацию к соответствующему маршруту (отдел/сотрудники+дата/направление)
+    // Функция обновления состояния сортировки и навигации
     const handleSortChange = (viewType: string, sortType: 'total-stats' | 'direction') => {
         setSortOption(sortType);
         navigate(`/${viewType}-statistics?sort=${sortType}`);
     };
 
+    // useEffect для установки значения по умолчанию для filterOption
     useEffect(() => {
-        // Обновляем filterOption на "Текущий месяц" по умолчанию при первом рендере
         if (!filterOption) {
             setFilterOption('currentMonth');
         }
     }, []);
 
+    // useEffect для обработки изменения URL и обновления sortOption
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const sortParam = queryParams.get('sort');
@@ -72,12 +74,14 @@ const MainPage = () => {
         }
     }, [location]);
 
-    useEffect(() => {
-        const fetchSalesData = () => {
-            const data = getDepartmentData('total-stats', filterOption, customPeriod) as { [key: string]: number[] };
-            setSalesData(data);
-        };
+    // Функция для получения данных о продажах
+    const fetchSalesData = () => {
+        console.log('Запрос данных с параметрами:', 'total-stats', filterOption, customPeriod);
+        const data = getDepartmentData('total-stats', filterOption, customPeriod) as { [key: string]: number[] };
+        setSalesData(data);
+    };
 
+    useEffect(() => {
         fetchSalesData();
     }, [filterOption, customPeriod]);
 
@@ -90,7 +94,7 @@ const MainPage = () => {
                     <Routes>
                         {/* Пути для публичной части */}
                         <Route path="/" element={<Dashboard userRole={currentUser.role} salesData={salesData} filterOption={filterOption} />} />
-                        <Route path="/department-statistics" element={<DepartmentStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />} />
+                        <Route path="/department-statistics" element={<DepartmentStats viewType="total-stats" filterOption={filterOption} customPeriod={customPeriod} sortOption={sortOption} />} />
                         <Route path="/employees-statistics" element={<EmployeeStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />} />
                         <Route path="/goals" element={<Goals />} />
                         <Route path="/achievements" element={<Achievements userRole={currentUser.role} />} />

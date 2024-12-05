@@ -6,16 +6,12 @@ import { getDepartmentData, mockMetricsData } from './utils';
 import MetricsBlock from '../../MetricsBlock';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, ArcElement, Legend, ChartDataLabels);
-interface IDepartmentStatsProps {
+
+export interface IDepartmentStatsProps {
     viewType: 'total-stats' | 'direction';
     sortOption: string | null;
     filterOption: string;
     customPeriod?: { startDate: Date | null; endDate: Date | null };
-}
-
-interface DepartmentStatsProps {
-    date: { startDate: Date; endDate: Date; key: string };
-    data: Array<{ date: string; value: number }>; // Пример данных с датой и значением
 }
 
 interface MetricsType {
@@ -35,25 +31,34 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
         conversionRate: 0,
     });
 
-    console.log('Данные для столбчатой диаграммы:', dataByTotalStats);
-
     useEffect(() => {
         const fetchData = () => {
+            console.log('Запрос данных с параметрами:', viewType, filterOption, customPeriod);
+
             if (viewType === 'total-stats') {
                 setDataByDirection([]); // Очистка данных по направлениям
+
+                // Получаем отфильтрованные данные для столбчатой диаграммы
                 const filteredDataDepartment = getDepartmentData(viewType, filterOption, customPeriod) as { [key: string]: number[] };
-                console.log('Данные для столбчатой диаграммы:', filteredDataDepartment); // Отладочная информация
+                console.log('Данные для столбчатой диаграммы:', filteredDataDepartment); // Проверка данных
+
+                // Убедитесь, что это состояние обновляется
                 setDataByTotalStats(filteredDataDepartment);
+
+                // Проверяем, есть ли метрики для текущего фильтра
                 if (filterOption in mockMetricsData) {
                     const calculatedMetrics = calculateMetrics(filterOption as keyof typeof mockMetricsData);
                     setMetrics(calculatedMetrics);
                 }
             } else if (viewType === 'direction') {
-                setDataByTotalStats({});
+                setDataByTotalStats({}); // Очистка данных для общего статистического вывода
+
+                // Получаем отфильтрованные данные для статистики по направлению
                 const filteredDataDepartment = getDepartmentData(viewType, filterOption, customPeriod) as { direction: string; value: number }[];
-                setDataByDirection(filteredDataDepartment);
+                setDataByDirection(filteredDataDepartment); // Устанавливаем данные по направлениям
             }
         };
+
         fetchData();
     }, [viewType, filterOption, sortOption, customPeriod]);
 
@@ -172,14 +177,22 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
         },
     };
 
+    console.log('Данные для отображения диаграммы:', dataByTotalStats);
+    console.log('Структура данных для диаграммы:', barChartData);
+    console.log('Полученные параметры:', viewType, filterOption, customPeriod);
+
     return (
         <div className="diagrams-block">
-            <h3 className="title">Статистика департаментов - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h3>
+            <h3 className="title">Статистика отдела - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h3>
             {viewType === 'total-stats' && <MetricsBlock metrics={metrics} />}
 
             <div className="chart-container">
                 {viewType === 'total-stats' ? (
-                    <Bar style={{ height: '896px' }} data={barChartData} options={barOptions} className="chart-container__block" />
+                    Object.keys(dataByTotalStats).length > 0 ? (
+                        <Bar data={barChartData} options={barOptions} className="chart-container__block" />
+                    ) : (
+                        <p>Нет данных для отображения</p>
+                    )
                 ) : (
                     <Doughnut data={donutChartData} options={donutOptions} className="chart-container__block chart-container__block_donut" />
                 )}

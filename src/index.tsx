@@ -5,7 +5,7 @@ import MainPage from './pages/MainPage';
 import './reset.scss';
 import './index.scss';
 
-const App: React.FC = () => {
+const App = () => {
     return (
         <Router>
             <div className="app">

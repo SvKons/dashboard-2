@@ -101,7 +101,7 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption, onCusto
                 Следующий месяц
             </button>
 
-            <div className="filter-list__date-picker">
+            <div className={`filter-list__date-picker ${openDate ? 'filter-list__date-picker_active' : ''}`}>
                 <button
                     className={`filter-list__item ${activeFilter === 'choosePeriod' && (location.pathname === '/department-statistics' || location.pathname === '/employees-statistics') ? 'filter-list__item_active' : ''}`}
                     onClick={() => handleFilterChange('choosePeriod')}

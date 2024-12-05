@@ -1,4 +1,6 @@
 export const getDepartmentData = (viewType: 'total-stats' | 'direction', filterOption: string, customPeriod?: { startDate: Date | null; endDate: Date | null }): { [key: string]: number[] } | { direction: string; value: number }[] => {
+    console.log('Полученные параметры:', viewType, filterOption, customPeriod);
+
     if (viewType === 'total-stats') {
         let filteredDataDepartment: { [key: string]: number[] } = {};
 
@@ -199,17 +201,20 @@ export const getDepartmentData = (viewType: 'total-stats' | 'direction', filterO
                 '2024-12-31': [410],
             };
 
-            // Фильтрация по выбранному диапазону
+            const startDateStr = customPeriod.startDate.toISOString().slice(0, 10);
+            const endDateStr = customPeriod.endDate.toISOString().slice(0, 10);
+
+            console.log(`Проверка диапазона: ${startDateStr} - ${endDateStr}`);
+
             Object.keys(allData).forEach(date => {
-                const dateObj = new Date(date);
-                if (customPeriod.startDate && customPeriod.endDate) {
-                    if (dateObj >= customPeriod.startDate && dateObj <= customPeriod.endDate) {
-                        filteredDataDepartment[date] = allData[date];
-                    }
+                if (date >= startDateStr && date <= endDateStr) {
+                    filteredDataDepartment[date] = allData[date];
+                    console.log(`Добавление: ${date} => ${allData[date]}`);
                 }
             });
         }
 
+        console.log('Отфильтрованные данные:', filteredDataDepartment);
         return filteredDataDepartment;
     } else if (viewType === 'direction') {
         let filteredDataDepartment: { direction: string; value: number }[] = [];
