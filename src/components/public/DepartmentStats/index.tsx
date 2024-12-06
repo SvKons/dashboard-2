@@ -175,7 +175,7 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
 
     return (
         <div className="diagrams-block">
-            <h3 className="title">Статистика департаментов - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h3>
+            <h3 className="title">Статистика отдела - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h3>
             {viewType === 'total-stats' && <MetricsBlock metrics={metrics} />}
             <div className="chart-container">
                 {viewType === 'total-stats' ? (

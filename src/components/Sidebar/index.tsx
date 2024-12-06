@@ -13,11 +13,12 @@ interface ISidebarProps {
     onSortByDirection: (viewType: string) => void;
     isAutoSwitching: boolean;
     setIsAutoSwitching: (value: boolean) => void;
+    filterOption: string;
 }
 
 type MenuKey = 'department' | 'employees';
 
-const Sidebar = ({ userRole, onSortByTotalStats, onSortByDirection, isAutoSwitching, setIsAutoSwitching }: ISidebarProps) => {
+const Sidebar = ({ userRole, onSortByTotalStats, onSortByDirection, isAutoSwitching, setIsAutoSwitching, filterOption }: ISidebarProps) => {
     const [openMenus, setOpenMenus] = useState<{ department: boolean; employees: boolean }>({
         department: false,
         employees: false,
@@ -47,6 +48,7 @@ const Sidebar = ({ userRole, onSortByTotalStats, onSortByDirection, isAutoSwitch
                         sortOption={null}
                         isAutoSwitching={isAutoSwitching}
                         setIsAutoSwitching={setIsAutoSwitching}
+                        filterOption={filterOption}
                     />
                 )}
                 {userRole === UserRole.Manager && <ManagerAside />}

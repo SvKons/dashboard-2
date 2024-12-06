@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { DateRangePicker } from 'react-date-range';
 import { ru } from 'date-fns/locale';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './HeaderFilterList.scss';
 
 interface IFilterListProps {
@@ -21,6 +21,7 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption, onCusto
     const datePickerRef = useRef<HTMLDivElement | null>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
 
+    const navigate = useNavigate();
     const location = useLocation(); // Получаем текущий URL
 
     const handleClickOutside = (event: MouseEvent) => {
@@ -36,15 +37,18 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption, onCusto
     };
 
     const handleFilterChange = (option: string) => {
+        setActiveFilter(option); // Устанавливаем активный фильтр
+        onFilterChange(option); // Передаем изменение в родительский компонент
+
+        const queryParams = new URLSearchParams(location.search);
+
         if (option === 'choosePeriod') {
-            // Переключаем видимость календаря
             setOpenDate(!openDate);
         } else {
-            // Закрываем календарь, если выбран другой фильтр
             setOpenDate(false);
+            queryParams.set('filter', option);
+            navigate(`${location.pathname}?${queryParams.toString()}`);
         }
-        setActiveFilter(option); // Устанавливаем активный фильтр
-        onFilterChange(option); // Передаём изменение в родительский компонент
     };
 
     // Определение активности Текущего месяца

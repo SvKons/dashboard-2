@@ -1,5 +1,6 @@
 import { tableHeadData, tableData } from './utils';
 import './PlannedIndicators.scss';
+import React from 'react';
 
 const PlannedIndicators = () => {
     return (
@@ -22,8 +23,8 @@ const PlannedIndicators = () => {
                     </tr>
                 </thead>
                 <tbody className="table-stats__table-body">
-                    {tableData.map(employee => (
-                        <>
+                    {tableData.map((employee, employeeIndex) => (
+                        <React.Fragment key={employeeIndex}>
                             {employee.rows.map((row, rowIndex) => (
                                 <tr className="table-stats__table-row" key={`${employee.employeeName}-${row.category}`}>
                                     {rowIndex === 0 && (
@@ -33,11 +34,11 @@ const PlannedIndicators = () => {
                                     )}
                                     <td className="table-stats__cell-body">{row.category}</td>
                                     {row.values.map((value, valueIndex) => (
-                                        <>
+                                        <React.Fragment key={valueIndex}>
                                             <td className="table-stats__cell-body">{value.plan}</td>
                                             <td className="table-stats__cell-body">{value.fact}</td>
                                             <td className="table-stats__cell-body">{value.percent}</td>
-                                        </>
+                                        </React.Fragment>
                                     ))}
                                     {row.total &&
                                         row.total.map((totalValue, totalIndex) => (
@@ -47,7 +48,7 @@ const PlannedIndicators = () => {
                                         ))}
                                 </tr>
                             ))}
-                        </>
+                        </React.Fragment>
                     ))}
                 </tbody>
             </table>

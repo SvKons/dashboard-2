@@ -48,6 +48,53 @@ button {
     margin-bottom: 20px;
 }
 
+.date-time {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.auto-switch {
+    display: flex;
+    align-items: center;
+
+    &__checkbox {
+        display: none;
+    }
+
+    &__checkbox + &__label {
+        position: relative;
+        display: inline-block;
+        width: 45px;
+        height: 30px;
+        background-color: var(--light-grey);
+        border-radius: 50px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    &__checkbox + &__label:before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: var(--black-color);
+        border-radius: 50%;
+        top: 5px;
+        left: 5px;
+        transition: left 0.2s;
+    }
+
+    &__checkbox:checked + &__label {
+        background-color: var(--main-yellow);
+    }
+
+    &__checkbox:checked + &__label:before {
+        left: 20px;
+    }
+}
+
 .chart-container {
     width: 100%;
     margin: 0 auto;

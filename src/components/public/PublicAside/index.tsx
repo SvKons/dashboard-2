@@ -139,11 +139,12 @@ interface IPublicAsideProps {
     onSortByTotalStats: (viewType: string) => void;
     onSortByDirection: (viewType: string) => void;
     sortOption: string | null;
+    filterOption: string;
     isAutoSwitching: boolean;
     setIsAutoSwitching: (value: boolean) => void;
 }
 
-const PublicAside = ({ openMenus, handleMenuClick, onSortByTotalStats, onSortByDirection, isAutoSwitching, setIsAutoSwitching }: IPublicAsideProps) => {
+const PublicAside = ({ openMenus, handleMenuClick, onSortByTotalStats, onSortByDirection, isAutoSwitching, setIsAutoSwitching, filterOption }: IPublicAsideProps) => {
     const [activeSort, setActiveSort] = useState({ type: 'department', order: 'total-stats' }); // По умолчанию 'Общая статистика', выделяет активную кнопку Общая статистика/По направлению
     const navigate = useNavigate();
 
@@ -187,14 +188,13 @@ const PublicAside = ({ openMenus, handleMenuClick, onSortByTotalStats, onSortByD
             handleMenuClick(menuKey);
             setActiveSort({ type: menuKey, order: order || 'total-stats' });
         }
-        navigate(`${path}?sort=${order || 'total-stats'}`);
+        navigate(`${path}?sort=${order || 'total-stats'}&filter=${filterOption}`);
     };
 
     return (
         <>
             {menuItems.map((item, index) => (
                 <div key={index} className="sidebar__group">
-                    {/* Если использовать NavLink, то параметр sort не будет передаваться в адресную строку. Если использовать тег button, то параметр sort будет передаваться в адресную строку */}
                     <NavLink
                         to={item.path}
                         className={({ isActive }) => `sidebar__item ${isActive ? 'sidebar__item_active' : ''}`}
@@ -214,6 +214,8 @@ const PublicAside = ({ openMenus, handleMenuClick, onSortByTotalStats, onSortByD
                                             console.log(`Clicked: ${sub.label}`);
                                             setActiveSort({ type: sub.sortType, order: sub.order });
                                             sub.order === 'total-stats' ? onSortByTotalStats(sub.sortType) : onSortByDirection(sub.sortType);
+                                            // Обновляем URL с фильтром
+                                            navigate(`${item.path}?sort=${sub.order}&filter=${filterOption}`);
                                         }}
                                     >
                                         {sub.label}
@@ -224,11 +226,9 @@ const PublicAside = ({ openMenus, handleMenuClick, onSortByTotalStats, onSortByD
                     )}
                 </div>
             ))}
-            <div className="sidebar__auto-switch">
-                <label>
-                    <input type="checkbox" checked={isAutoSwitching} onChange={() => setIsAutoSwitching(!isAutoSwitching)} />
-                    Автоматическое переключение страниц
-                </label>
+            <div className="auto-switch">
+                <input type="checkbox" id="auto-switch" checked={isAutoSwitching} className="auto-switch__checkbox" onChange={() => setIsAutoSwitching(!isAutoSwitching)} />
+                <label htmlFor="auto-switch" className="auto-switch__label"></label>
             </div>
         </>
     );

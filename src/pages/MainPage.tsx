@@ -21,6 +21,24 @@ import MyStatistics from '../components/manager/MyStatistics';
 import IdeasBlock from '../components/leader/IdeasBlock';
 import GoalLeaderBlock from '../components/leader/GoalLeaderBlock';
 
+const allPaths = [
+    '/',
+    '/department-statistics?sort=total-stats&filter=currentMonth',
+    '/department-statistics?sort=total-stats&filter=prevMonth',
+    '/department-statistics?sort=total-stats&filter=nextMonth',
+    '/department-statistics?sort=direction&filter=currentMonth',
+    '/department-statistics?sort=direction&filter=prevMonth',
+    '/department-statistics?sort=direction&filter=nextMonth',
+    '/employees-statistics?sort=total-stats&filter=currentMonth',
+    '/employees-statistics?sort=total-stats&filter=prevMonth',
+    '/employees-statistics?sort=total-stats&filter=nextMonth',
+    '/employees-statistics?sort=direction&filter=currentMonth',
+    '/employees-statistics?sort=direction&filter=prevMonth',
+    '/employees-statistics?sort=direction&filter=nextMonth',
+    '/goals',
+    '/achievements',
+];
+
 const MainPage = () => {
     const [sortOption, setSortOption] = useState<'total-stats' | 'direction'>('total-stats'); // 'total-stats' по умолчанию
     const [filterOption, setFilterOption] = useState<string>('currentMonth'); // по умолчанию 'currentMonth'
@@ -29,7 +47,7 @@ const MainPage = () => {
 
     const [isAutoSwitching, setIsAutoSwitching] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const menuPaths = ['/', '/department-statistics', '/employees-statistics', '/goals', '/achievements'];
+    // const menuPaths = ['/', '/department-statistics', '/employees-statistics', '/goals', '/achievements'];
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -72,9 +90,13 @@ const MainPage = () => {
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const sortParam = queryParams.get('sort');
+        const filterParam = queryParams.get('filter');
+
         if (sortParam) {
-            console.log('URL sort param:', sortParam);
             setSortOption(sortParam as 'total-stats' | 'direction');
+        }
+        if (filterParam) {
+            setFilterOption(filterParam);
         }
     }, [location]);
 
@@ -93,8 +115,9 @@ const MainPage = () => {
         let interval: NodeJS.Timeout;
         if (isAutoSwitching) {
             interval = setInterval(() => {
-                setCurrentIndex(prevIndex => (prevIndex + 1) % menuPaths.length);
-                navigate(menuPaths[(currentIndex + 1) % menuPaths.length]);
+                setCurrentIndex(prevIndex => (prevIndex + 1) % allPaths.length);
+                const nextIndex = (currentIndex + 1) % allPaths.length;
+                navigate(allPaths[nextIndex]);
             }, 3000); // Переключение каждые 3 секунды
         }
 
@@ -107,7 +130,7 @@ const MainPage = () => {
         <>
             <Header userRole={currentUser.role} filterOption={filterOption} onFilterChange={setFilterOption} onCustomPeriodSelect={handleCustomPeriodSelect} sortOption={sortOption} />
             <div className="main-content">
-                <Sidebar userRole={currentUser.role} onSortByTotalStats={handleSortByDate} onSortByDirection={handleSortByDirection} isAutoSwitching={isAutoSwitching} setIsAutoSwitching={setIsAutoSwitching} />
+                <Sidebar userRole={currentUser.role} onSortByTotalStats={handleSortByDate} onSortByDirection={handleSortByDirection} isAutoSwitching={isAutoSwitching} setIsAutoSwitching={setIsAutoSwitching} filterOption={filterOption} />
                 <main className="content">
                     <Routes>
                         {/* Пути для публичной части */}
