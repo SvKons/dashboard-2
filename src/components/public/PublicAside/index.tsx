@@ -139,53 +139,55 @@ interface IPublicAsideProps {
     onSortByTotalStats: (viewType: string) => void;
     onSortByDirection: (viewType: string) => void;
     sortOption: string | null;
+    isAutoSwitching: boolean;
+    setIsAutoSwitching: (value: boolean) => void;
 }
 
-const menuItems: IMenuItem[] = [
-    {
-        path: '/department-statistics',
-        icon: require('./img/group-icon.png'),
-        alt: 'Статистика отдела',
-        label: 'Статистика отдела',
-        submenu: [
-            { label: 'Общая статистика', sortType: 'department', order: 'total-stats' },
-            { label: 'По направлению', sortType: 'department', order: 'direction' },
-        ],
-    },
-    {
-        path: '/employees-statistics',
-        icon: require('./img/user-icon.png'),
-        alt: 'Статистика сотрудников',
-        label: 'Статистика сотрудников',
-        submenu: [
-            { label: 'Общая статистика', sortType: 'employees', order: 'total-stats' },
-            { label: 'По направлению', sortType: 'employees', order: 'direction' },
-        ],
-    },
-    {
-        path: '/goals',
-        icon: require('./img/goals-icon.png'),
-        alt: 'Цели отдела',
-        label: 'Цели отдела',
-    },
-    {
-        path: '/achievements',
-        icon: require('./img/achievements-icon.png'),
-        alt: 'Достижения',
-        label: 'Достижения',
-    },
-];
-
-const PublicAside: React.FC<IPublicAsideProps> = ({ openMenus, handleMenuClick, onSortByTotalStats, onSortByDirection, sortOption }) => {
+const PublicAside = ({ openMenus, handleMenuClick, onSortByTotalStats, onSortByDirection, isAutoSwitching, setIsAutoSwitching }: IPublicAsideProps) => {
     const [activeSort, setActiveSort] = useState({ type: 'department', order: 'total-stats' }); // По умолчанию 'Общая статистика', выделяет активную кнопку Общая статистика/По направлению
     const navigate = useNavigate();
 
-    const handleItemClick = (path: string, menuKey?: MenuKey) => {
+    const menuItems: IMenuItem[] = [
+        {
+            path: '/department-statistics',
+            icon: require('./img/group-icon.png'),
+            alt: 'Статистика отдела',
+            label: 'Статистика отдела',
+            submenu: [
+                { label: 'Общая статистика', sortType: 'department', order: 'total-stats' },
+                { label: 'По направлению', sortType: 'department', order: 'direction' },
+            ],
+        },
+        {
+            path: '/employees-statistics',
+            icon: require('./img/user-icon.png'),
+            alt: 'Статистика сотрудников',
+            label: 'Статистика сотрудников',
+            submenu: [
+                { label: 'Общая статистика', sortType: 'employees', order: 'total-stats' },
+                { label: 'По направлению', sortType: 'employees', order: 'direction' },
+            ],
+        },
+        {
+            path: '/goals',
+            icon: require('./img/goals-icon.png'),
+            alt: 'Цели отдела',
+            label: 'Цели отдела',
+        },
+        {
+            path: '/achievements',
+            icon: require('./img/achievements-icon.png'),
+            alt: 'Достижения',
+            label: 'Достижения',
+        },
+    ];
+
+    const handleItemClick = (path: string, menuKey?: MenuKey, order?: string) => {
         if (menuKey) {
             handleMenuClick(menuKey);
-            setActiveSort({ type: menuKey, order: 'total-stats' });
+            setActiveSort({ type: menuKey, order: order || 'total-stats' });
         }
-        navigate(`${path}?sort=total-stats`);
+        navigate(`${path}?sort=${order || 'total-stats'}`);
     };
 
     return (
@@ -209,6 +211,7 @@ const PublicAside: React.FC<IPublicAsideProps> = ({ openMenus, handleMenuClick, 
                                     <button
                                         className={`sidebar__button-sort ${activeSort.type === sub.sortType && activeSort.order === sub.order ? 'sidebar__button-sort_active' : ''}`}
                                         onClick={() => {
+                                            console.log(`Clicked: ${sub.label}`);
                                             setActiveSort({ type: sub.sortType, order: sub.order });
                                             sub.order === 'total-stats' ? onSortByTotalStats(sub.sortType) : onSortByDirection(sub.sortType);
                                         }}
@@ -221,6 +224,12 @@ const PublicAside: React.FC<IPublicAsideProps> = ({ openMenus, handleMenuClick, 
                     )}
                 </div>
             ))}
+            <div className="sidebar__auto-switch">
+                <label>
+                    <input type="checkbox" checked={isAutoSwitching} onChange={() => setIsAutoSwitching(!isAutoSwitching)} />
+                    Автоматическое переключение страниц
+                </label>
+            </div>
         </>
     );
 };

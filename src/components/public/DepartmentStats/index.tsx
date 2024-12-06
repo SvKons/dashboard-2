@@ -32,30 +32,26 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
     });
 
     useEffect(() => {
+        console.log('Current viewType:', viewType);
+        console.log('Current filterOption:', filterOption);
+        console.log('Current sortOption:', sortOption);
+        console.log('Current customPeriod:', customPeriod);
+
         const fetchData = () => {
-            console.log('Запрос данных с параметрами:', viewType, filterOption, customPeriod);
-
             if (viewType === 'total-stats') {
-                setDataByDirection([]); // Очистка данных по направлениям
-
-                // Получаем отфильтрованные данные для столбчатой диаграммы
+                setDataByDirection([]); // Очистка данных По направлению, если выбрано Общая статистика
                 const filteredDataDepartment = getDepartmentData(viewType, filterOption, customPeriod) as { [key: string]: number[] };
-                console.log('Данные для столбчатой диаграммы:', filteredDataDepartment); // Проверка данных
-
-                // Убедитесь, что это состояние обновляется
                 setDataByTotalStats(filteredDataDepartment);
-
-                // Проверяем, есть ли метрики для текущего фильтра
                 if (filterOption in mockMetricsData) {
                     const calculatedMetrics = calculateMetrics(filterOption as keyof typeof mockMetricsData);
                     setMetrics(calculatedMetrics);
                 }
             } else if (viewType === 'direction') {
-                setDataByTotalStats({}); // Очистка данных для общего статистического вывода
-
-                // Получаем отфильтрованные данные для статистики по направлению
+                setDataByTotalStats({}); // Очистка данных Общая статистика, если выбрано По направлению
+                console.log('Fetching direction data...');
                 const filteredDataDepartment = getDepartmentData(viewType, filterOption, customPeriod) as { direction: string; value: number }[];
-                setDataByDirection(filteredDataDepartment); // Устанавливаем данные по направлениям
+                console.log('Direction Data:', filteredDataDepartment);
+                setDataByDirection(filteredDataDepartment);
             }
         };
 
@@ -177,22 +173,13 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
         },
     };
 
-    console.log('Данные для отображения диаграммы:', dataByTotalStats);
-    console.log('Структура данных для диаграммы:', barChartData);
-    console.log('Полученные параметры:', viewType, filterOption, customPeriod);
-
     return (
         <div className="diagrams-block">
-            <h3 className="title">Статистика отдела - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h3>
+            <h3 className="title">Статистика департаментов - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h3>
             {viewType === 'total-stats' && <MetricsBlock metrics={metrics} />}
-
             <div className="chart-container">
                 {viewType === 'total-stats' ? (
-                    Object.keys(dataByTotalStats).length > 0 ? (
-                        <Bar data={barChartData} options={barOptions} className="chart-container__block" />
-                    ) : (
-                        <p>Нет данных для отображения</p>
-                    )
+                    <Bar style={{ height: '896px' }} data={barChartData} options={barOptions} className="chart-container__block" />
                 ) : (
                     <Doughnut data={donutChartData} options={donutOptions} className="chart-container__block chart-container__block_donut" />
                 )}
@@ -200,4 +187,5 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
         </div>
     );
 };
+
 export default DepartmentStats;

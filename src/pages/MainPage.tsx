@@ -27,6 +27,10 @@ const MainPage = () => {
     const [salesData, setSalesData] = useState<{ [key: string]: number[] }>({});
     const [customPeriod, setCustomPeriod] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
 
+    const [isAutoSwitching, setIsAutoSwitching] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const menuPaths = ['/', '/department-statistics', '/employees-statistics', '/goals', '/achievements'];
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -43,12 +47,11 @@ const MainPage = () => {
 
     // Обработчик выбора периода
     const handleCustomPeriodSelect = (start: Date, end: Date) => {
-        console.log('Выбранный период:', start, end);
         setCustomPeriod({ startDate: start, endDate: end });
         setFilterOption('customPeriod'); // Устанавливаем фильтр на кастомный период
     };
 
-    // Обработчики сортировки по дате и по направлению
+    // Обработчики сортировки общая статистика и по направлению
     const handleSortByDate = (viewType: string) => handleSortChange(viewType, 'total-stats');
     const handleSortByDirection = (viewType: string) => handleSortChange(viewType, 'direction');
 
@@ -70,13 +73,13 @@ const MainPage = () => {
         const queryParams = new URLSearchParams(location.search);
         const sortParam = queryParams.get('sort');
         if (sortParam) {
+            console.log('URL sort param:', sortParam);
             setSortOption(sortParam as 'total-stats' | 'direction');
         }
     }, [location]);
 
     // Функция для получения данных о продажах
     const fetchSalesData = () => {
-        console.log('Запрос данных с параметрами:', 'total-stats', filterOption, customPeriod);
         const data = getDepartmentData('total-stats', filterOption, customPeriod) as { [key: string]: number[] };
         setSalesData(data);
     };
@@ -85,17 +88,32 @@ const MainPage = () => {
         fetchSalesData();
     }, [filterOption, customPeriod]);
 
+    // useEffect для автоматического переключения страниц
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        if (isAutoSwitching) {
+            interval = setInterval(() => {
+                setCurrentIndex(prevIndex => (prevIndex + 1) % menuPaths.length);
+                navigate(menuPaths[(currentIndex + 1) % menuPaths.length]);
+            }, 3000); // Переключение каждые 3 секунды
+        }
+
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [isAutoSwitching, currentIndex, navigate]);
+
     return (
         <>
             <Header userRole={currentUser.role} filterOption={filterOption} onFilterChange={setFilterOption} onCustomPeriodSelect={handleCustomPeriodSelect} sortOption={sortOption} />
             <div className="main-content">
-                <Sidebar userRole={currentUser.role} onSortByTotalStats={handleSortByDate} onSortByDirection={handleSortByDirection} />
+                <Sidebar userRole={currentUser.role} onSortByTotalStats={handleSortByDate} onSortByDirection={handleSortByDirection} isAutoSwitching={isAutoSwitching} setIsAutoSwitching={setIsAutoSwitching} />
                 <main className="content">
                     <Routes>
                         {/* Пути для публичной части */}
                         <Route path="/" element={<Dashboard userRole={currentUser.role} salesData={salesData} filterOption={filterOption} />} />
-                        <Route path="/department-statistics" element={<DepartmentStats viewType="total-stats" filterOption={filterOption} customPeriod={customPeriod} sortOption={sortOption} />} />
-                        <Route path="/employees-statistics" element={<EmployeeStats sortOption={sortOption} filterOption={filterOption} viewType={sortOption} />} />
+                        <Route path="/department-statistics" element={<DepartmentStats viewType={sortOption} filterOption={filterOption} sortOption={sortOption} customPeriod={customPeriod} />} />
+                        <Route path="/employees-statistics" element={<EmployeeStats viewType={sortOption} filterOption={filterOption} sortOption={sortOption} />} />
                         <Route path="/goals" element={<Goals />} />
                         <Route path="/achievements" element={<Achievements userRole={currentUser.role} />} />
                         {/* Пути для админа */}

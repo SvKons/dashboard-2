@@ -11,11 +11,13 @@ interface ISidebarProps {
     userRole: UserRole;
     onSortByTotalStats: (viewType: string) => void;
     onSortByDirection: (viewType: string) => void;
+    isAutoSwitching: boolean;
+    setIsAutoSwitching: (value: boolean) => void;
 }
 
 type MenuKey = 'department' | 'employees';
 
-const Sidebar = ({ userRole, onSortByTotalStats, onSortByDirection }: ISidebarProps) => {
+const Sidebar = ({ userRole, onSortByTotalStats, onSortByDirection, isAutoSwitching, setIsAutoSwitching }: ISidebarProps) => {
     const [openMenus, setOpenMenus] = useState<{ department: boolean; employees: boolean }>({
         department: false,
         employees: false,
@@ -36,7 +38,17 @@ const Sidebar = ({ userRole, onSortByTotalStats, onSortByDirection }: ISidebarPr
                     Dashboard
                 </NavLink>
 
-                {userRole === UserRole.Public && <PublicAside openMenus={openMenus} handleMenuClick={handleMenuClick} onSortByTotalStats={onSortByTotalStats} onSortByDirection={onSortByDirection} sortOption={null} />}
+                {userRole === UserRole.Public && (
+                    <PublicAside
+                        openMenus={openMenus}
+                        handleMenuClick={handleMenuClick}
+                        onSortByTotalStats={onSortByTotalStats}
+                        onSortByDirection={onSortByDirection}
+                        sortOption={null}
+                        isAutoSwitching={isAutoSwitching}
+                        setIsAutoSwitching={setIsAutoSwitching}
+                    />
+                )}
                 {userRole === UserRole.Manager && <ManagerAside />}
                 {userRole === UserRole.Leader && <LeaderAside />}
             </div>

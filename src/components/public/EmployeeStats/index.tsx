@@ -13,8 +13,8 @@ interface IEmployeeStatsProps {
     filterOption: string;
 }
 
-const EmployeeStats = ({ sortOption, filterOption, viewType }: IEmployeeStatsProps) => {
-    const [dataByDate, setDataByTotalStats] = useState<IEmployee[]>([]);
+const EmployeeStats = ({ viewType, sortOption, filterOption }: IEmployeeStatsProps) => {
+    const [dateByTotalStats, setDataByTotalStats] = useState<IEmployee[]>([]);
     const [dataByDirection, setDataByDirection] = useState<{ employee: string; direction: string; value: number }[]>([]);
 
     useEffect(() => {
@@ -79,10 +79,10 @@ const EmployeeStats = ({ sortOption, filterOption, viewType }: IEmployeeStatsPro
         },
     };
     // Расчет общего плана выручки
-    const totalRevenue = dataByDate.reduce((acc, employee) => acc + employee.revenue, 0);
+    const totalRevenue = dateByTotalStats.reduce((acc, employee) => acc + employee.revenue, 0);
 
     // Расчет вклада в факт. сбор для каждого сотрудника
-    const employeesWithContribution = dataByDate.map(employee => ({
+    const employeesWithContribution = dateByTotalStats.map(employee => ({
         ...employee,
         contributionToFact: (employee.revenue / totalRevenue) * 100,
     }));

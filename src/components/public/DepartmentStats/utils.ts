@@ -1,5 +1,5 @@
 export const getDepartmentData = (viewType: 'total-stats' | 'direction', filterOption: string, customPeriod?: { startDate: Date | null; endDate: Date | null }): { [key: string]: number[] } | { direction: string; value: number }[] => {
-    console.log('Полученные параметры:', viewType, filterOption, customPeriod);
+    console.log('Fetching data for viewType:', viewType, 'and filterOption:', filterOption);
 
     if (viewType === 'total-stats') {
         let filteredDataDepartment: { [key: string]: number[] } = {};
@@ -204,17 +204,12 @@ export const getDepartmentData = (viewType: 'total-stats' | 'direction', filterO
             const startDateStr = customPeriod.startDate.toISOString().slice(0, 10);
             const endDateStr = customPeriod.endDate.toISOString().slice(0, 10);
 
-            console.log(`Проверка диапазона: ${startDateStr} - ${endDateStr}`);
-
             Object.keys(allData).forEach(date => {
                 if (date >= startDateStr && date <= endDateStr) {
                     filteredDataDepartment[date] = allData[date];
-                    console.log(`Добавление: ${date} => ${allData[date]}`);
                 }
             });
         }
-
-        console.log('Отфильтрованные данные:', filteredDataDepartment);
         return filteredDataDepartment;
     } else if (viewType === 'direction') {
         let filteredDataDepartment: { direction: string; value: number }[] = [];
