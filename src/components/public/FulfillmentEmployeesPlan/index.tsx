@@ -3,9 +3,9 @@ import { employees } from './utils';
 
 // Функция для получения цвета прогресс-бара в зависимости от процента выполнения
 const getProgressBarColor = (percentage: number): string => {
-    if (percentage >= 75) return 'green';
-    if (percentage >= 50) return 'yellow';
-    return 'red';
+    if (percentage >= 75) return 'linear-gradient(90deg, rgba(0,232,255,1) 34%, rgba(0,65,237,1) 70%)';
+    if (percentage >= 50) return 'linear-gradient(90deg, rgba(98,255,105,1) 34%, rgba(98,86,202,1) 70%)';
+    return 'linear-gradient(90deg, rgba(242, 68, 15, 1) 7%, rgba(126, 24, 145, 1) 70%)';
 };
 
 // Функция для получения данных с бэка
@@ -41,7 +41,7 @@ const FulfillmentEmployeesPlan = () => {
                                         className="fulfillment__progress-bar"
                                         style={{
                                             width: `${employee.fulfillmentPercentage}%`,
-                                            backgroundColor: getProgressBarColor(employee.fulfillmentPercentage),
+                                            background: getProgressBarColor(employee.fulfillmentPercentage),
                                         }}
                                     >
                                         {employee.fulfillmentPercentage}%

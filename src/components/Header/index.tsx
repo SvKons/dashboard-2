@@ -46,7 +46,7 @@ const Header = ({ filterOption, onFilterChange, onCustomPeriodSelect, userRole, 
         <div className="header">
             <header className="header__container">
                 <div className="header__logo-wrap">
-                    <img className="header__logo" src={require('./img/logo.png')} alt="Логотип" />
+                    <img className="header__logo" src={require('./img/logo.jpg')} alt="Логотип" />
                 </div>
                 <div className="header__filter-options">
                     {userRole === UserRole.Public && <HeaderFilterList filterOption={filterOption} setDate={setDate} date={date} onFilterChange={onFilterChange} activeFilter={activeFilter} sortOption={sortOption} onCustomPeriodSelect={onCustomPeriodSelect} />}

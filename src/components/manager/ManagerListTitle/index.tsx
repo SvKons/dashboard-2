@@ -1,5 +1,5 @@
 import { IManagerTitle, UserRole } from '../../../types/types';
-import ManagerCardTitle from '../ManagersTable';
+import ManagerCardTitle from '../../public/ManagersTable';
 import './ManagerListTitle.scss';
 
 interface ManagersListProps {

@@ -1,4 +1,4 @@
-import { mockManagers } from '../../../types/utils';
+import { mockManagers } from '../../public/ManagersTable/utils';
 import DailySales from '../DailySales';
 import ManagersListTitle from '../ManagerListTitle';
 import PercentStatsManager from '../PercentStatsManager';

@@ -1,6 +1,4 @@
 export const getDepartmentData = (viewType: 'total-stats' | 'direction', filterOption: string, customPeriod?: { startDate: Date | null; endDate: Date | null }): { [key: string]: number[] } | { direction: string; value: number }[] => {
-    console.log('Fetching data for viewType:', viewType, 'and filterOption:', filterOption);
-
     if (viewType === 'total-stats') {
         let filteredDataDepartment: { [key: string]: number[] } = {};
 

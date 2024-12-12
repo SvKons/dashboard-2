@@ -211,7 +211,6 @@ const PublicAside = ({ openMenus, handleMenuClick, onSortByTotalStats, onSortByD
                                     <button
                                         className={`sidebar__button-sort ${activeSort.type === sub.sortType && activeSort.order === sub.order ? 'sidebar__button-sort_active' : ''}`}
                                         onClick={() => {
-                                            console.log(`Clicked: ${sub.label}`);
                                             setActiveSort({ type: sub.sortType, order: sub.order });
                                             sub.order === 'total-stats' ? onSortByTotalStats(sub.sortType) : onSortByDirection(sub.sortType);
                                             // Обновляем URL с фильтром

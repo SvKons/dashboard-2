@@ -17,5 +17,17 @@ export interface IManagerTitle {
     sales: number;
     achievements: string[];
     title: string;
+    fullTitle: string;
+    image: string;
     userRole: UserRole;
+}
+
+export interface TitlesWithAdjectives {
+    [title: string]: string[];
+}
+
+export interface ImagesByTitleAndAdjective {
+    [title: string]: {
+        [adjective: string]: string[];
+    };
 }

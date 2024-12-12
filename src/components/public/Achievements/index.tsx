@@ -1,6 +1,6 @@
 import { UserRole } from '../../../types/types';
-import { mockManagers } from '../../../types/utils';
-import ManagersTable from '../../manager/ManagersTable';
+import { mockManagers } from '../ManagersTable/utils';
+import ManagersTable from '../ManagersTable';
 
 interface IAchievementProps {
     userRole: UserRole;

@@ -32,11 +32,6 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
     });
 
     useEffect(() => {
-        console.log('Current viewType:', viewType);
-        console.log('Current filterOption:', filterOption);
-        console.log('Current sortOption:', sortOption);
-        console.log('Current customPeriod:', customPeriod);
-
         const fetchData = () => {
             if (viewType === 'total-stats') {
                 setDataByDirection([]); // Очистка данных По направлению, если выбрано Общая статистика
@@ -48,9 +43,9 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
                 }
             } else if (viewType === 'direction') {
                 setDataByTotalStats({}); // Очистка данных Общая статистика, если выбрано По направлению
-                console.log('Fetching direction data...');
+
                 const filteredDataDepartment = getDepartmentData(viewType, filterOption, customPeriod) as { direction: string; value: number }[];
-                console.log('Direction Data:', filteredDataDepartment);
+
                 setDataByDirection(filteredDataDepartment);
             }
         };
