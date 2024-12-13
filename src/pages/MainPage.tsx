@@ -135,7 +135,7 @@ const MainPage = () => {
                     <Routes>
                         {/* Пути для публичной части */}
                         <Route path="/" element={<Dashboard userRole={currentUser.role} salesData={salesData} filterOption={filterOption} />} />
-                        <Route path="/department-statistics" element={<DepartmentStats viewType={sortOption} filterOption={filterOption} sortOption={sortOption} customPeriod={customPeriod} />} />
+                        <Route path="/department-statistics" element={<DepartmentStats viewType={sortOption} filterOption={filterOption} sortOption={sortOption} customPeriod={customPeriod} onLastSlide={fetchSalesData} />} />
                         <Route path="/employees-statistics" element={<EmployeeStats viewType={sortOption} filterOption={filterOption} sortOption={sortOption} />} />
                         <Route path="/goals" element={<Goals />} />
                         <Route path="/achievements" element={<Achievements userRole={currentUser.role} />} />

@@ -80,12 +80,12 @@ const imagesByTitleAndAdjective: ImagesByTitleAndAdjective = {
             require('./img/lord/img12-8.png'),
             require('./img/lord/img12-11.png'),
             require('./img/lord/img12-12.png'),
-            require('./img/lord/img12-14.png'),
+            require('./img/lord/img12-14.jpg'),
             require('./img/lord/img12-15.png'),
         ],
     },
     Зевс: {
-        Грозный: [require('./img/Zeus/img11-2.png'), require('./img/Zeus/img11-3.png'), require('./img/Zeus/img11-7.png'), require('./img/Zeus/img11-8.png'), require('./img/Zeus/img11-10.png'), require('./img/Zeus/img11-12.png')],
+        Грозный: [require('./img/Zeus/img11-2.jpg'), require('./img/Zeus/img11-3.png'), require('./img/Zeus/img11-7.png'), require('./img/Zeus/img11-8.png'), require('./img/Zeus/img11-10.png'), require('./img/Zeus/img11-12.png')],
         Всемогущий: [
             require('./img/Zeus/img11-1.png'),
             require('./img/Zeus/img11-4.png'),
@@ -142,13 +142,13 @@ const imagesByTitleAndAdjective: ImagesByTitleAndAdjective = {
         Искромётный: [require('./img/wizard/img5-15.png')],
     },
     Кондотьер: {
-        Дикий: ['./img/condottiere/img4-12.png', './img/condottiere/img4-16.png', './img/condottiere/img4-17.png', './img/condottiere/img4-20.png'],
-        Хитрый: ['./img/condottiere/img4-6.png', './img/condottiere/img4-18.png', './img/condottiere/img4-23.png'],
-        Благородный: ['./img/condottiere/img4-1.png', './img/condottiere/img4-3.png', './img/condottiere/img4-10.png', './img/condottiere/img4-11.png'],
-        Воинственный: ['./img/condottiere/img4-2.png', './img/condottiere/img4-13.png', './img/condottiere/img4-19.png', './img/condottiere/img4-22.png'],
-        Смелый: ['./img/condottiere/img4-5.png', './img/condottiere/img4-14.png', './img/condottiere/img4-15.png'],
-        Хмурый: ['./img/condottiere/img4-4.png', './img/condottiere/img4-8.png', './img/condottiere/img4-25.png', './img/condottiere/img4-26.png'],
-        Отчаянный: ['./img/condottiere/img4-7.png', './img/condottiere/img4-9.png', './img/condottiere/img4-21.png', './img/condottiere/img4-24.png'],
+        Дикий: [require('./img/condottiere/img4-12.png'), require('./img/condottiere/img4-16.png'), require('./img/condottiere/img4-17.png'), require('./img/condottiere/img4-20.png')],
+        Хитрый: [require('./img/condottiere/img4-6.png'), require('./img/condottiere/img4-18.png'), require('./img/condottiere/img4-23.png')],
+        Благородный: [require('./img/condottiere/img4-1.png'), require('./img/condottiere/img4-3.png'), require('./img/condottiere/img4-10.png'), require('./img/condottiere/img4-11.png')],
+        Воинственный: [require('./img/condottiere/img4-2.png'), require('./img/condottiere/img4-13.png'), require('./img/condottiere/img4-19.png'), require('./img/condottiere/img4-22.png')],
+        Смелый: [require('./img/condottiere/img4-5.png'), require('./img/condottiere/img4-14.png'), require('./img/condottiere/img4-15.png')],
+        Хмурый: [require('./img/condottiere/img4-4.png'), require('./img/condottiere/img4-8.png'), require('./img/condottiere/img4-25.png'), require('./img/condottiere/img4-26.png')],
+        Отчаянный: [require('./img/condottiere/img4-7.png'), require('./img/condottiere/img4-9.png'), require('./img/condottiere/img4-21.png'), require('./img/condottiere/img4-24.png')],
     },
     Зодчий: {
         Влюблённый: architect,
@@ -244,13 +244,37 @@ const getRandomAdjective = (title: string): string => {
     return randomAdjective; // Возврат нового прилагательного
 };
 
-// Получение случайного изображения
+// // Получение случайного изображения
 const getRandomImage = (title: string, adjective: string): string => {
     const images = imagesByTitleAndAdjective[title]?.[adjective];
-    if (!images) {
-        throw new Error(`No images found for title ${title} and adjective ${adjective}`);
+
+    // Проверяем наличие изображений
+    // if (!images || images.length === 0) {
+    //     console.error(`No images found for title ${title} and adjective ${adjective}`);
+    //     return require('./img/lord/img12-14.jpg'); // Возвращаем изображение-заглушку
+    // }
+
+    const currentTime = new Date().getTime();
+    const storageKey = `image_${title}_${adjective}`;
+    const storedData = localStorage.getItem(storageKey);
+
+    // Проверяем, есть ли сохраненные данные
+    if (storedData) {
+        const { image, timestamp } = JSON.parse(storedData);
+        // Если прошло меньше 24 часов, возвращаем сохраненное изображение
+        if (currentTime - timestamp < 24 * 60 * 60 * 1000) {
+            return image;
+        }
     }
-    return getRandomElement(images);
+
+    // Выбираем новое случайное изображение
+    const randomIndex = Math.floor(Math.random() * images.length);
+    const randomImage = images[randomIndex];
+
+    // Сохраняем новое изображение и временную метку в localStorage
+    localStorage.setItem(storageKey, JSON.stringify({ image: randomImage, timestamp: currentTime }));
+
+    return randomImage;
 };
 
 // Данные для отображения в таблице менеджеров с титулами и достижениями

@@ -1,4 +1,16 @@
-export const getDepartmentData = (viewType: 'total-stats' | 'direction', filterOption: string, customPeriod?: { startDate: Date | null; endDate: Date | null }): { [key: string]: number[] } | { direction: string; value: number }[] => {
+export type Course = {
+    mainTitle?: string;
+    levelTitle?: string;
+    directionTitle?: string;
+    specialityTitle?: string;
+    sales?: number;
+    percentage?: number;
+    subcategories?: Course[];
+};
+
+export type CourseData = Course[];
+
+export const getDepartmentData = (viewType: 'total-stats' | 'direction', filterOption: string, customPeriod?: { startDate: Date | null; endDate: Date | null }): { [key: string]: number[] } | CourseData => {
     if (viewType === 'total-stats') {
         let filteredDataDepartment: { [key: string]: number[] } = {};
 
@@ -210,41 +222,604 @@ export const getDepartmentData = (viewType: 'total-stats' | 'direction', filterO
         }
         return filteredDataDepartment;
     } else if (viewType === 'direction') {
-        let filteredDataDepartment: { direction: string; value: number }[] = [];
+        let filteredDataDepartment: CourseData = [];
 
         if (filterOption === 'prevMonth') {
             filteredDataDepartment = [
-                { direction: 'PR', value: 100 },
-                { direction: 'HR', value: 30 },
-                { direction: 'IT', value: 50 },
-                { direction: 'Marketing', value: 70 },
-                { direction: 'Finance', value: 40 },
-                { direction: 'Sales', value: 60 },
+                {
+                    mainTitle: 'Высшее',
+                    subcategories: [
+                        {
+                            levelTitle: 'Бакалавриат',
+                            subcategories: [
+                                {
+                                    directionTitle: 'Строительство',
+                                    subcategories: [
+                                        { specialityTitle: 'Автомобильные дороги', sales: 100000, percentage: 10 },
+                                        { specialityTitle: 'Водоснабжение и водоотведение', sales: 150000, percentage: 15 },
+                                        { specialityTitle: 'Городское строительство и хозяйство', sales: 80000, percentage: 15 },
+                                        { specialityTitle: 'Производство строительных материатов, изделий и конструкций', sales: 1500000, percentage: 15 },
+                                        { specialityTitle: 'Промышленное и гражданское строительство', sales: 900000, percentage: 15 },
+                                        { specialityTitle: 'Теплоснабжение и вентиляция', sales: 1500000, percentage: 15 },
+                                        { specialityTitle: 'Экспертиза и управление недвижимостью', sales: 2500000, percentage: 15 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Менеджмент',
+                                    subcategories: [
+                                        { specialityTitle: 'Антикризисное управление', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Государственная служба', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Интернет-маркетинг', sales: 1400000, percentage: 13 },
+                                        { specialityTitle: 'Информационный менеджмент', sales: 1500000, percentage: 13 },
+                                        { specialityTitle: 'Логистика', sales: 1600000, percentage: 13 },
+                                        { specialityTitle: 'Маркетинг', sales: 1700000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в гостиничном и ресторанном бизнесе', sales: 1800000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в здравоохранении', sales: 1900000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в машиностроении', sales: 2300000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в нефтегазовом комплексе', sales: 3300000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в образовании', sales: 2400000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в строительстве', sales: 1500000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в энергетике', sales: 1799536, percentage: 13 },
+                                        { specialityTitle: 'Предпринимательство', sales: 2333444, percentage: 13 },
+                                        { specialityTitle: 'Спортивный менеджмент', sales: 5600700, percentage: 13 },
+                                        { specialityTitle: 'Управление государственным и муниципальным сектором', sales: 4000000, percentage: 13 },
+                                        { specialityTitle: 'Управление малым бизнесом', sales: 5000000, percentage: 13 },
+                                        { specialityTitle: 'Управление проектами', sales: 4333999, percentage: 13 },
+                                        { specialityTitle: 'Управление технологическими инновациями', sales: 4258369, percentage: 13 },
+                                        { specialityTitle: 'Управление человечискими ресурсами', sales: 1478523, percentage: 13 },
+                                        { specialityTitle: 'Финансовый менеджмент', sales: 3654987, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Электроэнергетика и электротехника',
+                                    subcategories: [
+                                        { specialityTitle: 'Электрооборудование и электрохозяйство предприятий', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Электрснабжение производственных объектов', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Электроэнергетические системы и сети', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Прикладная информатика',
+                                    subcategories: [
+                                        { specialityTitle: 'Электрооборудование и электрохозяйство предприятий', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Электрснабжение производственных объектов', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Электроэнергетические системы и сети', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Экономика',
+                                    subcategories: [
+                                        { specialityTitle: 'Банковское дело', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Бухгалтерский учет, анализ и аудит', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Мировая экономика', sales: 1400000, percentage: 13 },
+                                        { specialityTitle: 'Налоги и налогообложение', sales: 1500000, percentage: 13 },
+                                        { specialityTitle: 'Финансы и кредит', sales: 2300000, percentage: 13 },
+                                        { specialityTitle: 'Экономика горной промышленности', sales: 4300000, percentage: 13 },
+                                        { specialityTitle: 'Экономика предприятий и организаций', sales: 3140000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Техносферная безопасность',
+                                    subcategories: [
+                                        { specialityTitle: 'Безопасность технологических процессов и производств', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Безопасность труда', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Пожарная безопасность', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Информационные системы и технологииь',
+                                    subcategories: [
+                                        { specialityTitle: 'Разработка и тестирование ПО', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Разработка, сопровождение и обеспечение безопасности информационных систем', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Технологии ИИ', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Теплоэнергетика и теплотехника',
+                                    subcategories: [
+                                        { specialityTitle: 'Автоматизация технологических процессов и производств в теплоэнергетике и теплотехнике', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Промышленная теплоэнергетика', sales: 1300000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Управление в технических системах',
+                                    subcategories: [
+                                        { specialityTitle: 'Интеллектуальные сведства обработки информации', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Качество и управление в технических системах', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Комплексные системы безопасности', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Робототехника и ИИ', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Системы и средства автоматизации технологических процессов', sales: 1300000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Педагогическое образование',
+                                    subcategories: [
+                                        { specialityTitle: 'Информатика и информационные технологии в образовании', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Педагогическое проектирование образовательного контента', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Психология и педагогика начального образования', sales: 1300000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Экономическая безопасность',
+                                    subcategories: [{ specialityTitle: 'Экономико-правовое обеспечение экономической безопасности', sales: 1200000, percentage: 12 }],
+                                },
+                                {
+                                    directionTitle: 'Жилищное хозяйство и коммунальная инфраструктура',
+                                    subcategories: [{ specialityTitle: 'Организация деятельности в жилищно-коммунальном комплексе', sales: 1200000, percentage: 12 }],
+                                },
+                                {
+                                    directionTitle: 'Психология',
+                                    subcategories: [{ specialityTitle: 'Практическая психология', sales: 1200000, percentage: 12 }],
+                                },
+                                {
+                                    directionTitle: 'Технологические машины и оборудование',
+                                    subcategories: [{ specialityTitle: 'Технологические машины и оборудование в промышленности', sales: 1200000, percentage: 12 }],
+                                },
+                            ],
+                        },
+                        {
+                            levelTitle: 'Магистратура',
+                            subcategories: [
+                                {
+                                    directionTitle: 'Строительство',
+                                    subcategories: [{ specialityTitle: 'Информационное моделирование и строительство', sales: 210000, percentage: 21 }],
+                                },
+                                {
+                                    directionTitle: 'Менеджмент',
+                                    subcategories: [{ specialityTitle: 'Стратегический и финансовый менеджмент в современных организациях', sales: 260000, percentage: 26 }],
+                                },
+                                {
+                                    directionTitle: 'Прикладная информатика',
+                                    subcategories: [{ specialityTitle: 'Интеллектуальные встраиваемые системы', sales: 240000, percentage: 24 }],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    mainTitle: 'Колледж',
+                    subcategories: [
+                        { specialityTitle: 'Оператор диспетчерской (производственно-диспетчерской) службы', sales: 310000, percentage: 31 },
+                        { specialityTitle: 'Информационные системы и программирование', sales: 320000, percentage: 32 },
+                        { specialityTitle: 'Строительство и эксплутация зданий и сооружений', sales: 450000, percentage: 32 },
+                        { specialityTitle: 'Экономика и бухгалтерский учет (по отраслям)', sales: 320000, percentage: 32 },
+                        { specialityTitle: 'Монтаж, наладка и эксплутация электрооборудования промышленных и гражданских зданий', sales: 890000, percentage: 32 },
+                        { specialityTitle: 'Торговое дело', sales: 220000, percentage: 32 },
+                        { specialityTitle: 'Банковское дело', sales: 920000, percentage: 32 },
+                        { specialityTitle: 'Оператор информационных систем и ресурсов', sales: 360000, percentage: 32 },
+                        { specialityTitle: 'Чертежник-конструктор', sales: 890000, percentage: 32 },
+                    ],
+                },
+                {
+                    mainTitle: 'Курсы',
+                    subcategories: [
+                        { specialityTitle: 'Техника скорочтения (повышение квалификации)', sales: 410000, percentage: 41 },
+                        { specialityTitle: 'Графический дизайнер (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Семейная психологий (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Нейросети для карьера (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Бизнес-аналитик (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'AI product manager (проф.переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Excel для эффективной работы (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Информационные технологии в образовании', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Управление проектами в бизнесе (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Водоснабжение и водоотведение (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Основы SQL (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Городское строительство и хозяйство (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Безопасность строительства (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Эксплутация зданий и сооружений (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Ведение бухгалтерского учета в организации (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Управление в строительной организации ( проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Инженер производственно-технического отдела (ПТО) (профю переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Промышленное и гражданское строительство (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Эксплутация зданий и сооружений (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Энергетический менеджмент (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Безопасность строительства (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Сметное дело в строительстве (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Экономика предприятий и организаций (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Педагогическое образование (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Управление персоналом (проф. переподготовка)', sales: 420000, percentage: 42 },
+                    ],
+                },
             ];
         } else if (filterOption === 'currentMonth') {
             filteredDataDepartment = [
-                { direction: 'PR', value: 120 },
-                { direction: 'HR', value: 30 },
-                { direction: 'IT', value: 55 },
-                { direction: 'Marketing', value: 75 },
-                { direction: 'Finance', value: 45 },
-                { direction: 'Sales', value: 65 },
+                {
+                    mainTitle: 'Высшее',
+                    subcategories: [
+                        {
+                            levelTitle: 'Бакалавриат',
+                            subcategories: [
+                                {
+                                    directionTitle: 'Строительство',
+                                    subcategories: [
+                                        { specialityTitle: 'Автомобильные дороги', sales: 100000, percentage: 10 },
+                                        { specialityTitle: 'Водоснабжение и водоотведение', sales: 150000, percentage: 15 },
+                                        { specialityTitle: 'Городское строительство и хозяйство', sales: 80000, percentage: 15 },
+                                        { specialityTitle: 'Производство строительных материатов, изделий и конструкций', sales: 1500000, percentage: 15 },
+                                        { specialityTitle: 'Промышленное и гражданское строительство', sales: 900000, percentage: 15 },
+                                        { specialityTitle: 'Теплоснабжение и вентиляция', sales: 1500000, percentage: 15 },
+                                        { specialityTitle: 'Экспертиза и управление недвижимостью', sales: 2500000, percentage: 15 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Менеджмент',
+                                    subcategories: [
+                                        { specialityTitle: 'Антикризисное управление', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Государственная служба', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Интернет-маркетинг', sales: 1400000, percentage: 13 },
+                                        { specialityTitle: 'Информационный менеджмент', sales: 1500000, percentage: 13 },
+                                        { specialityTitle: 'Логистика', sales: 1600000, percentage: 13 },
+                                        { specialityTitle: 'Маркетинг', sales: 1700000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в гостиничном и ресторанном бизнесе', sales: 1800000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в здравоохранении', sales: 1900000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в машиностроении', sales: 2300000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в нефтегазовом комплексе', sales: 3300000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в образовании', sales: 2400000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в строительстве', sales: 1500000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в энергетике', sales: 1799536, percentage: 13 },
+                                        { specialityTitle: 'Предпринимательство', sales: 2333444, percentage: 13 },
+                                        { specialityTitle: 'Спортивный менеджмент', sales: 5600700, percentage: 13 },
+                                        { specialityTitle: 'Управление государственным и муниципальным сектором', sales: 4000000, percentage: 13 },
+                                        { specialityTitle: 'Управление малым бизнесом', sales: 5000000, percentage: 13 },
+                                        { specialityTitle: 'Управление проектами', sales: 4333999, percentage: 13 },
+                                        { specialityTitle: 'Управление технологическими инновациями', sales: 4258369, percentage: 13 },
+                                        { specialityTitle: 'Управление человечискими ресурсами', sales: 1478523, percentage: 13 },
+                                        { specialityTitle: 'Финансовый менеджмент', sales: 3654987, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Электроэнергетика и электротехника',
+                                    subcategories: [
+                                        { specialityTitle: 'Электрооборудование и электрохозяйство предприятий', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Электрснабжение производственных объектов', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Электроэнергетические системы и сети', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Прикладная информатика',
+                                    subcategories: [
+                                        { specialityTitle: 'Электрооборудование и электрохозяйство предприятий', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Электрснабжение производственных объектов', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Электроэнергетические системы и сети', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Экономика',
+                                    subcategories: [
+                                        { specialityTitle: 'Банковское дело', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Бухгалтерский учет, анализ и аудит', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Мировая экономика', sales: 1400000, percentage: 13 },
+                                        { specialityTitle: 'Налоги и налогообложение', sales: 1500000, percentage: 13 },
+                                        { specialityTitle: 'Финансы и кредит', sales: 2300000, percentage: 13 },
+                                        { specialityTitle: 'Экономика горной промышленности', sales: 4300000, percentage: 13 },
+                                        { specialityTitle: 'Экономика предприятий и организаций', sales: 3140000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Техносферная безопасность',
+                                    subcategories: [
+                                        { specialityTitle: 'Безопасность технологических процессов и производств', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Безопасность труда', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Пожарная безопасность', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Информационные системы и технологииь',
+                                    subcategories: [
+                                        { specialityTitle: 'Разработка и тестирование ПО', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Разработка, сопровождение и обеспечение безопасности информационных систем', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Технологии ИИ', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Теплоэнергетика и теплотехника',
+                                    subcategories: [
+                                        { specialityTitle: 'Автоматизация технологических процессов и производств в теплоэнергетике и теплотехнике', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Промышленная теплоэнергетика', sales: 1300000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Управление в технических системах',
+                                    subcategories: [
+                                        { specialityTitle: 'Интеллектуальные сведства обработки информации', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Качество и управление в технических системах', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Комплексные системы безопасности', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Робототехника и ИИ', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Системы и средства автоматизации технологических процессов', sales: 1300000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Педагогическое образование',
+                                    subcategories: [
+                                        { specialityTitle: 'Информатика и информационные технологии в образовании', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Педагогическое проектирование образовательного контента', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Психология и педагогика начального образования', sales: 1300000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Экономическая безопасность',
+                                    subcategories: [{ specialityTitle: 'Экономико-правовое обеспечение экономической безопасности', sales: 1200000, percentage: 12 }],
+                                },
+                                {
+                                    directionTitle: 'Жилищное хозяйство и коммунальная инфраструктура',
+                                    subcategories: [{ specialityTitle: 'Организация деятельности в жилищно-коммунальном комплексе', sales: 1200000, percentage: 12 }],
+                                },
+                                {
+                                    directionTitle: 'Психология',
+                                    subcategories: [{ specialityTitle: 'Практическая психология', sales: 1200000, percentage: 12 }],
+                                },
+                                {
+                                    directionTitle: 'Технологические машины и оборудование',
+                                    subcategories: [{ specialityTitle: 'Технологические машины и оборудование в промышленности', sales: 1200000, percentage: 12 }],
+                                },
+                            ],
+                        },
+                        {
+                            levelTitle: 'Магистратура',
+                            subcategories: [
+                                {
+                                    directionTitle: 'Строительство',
+                                    subcategories: [{ specialityTitle: 'Информационное моделирование и строительство', sales: 210000, percentage: 21 }],
+                                },
+                                {
+                                    directionTitle: 'Менеджмент',
+                                    subcategories: [{ specialityTitle: 'Стратегический и финансовый менеджмент в современных организациях', sales: 260000, percentage: 26 }],
+                                },
+                                {
+                                    directionTitle: 'Прикладная информатика',
+                                    subcategories: [{ specialityTitle: 'Интеллектуальные встраиваемые системы', sales: 240000, percentage: 24 }],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    mainTitle: 'Колледж',
+                    subcategories: [
+                        { specialityTitle: 'Оператор диспетчерской (производственно-диспетчерской) службы', sales: 310000, percentage: 31 },
+                        { specialityTitle: 'Информационные системы и программирование', sales: 320000, percentage: 32 },
+                        { specialityTitle: 'Строительство и эксплутация зданий и сооружений', sales: 450000, percentage: 32 },
+                        { specialityTitle: 'Экономика и бухгалтерский учет (по отраслям)', sales: 320000, percentage: 32 },
+                        { specialityTitle: 'Монтаж, наладка и эксплутация электрооборудования промышленных и гражданских зданий', sales: 890000, percentage: 32 },
+                        { specialityTitle: 'Торговое дело', sales: 220000, percentage: 32 },
+                        { specialityTitle: 'Банковское дело', sales: 920000, percentage: 32 },
+                        { specialityTitle: 'Оператор информационных систем и ресурсов', sales: 360000, percentage: 32 },
+                        { specialityTitle: 'Чертежник-конструктор', sales: 890000, percentage: 32 },
+                    ],
+                },
+                {
+                    mainTitle: 'Курсы',
+                    subcategories: [
+                        { specialityTitle: 'Техника скорочтения (повышение квалификации)', sales: 410000, percentage: 41 },
+                        { specialityTitle: 'Графический дизайнер (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Семейная психологий (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Нейросети для карьера (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Бизнес-аналитик (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'AI product manager (проф.переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Excel для эффективной работы (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Информационные технологии в образовании', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Управление проектами в бизнесе (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Водоснабжение и водоотведение (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Основы SQL (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Городское строительство и хозяйство (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Безопасность строительства (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Эксплутация зданий и сооружений (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Ведение бухгалтерского учета в организации (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Управление в строительной организации ( проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Инженер производственно-технического отдела (ПТО) (профю переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Промышленное и гражданское строительство (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Эксплутация зданий и сооружений (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Энергетический менеджмент (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Безопасность строительства (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Сметное дело в строительстве (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Экономика предприятий и организаций (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Педагогическое образование (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Управление персоналом (проф. переподготовка)', sales: 420000, percentage: 42 },
+                    ],
+                },
             ];
         } else if (filterOption === 'nextMonth') {
             filteredDataDepartment = [
-                { direction: 'PR', value: 100 },
-                { direction: 'HR', value: 30 },
-                { direction: 'IT', value: 60 },
-                { direction: 'Marketing', value: 80 },
-                { direction: 'Finance', value: 50 },
-                { direction: 'Sales', value: 70 },
+                {
+                    mainTitle: 'Высшее',
+                    subcategories: [
+                        {
+                            levelTitle: 'Бакалавриат',
+                            subcategories: [
+                                {
+                                    directionTitle: 'Строительство',
+                                    subcategories: [
+                                        { specialityTitle: 'Автомобильные дороги', sales: 100000, percentage: 10 },
+                                        { specialityTitle: 'Водоснабжение и водоотведение', sales: 150000, percentage: 15 },
+                                        { specialityTitle: 'Городское строительство и хозяйство', sales: 80000, percentage: 15 },
+                                        { specialityTitle: 'Производство строительных материатов, изделий и конструкций', sales: 1500000, percentage: 15 },
+                                        { specialityTitle: 'Промышленное и гражданское строительство', sales: 900000, percentage: 15 },
+                                        { specialityTitle: 'Теплоснабжение и вентиляция', sales: 1500000, percentage: 15 },
+                                        { specialityTitle: 'Экспертиза и управление недвижимостью', sales: 2500000, percentage: 15 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Менеджмент',
+                                    subcategories: [
+                                        { specialityTitle: 'Антикризисное управление', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Государственная служба', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Интернет-маркетинг', sales: 1400000, percentage: 13 },
+                                        { specialityTitle: 'Информационный менеджмент', sales: 1500000, percentage: 13 },
+                                        { specialityTitle: 'Логистика', sales: 1600000, percentage: 13 },
+                                        { specialityTitle: 'Маркетинг', sales: 1700000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в гостиничном и ресторанном бизнесе', sales: 1800000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в здравоохранении', sales: 1900000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в машиностроении', sales: 2300000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в нефтегазовом комплексе', sales: 3300000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в образовании', sales: 2400000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в строительстве', sales: 1500000, percentage: 13 },
+                                        { specialityTitle: 'Менеджмент в энергетике', sales: 1799536, percentage: 13 },
+                                        { specialityTitle: 'Предпринимательство', sales: 2333444, percentage: 13 },
+                                        { specialityTitle: 'Спортивный менеджмент', sales: 5600700, percentage: 13 },
+                                        { specialityTitle: 'Управление государственным и муниципальным сектором', sales: 4000000, percentage: 13 },
+                                        { specialityTitle: 'Управление малым бизнесом', sales: 5000000, percentage: 13 },
+                                        { specialityTitle: 'Управление проектами', sales: 4333999, percentage: 13 },
+                                        { specialityTitle: 'Управление технологическими инновациями', sales: 4258369, percentage: 13 },
+                                        { specialityTitle: 'Управление человечискими ресурсами', sales: 1478523, percentage: 13 },
+                                        { specialityTitle: 'Финансовый менеджмент', sales: 3654987, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Электроэнергетика и электротехника',
+                                    subcategories: [
+                                        { specialityTitle: 'Электрооборудование и электрохозяйство предприятий', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Электрснабжение производственных объектов', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Электроэнергетические системы и сети', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Прикладная информатика',
+                                    subcategories: [
+                                        { specialityTitle: 'Электрооборудование и электрохозяйство предприятий', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Электрснабжение производственных объектов', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Электроэнергетические системы и сети', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Экономика',
+                                    subcategories: [
+                                        { specialityTitle: 'Банковское дело', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Бухгалтерский учет, анализ и аудит', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Мировая экономика', sales: 1400000, percentage: 13 },
+                                        { specialityTitle: 'Налоги и налогообложение', sales: 1500000, percentage: 13 },
+                                        { specialityTitle: 'Финансы и кредит', sales: 2300000, percentage: 13 },
+                                        { specialityTitle: 'Экономика горной промышленности', sales: 4300000, percentage: 13 },
+                                        { specialityTitle: 'Экономика предприятий и организаций', sales: 3140000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Техносферная безопасность',
+                                    subcategories: [
+                                        { specialityTitle: 'Безопасность технологических процессов и производств', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Безопасность труда', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Пожарная безопасность', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Информационные системы и технологииь',
+                                    subcategories: [
+                                        { specialityTitle: 'Разработка и тестирование ПО', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Разработка, сопровождение и обеспечение безопасности информационных систем', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Технологии ИИ', sales: 1400000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Теплоэнергетика и теплотехника',
+                                    subcategories: [
+                                        { specialityTitle: 'Автоматизация технологических процессов и производств в теплоэнергетике и теплотехнике', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Промышленная теплоэнергетика', sales: 1300000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Управление в технических системах',
+                                    subcategories: [
+                                        { specialityTitle: 'Интеллектуальные сведства обработки информации', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Качество и управление в технических системах', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Комплексные системы безопасности', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Робототехника и ИИ', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Системы и средства автоматизации технологических процессов', sales: 1300000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Педагогическое образование',
+                                    subcategories: [
+                                        { specialityTitle: 'Информатика и информационные технологии в образовании', sales: 1200000, percentage: 12 },
+                                        { specialityTitle: 'Педагогическое проектирование образовательного контента', sales: 1300000, percentage: 13 },
+                                        { specialityTitle: 'Психология и педагогика начального образования', sales: 1300000, percentage: 13 },
+                                    ],
+                                },
+                                {
+                                    directionTitle: 'Экономическая безопасность',
+                                    subcategories: [{ specialityTitle: 'Экономико-правовое обеспечение экономической безопасности', sales: 1200000, percentage: 12 }],
+                                },
+                                {
+                                    directionTitle: 'Жилищное хозяйство и коммунальная инфраструктура',
+                                    subcategories: [{ specialityTitle: 'Организация деятельности в жилищно-коммунальном комплексе', sales: 1200000, percentage: 12 }],
+                                },
+                                {
+                                    directionTitle: 'Психология',
+                                    subcategories: [{ specialityTitle: 'Практическая психология', sales: 1200000, percentage: 12 }],
+                                },
+                                {
+                                    directionTitle: 'Технологические машины и оборудование',
+                                    subcategories: [{ specialityTitle: 'Технологические машины и оборудование в промышленности', sales: 1200000, percentage: 12 }],
+                                },
+                            ],
+                        },
+                        {
+                            levelTitle: 'Магистратура',
+                            subcategories: [
+                                {
+                                    directionTitle: 'Строительство',
+                                    subcategories: [{ specialityTitle: 'Информационное моделирование и строительство', sales: 210000, percentage: 21 }],
+                                },
+                                {
+                                    directionTitle: 'Менеджмент',
+                                    subcategories: [{ specialityTitle: 'Стратегический и финансовый менеджмент в современных организациях', sales: 260000, percentage: 26 }],
+                                },
+                                {
+                                    directionTitle: 'Прикладная информатика',
+                                    subcategories: [{ specialityTitle: 'Интеллектуальные встраиваемые системы', sales: 240000, percentage: 24 }],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    specialityTitle: 'Колледж',
+                    subcategories: [
+                        { specialityTitle: 'Оператор диспетчерской (производственно-диспетчерской) службы', sales: 310000, percentage: 31 },
+                        { specialityTitle: 'Информационные системы и программирование', sales: 320000, percentage: 32 },
+                        { specialityTitle: 'Строительство и эксплутация зданий и сооружений', sales: 450000, percentage: 32 },
+                        { specialityTitle: 'Экономика и бухгалтерский учет (по отраслям)', sales: 320000, percentage: 32 },
+                        { specialityTitle: 'Монтаж, наладка и эксплутация электрооборудования промышленных и гражданских зданий', sales: 890000, percentage: 32 },
+                        { specialityTitle: 'Торговое дело', sales: 220000, percentage: 32 },
+                        { specialityTitle: 'Банковское дело', sales: 920000, percentage: 32 },
+                        { specialityTitle: 'Оператор информационных систем и ресурсов', sales: 360000, percentage: 32 },
+                        { specialityTitle: 'Чертежник-конструктор', sales: 890000, percentage: 32 },
+                    ],
+                },
+                {
+                    specialityTitle: 'Курсы',
+                    subcategories: [
+                        { specialityTitle: 'Техника скорочтения (повышение квалификации)', sales: 410000, percentage: 41 },
+                        { specialityTitle: 'Графический дизайнер (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Семейная психологий (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Нейросети для карьера (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Бизнес-аналитик (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'AI product manager (проф.переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Excel для эффективной работы (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Информационные технологии в образовании', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Управление проектами в бизнесе (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Водоснабжение и водоотведение (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Основы SQL (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Городское строительство и хозяйство (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Безопасность строительства (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Эксплутация зданий и сооружений (повышение квалификации)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Ведение бухгалтерского учета в организации (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Управление в строительной организации ( проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Инженер производственно-технического отдела (ПТО) (профю переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Промышленное и гражданское строительство (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Эксплутация зданий и сооружений (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Энергетический менеджмент (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Безопасность строительства (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Сметное дело в строительстве (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Экономика предприятий и организаций (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Педагогическое образование (проф. переподготовка)', sales: 420000, percentage: 42 },
+                        { specialityTitle: 'Управление персоналом (проф. переподготовка)', sales: 420000, percentage: 42 },
+                    ],
+                },
             ];
         }
 
         return filteredDataDepartment;
     }
-
-    return [];
+    return {};
 };
 
 // Моковые данные для расчетов метрик

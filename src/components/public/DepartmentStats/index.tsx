@@ -1,9 +1,10 @@
-import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, ChartOptions, Tooltip, Legend, LinearScale } from 'chart.js';
+import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Tooltip, Legend, LinearScale } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { useEffect, useState } from 'react';
-import { Bar, Doughnut } from 'react-chartjs-2';
-import { getDepartmentData, mockMetricsData } from './utils';
+import { Bar } from 'react-chartjs-2';
+import { Course, CourseData, getDepartmentData, mockMetricsData } from './utils';
 import MetricsBlock from '../../MetricsBlock';
+import Slides from './Slides';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, ArcElement, Legend, ChartDataLabels);
 
@@ -12,6 +13,7 @@ export interface IDepartmentStatsProps {
     sortOption: string | null;
     filterOption: string;
     customPeriod?: { startDate: Date | null; endDate: Date | null };
+    onLastSlide: () => void;
 }
 
 interface MetricsType {
@@ -21,9 +23,9 @@ interface MetricsType {
     conversionRate: number;
 }
 
-const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: IDepartmentStatsProps) => {
+const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod, onLastSlide }: IDepartmentStatsProps) => {
     const [dataByTotalStats, setDataByTotalStats] = useState<{ [key: string]: number[] }>({});
-    const [dataByDirection, setDataByDirection] = useState<{ direction: string; value: number }[]>([]);
+    const [dataByDirection, setDataByDirection] = useState<CourseData>([]);
     const [metrics, setMetrics] = useState<MetricsType>({
         totalPayments: 0,
         yearlyPaymentsPercentage: 0,
@@ -44,7 +46,8 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
             } else if (viewType === 'direction') {
                 setDataByTotalStats({}); // Очистка данных Общая статистика, если выбрано По направлению
 
-                const filteredDataDepartment = getDepartmentData(viewType, filterOption, customPeriod) as { direction: string; value: number }[];
+                const filteredDataDepartment = getDepartmentData(viewType, filterOption, customPeriod) as CourseData;
+                console.log('Отфильтрованные данные для направления:', filteredDataDepartment); // Логируем данные
 
                 setDataByDirection(filteredDataDepartment);
             }
@@ -80,21 +83,7 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
         ],
     };
 
-    // Настройки для круговой диаграммы
-    const donutChartData = {
-        labels: dataByDirection.map(item => item.direction),
-        datasets: [
-            {
-                label: `Направлений: ${dataByDirection.length}`,
-                data: dataByDirection.map(item => item.value),
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#4BA2C0'],
-                hoverOffset: 34,
-                hoverBorderColor: '#000',
-            },
-        ],
-    };
-
-    // Данные для столбчатой диаграммы
+    // Настройки для столбчатой диаграммы
     const barOptions = {
         responsive: true,
         color: '#fff',
@@ -135,49 +124,56 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod }: I
         },
     };
 
-    // Данные для круговой диаграммы
-    const donutOptions: ChartOptions<'doughnut'> = {
-        responsive: true,
-        color: '#fff',
-        animation: {
-            animateScale: true,
-            duration: 2000,
-        },
-        plugins: {
-            legend: {
-                display: true,
-                position: 'top',
-            },
-            tooltip: {
-                enabled: true,
-            },
-            datalabels: {
-                formatter: (value: number, context: any) => {
-                    const total = context.dataset.data.reduce((acc: number, curr: number) => acc + curr, 0);
-                    const percentage = ((value / total) * 100).toFixed(1) + '%';
-                    return `${context.chart.data.labels[context.dataIndex]}: ${value} (${percentage})`;
-                },
-                color: '#000',
-                font: {
-                    size: 14,
-                    weight: 'bold',
-                },
-                align: 'center',
-                anchor: 'center',
-            },
-        },
-    };
+    const renderCourseCard = (course: Course) => (
+        <div key={course.mainTitle} className="courses-cards">
+            {/* Основной заголовок курса */}
+            <h2 className="courses-cards__main-title">{course.mainTitle}</h2>
+
+            {/* Перебор подкатегорий */}
+            {course.subcategories && course.subcategories.length > 0 ? (
+                course.subcategories.map(subcategory => (
+                    <div key={subcategory.levelTitle} className="courses-cards__level">
+                        {/* Заголовок уровня */}
+                        <h3 className="courses-cards__level-title">{subcategory.levelTitle}</h3>
+
+                        {/* Перебор направлений */}
+                        {subcategory.subcategories && subcategory.subcategories.length > 0 ? (
+                            subcategory.subcategories.map(direction => (
+                                <div key={direction.directionTitle} className="courses-cards__list-speciality">
+                                    {/* Заголовок направления */}
+                                    <span className="courses-cards__direction-title">{direction.directionTitle}</span>
+
+                                    {/* Перебор специальностей */}
+                                    {direction.subcategories && direction.subcategories.length > 0 ? (
+                                        direction.subcategories.map(speciality => (
+                                            <div key={speciality.specialityTitle} className="courses-cards__speciality-block">
+                                                <span className="courses-cards__speciality-title">{speciality.specialityTitle}</span>
+                                                <span className="courses-cards__speciality-sales">Продажи: {speciality.sales} руб.</span>
+                                                <span className="courses-cards__speciality-percent">Процент: {speciality.percentage}%</span>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <span>Нет специальностей</span> // Можно добавить сообщение, если специальностей нет
+                                    )}
+                                </div>
+                            ))
+                        ) : (
+                            <span>Нет направлений</span> // Можно добавить сообщение, если направлений нет
+                        )}
+                    </div>
+                ))
+            ) : (
+                <span>Нет подкатегорий</span> // Можно добавить сообщение, если подкатегорий нет
+            )}
+        </div>
+    );
 
     return (
         <div className="diagrams-block">
             <h3 className="title">Статистика отдела - {viewType === 'total-stats' ? 'Общая статистика' : 'По направлению'}</h3>
             {viewType === 'total-stats' && <MetricsBlock metrics={metrics} />}
             <div className="chart-container">
-                {viewType === 'total-stats' ? (
-                    <Bar style={{ height: '896px' }} data={barChartData} options={barOptions} className="chart-container__block" />
-                ) : (
-                    <Doughnut data={donutChartData} options={donutOptions} className="chart-container__block chart-container__block_donut" />
-                )}
+                {viewType === 'total-stats' ? <Bar style={{ height: '896px' }} data={barChartData} options={barOptions} className="chart-container__block" /> : <Slides slides={dataByDirection.map(renderCourseCard)} onLastSlide={onLastSlide} />}
             </div>
         </div>
     );
