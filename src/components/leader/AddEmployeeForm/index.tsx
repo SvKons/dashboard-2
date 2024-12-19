@@ -18,7 +18,6 @@ const AddEmployeeForm = ({ onSave, onCancel, initialValues }: IAddMemberFormProp
         phone: '',
     });
 
-    // Используем useEffect, чтобы при изменении initialValues обновить состояние формы
     useEffect(() => {
         if (initialValues) {
             setFormState({
@@ -29,7 +28,7 @@ const AddEmployeeForm = ({ onSave, onCancel, initialValues }: IAddMemberFormProp
                 phone: initialValues.phone,
             });
         }
-    }, [initialValues]); // Эта зависимость гарантирует, что форма будет обновляться при изменении initialValues
+    }, [initialValues]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

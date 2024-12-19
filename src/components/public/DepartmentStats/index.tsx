@@ -1,10 +1,11 @@
-import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Tooltip, Legend, LinearScale } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { useEffect, useState } from 'react';
+import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Tooltip, Legend, LinearScale } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Course, CourseData, getDepartmentData, mockMetricsData } from './utils';
 import MetricsBlock from '../../MetricsBlock';
 import Slides from './Slides';
+import './DepartmentStats.scss';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, ArcElement, Legend, ChartDataLabels);
 
@@ -47,8 +48,6 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod, onL
                 setDataByTotalStats({}); // Очистка данных Общая статистика, если выбрано По направлению
 
                 const filteredDataDepartment = getDepartmentData(viewType, filterOption, customPeriod) as CourseData;
-                console.log('Отфильтрованные данные для направления:', filteredDataDepartment); // Логируем данные
-
                 setDataByDirection(filteredDataDepartment);
             }
         };
@@ -124,49 +123,40 @@ const DepartmentStats = ({ viewType, sortOption, filterOption, customPeriod, onL
         },
     };
 
-    const renderCourseCard = (course: Course) => (
-        <div key={course.mainTitle} className="courses-cards">
-            {/* Основной заголовок курса */}
-            <h2 className="courses-cards__main-title">{course.mainTitle}</h2>
-
-            {/* Перебор подкатегорий */}
-            {course.subcategories && course.subcategories.length > 0 ? (
-                course.subcategories.map(subcategory => (
-                    <div key={subcategory.levelTitle} className="courses-cards__level">
-                        {/* Заголовок уровня */}
-                        <h3 className="courses-cards__level-title">{subcategory.levelTitle}</h3>
-
-                        {/* Перебор направлений */}
-                        {subcategory.subcategories && subcategory.subcategories.length > 0 ? (
-                            subcategory.subcategories.map(direction => (
-                                <div key={direction.directionTitle} className="courses-cards__list-speciality">
-                                    {/* Заголовок направления */}
-                                    <span className="courses-cards__direction-title">{direction.directionTitle}</span>
-
-                                    {/* Перебор специальностей */}
-                                    {direction.subcategories && direction.subcategories.length > 0 ? (
-                                        direction.subcategories.map(speciality => (
-                                            <div key={speciality.specialityTitle} className="courses-cards__speciality-block">
-                                                <span className="courses-cards__speciality-title">{speciality.specialityTitle}</span>
-                                                <span className="courses-cards__speciality-sales">Продажи: {speciality.sales} руб.</span>
-                                                <span className="courses-cards__speciality-percent">Процент: {speciality.percentage}%</span>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <span>Нет специальностей</span> // Можно добавить сообщение, если специальностей нет
-                                    )}
-                                </div>
-                            ))
-                        ) : (
-                            <span>Нет направлений</span> // Можно добавить сообщение, если направлений нет
-                        )}
-                    </div>
-                ))
-            ) : (
-                <span>Нет подкатегорий</span> // Можно добавить сообщение, если подкатегорий нет
-            )}
-        </div>
-    );
+    const renderCourseCard = (course: Course) => {
+        return (
+            <div key={course.mainTitle} className="courses-cards">
+                <h2 className="courses-cards__main-title">{course.mainTitle}</h2>
+                {/* Перебор подкатегорий */}
+                {course.subcategories &&
+                    course.subcategories.map(subcategory => (
+                        <div key={subcategory.levelTitle} className="courses-cards__level">
+                            <h3 className="courses-cards__level-title">{subcategory.levelTitle}</h3>
+                            {/* Перебор направлений */}
+                            {subcategory.subcategories &&
+                                subcategory.subcategories.map(direction => (
+                                    <div key={direction.directionTitle} className="courses-cards__list-speciality">
+                                        <span className="courses-cards__direction-title">{direction.directionTitle}</span>
+                                        <div className="courses-cards__speciality-wrap">
+                                            {/* Перебор специальностей */}
+                                            {direction.subcategories &&
+                                                direction.subcategories.map(speciality => (
+                                                    <div key={speciality.specialityTitle} className="courses-cards__speciality-block">
+                                                        <span className="courses-cards__speciality-title">{speciality.specialityTitle}</span>
+                                                        <div className="courses-cards__speciality-info">
+                                                            <span className="courses-cards__speciality-sales">Продажи: {speciality.sales} руб.</span>
+                                                            <span className="courses-cards__speciality-percent">Процент: {speciality.percentage}%</span>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    </div>
+                                ))}
+                        </div>
+                    ))}
+            </div>
+        );
+    };
 
     return (
         <div className="diagrams-block">

@@ -19,9 +19,6 @@ const Slides = ({ slides, onLastSlide }: SlidesProps) => {
         }
     };
 
-    console.log('Текущий слайд:', currentSlide);
-    console.log('Слайды:', slides);
-
     return (
         <div className="slides">
             {slides[currentSlide]}
