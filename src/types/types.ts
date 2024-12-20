@@ -11,8 +11,16 @@ export interface INavItem {
     label: string;
 }
 
+export interface IMember {
+    id: string;
+    name: string;
+    position: string;
+    email: string;
+    phone: string;
+}
+
 export interface IManagerTitle {
-    id: number;
+    id: string;
     name: string;
     sales: number;
     achievements: string[];

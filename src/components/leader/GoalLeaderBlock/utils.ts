@@ -9,7 +9,6 @@ export interface IManager {
     name: string;
 }
 
-// Моковые данные
 export const managers: IManager[] = [
     { id: '1', name: 'Менеджер 1' },
     { id: '2', name: 'Менеджер 2' },

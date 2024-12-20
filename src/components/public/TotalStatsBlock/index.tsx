@@ -21,7 +21,7 @@ const TotalStatsBlock = ({ filterOption }: ITotalStatsBlockProps) => {
 
         const fetchSalesData = () => {
             // Измените вызов getDepartmentData, чтобы он использовал только нужные аргументы
-            const data = getDepartmentData('total-stats', currentFilter) as { [key: string]: number[] }; // Удалите date
+            const data = getDepartmentData('total-stats', currentFilter) as { [key: string]: number[] };
             const sales = Object.values(data)
                 .flat()
                 .reduce((acc, curr) => acc + curr, 0);

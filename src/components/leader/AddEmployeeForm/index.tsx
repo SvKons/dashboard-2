@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import Button from '../../Button';
-import { IMember } from '../MemberManagement/utils';
+
 import './AddEmployeeForm.scss';
+import { IMember } from '../../../types/types';
 
 interface IAddMemberFormProps {
     onSave: (member: IMember) => void;

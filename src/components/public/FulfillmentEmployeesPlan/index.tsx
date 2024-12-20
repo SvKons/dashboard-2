@@ -8,22 +8,6 @@ const getProgressBarColor = (percentage: number): string => {
     return 'linear-gradient(90deg, rgba(242, 68, 15, 1) 7%, rgba(126, 24, 145, 1) 70%)';
 };
 
-// Функция для получения данных с бэка
-// export const fetchEmployees = async (): Promise<Employee[]> => {
-//   try {
-//     const response = await fetch('https://api.example');
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     return await response.json();
-//   } catch (error) {
-//     console.error('Error fetching employees:', error);
-//     return [];
-//   } finally {
-
-//   }
-// }
-
 const FulfillmentEmployeesPlan = () => {
     return (
         <div className="fulfillment">

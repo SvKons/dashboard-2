@@ -1,10 +1,4 @@
-export interface IMember {
-    id: string;
-    name: string;
-    position: string;
-    email: string;
-    phone: string;
-}
+import { IMember } from '../../../types/types';
 
 export const members: IMember[] = [
     { id: '1', name: 'Иванов Иван Петрович', position: 'Менеджер', email: 'ivan@example.com', phone: '+7 900 123 45 67' },

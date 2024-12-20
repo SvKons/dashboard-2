@@ -244,15 +244,9 @@ const getRandomAdjective = (title: string): string => {
     return randomAdjective; // Возврат нового прилагательного
 };
 
-// // Получение случайного изображения
+// Получение случайного изображения
 const getRandomImage = (title: string, adjective: string): string => {
     const images = imagesByTitleAndAdjective[title]?.[adjective];
-
-    // Проверяем наличие изображений
-    // if (!images || images.length === 0) {
-    //     console.error(`No images found for title ${title} and adjective ${adjective}`);
-    //     return require('./img/lord/img12-14.jpg'); // Возвращаем изображение-заглушку
-    // }
 
     const currentTime = new Date().getTime();
     const storageKey = `image_${title}_${adjective}`;
@@ -279,16 +273,16 @@ const getRandomImage = (title: string, adjective: string): string => {
 
 // Данные для отображения в таблице менеджеров с титулами и достижениями
 export const mockManagers: IManagerTitle[] = [
-    { id: 1, name: 'Иванова Мария Ивановна', sales: 8500000, achievements: ['Лучший продажник'], userRole: UserRole.Manager },
-    { id: 2, name: 'Петрова Мария Алексеевна', sales: 7200000, achievements: ['Закрыла 50 сделок'], userRole: UserRole.Manager },
-    { id: 3, name: 'Смирнов Олег Дмитриевич', sales: 6000000, achievements: ['Превзошел план'], userRole: UserRole.Manager },
-    { id: 4, name: 'Сидоров Алексей Антонович', sales: 4800000, achievements: [], userRole: UserRole.Manager },
-    { id: 5, name: 'Фролова Наталья Олеговна', sales: 4000000, achievements: ['Лидер квартала'], userRole: UserRole.Manager },
-    { id: 6, name: 'Кузнецов Дмитрий Александрович', sales: 3200000, achievements: [], userRole: UserRole.Manager },
-    { id: 7, name: 'Романова Светлана Игоревна', sales: 2500000, achievements: ['Лучший по отзывам'], userRole: UserRole.Manager },
-    { id: 8, name: 'Чернов Григорий Георгиевич', sales: 1800000, achievements: [], userRole: UserRole.Manager },
-    { id: 9, name: 'Белова Анна Романовна', sales: 1400000, achievements: [], userRole: UserRole.Manager },
-    { id: 10, name: 'Захаров Виктор Витальевич', sales: 750000, achievements: [], userRole: UserRole.Manager },
+    { id: '1', name: 'Иванова Мария Ивановна', sales: 8500000, achievements: ['Лучший продажник'], userRole: UserRole.Manager },
+    { id: '2', name: 'Петрова Мария Алексеевна', sales: 7200000, achievements: ['Закрыла 50 сделок'], userRole: UserRole.Manager },
+    { id: '3', name: 'Смирнов Олег Дмитриевич', sales: 6000000, achievements: ['Превзошел план'], userRole: UserRole.Manager },
+    { id: '4', name: 'Сидоров Алексей Антонович', sales: 4800000, achievements: [], userRole: UserRole.Manager },
+    { id: '5', name: 'Фролова Наталья Олеговна', sales: 4000000, achievements: ['Лидер квартала'], userRole: UserRole.Manager },
+    { id: '6', name: 'Кузнецов Дмитрий Александрович', sales: 3200000, achievements: [], userRole: UserRole.Manager },
+    { id: '7', name: 'Романова Светлана Игоревна', sales: 2500000, achievements: ['Лучший по отзывам'], userRole: UserRole.Manager },
+    { id: '8', name: 'Чернов Григорий Георгиевич', sales: 1800000, achievements: [], userRole: UserRole.Manager },
+    { id: ' 9', name: 'Белова Анна Романовна', sales: 1400000, achievements: [], userRole: UserRole.Manager },
+    { id: '10', name: 'Захаров Виктор Витальевич', sales: 750000, achievements: [], userRole: UserRole.Manager },
 ].map(manager => {
     const title = getTitleBySales(manager.sales);
     const randomAdjective = getRandomAdjective(title);

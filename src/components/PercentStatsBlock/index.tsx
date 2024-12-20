@@ -8,21 +8,19 @@ interface IStatCardProps {
 
 const PercentStatsBlock = ({ title, percentage }: IStatCardProps) => {
     const circleRef = useRef<SVGCircleElement>(null);
-    const radius = 50; // радиус круга
-    const strokeWidth = 14; // ширина обводки
-    const circumference = 2 * Math.PI * radius; // длина окружности
+    const radius = 50;
+    const strokeWidth = 14;
+    const circumference = 2 * Math.PI * radius;
 
     useEffect(() => {
         if (circleRef.current) {
-            // Установите начальное значение strokeDashoffset
             circleRef.current.style.strokeDasharray = String(circumference);
             circleRef.current.style.strokeDashoffset = String(circumference);
 
-            // Используйте requestAnimationFrame для плавной анимации
             requestAnimationFrame(() => {
                 const newOffset = circumference - (circumference * percentage) / 100;
-                circleRef.current!.style.transition = 'stroke-dashoffset 3.8s ease-in-out'; // Используем оператор "!"
-                circleRef.current!.style.strokeDashoffset = String(newOffset); // Используем оператор "!"
+                circleRef.current!.style.transition = 'stroke-dashoffset 3.8s ease-in-out';
+                circleRef.current!.style.strokeDashoffset = String(newOffset);
             });
         }
     }, [percentage, circumference]);

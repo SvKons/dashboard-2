@@ -1,7 +1,7 @@
 export interface IRunningLineItem {
     title: string;
     leftCount: string;
-    rightCount?: string; // Необязательное поле
+    rightCount?: string;
 }
 
 // Дублирование массива

@@ -12,36 +12,35 @@ export interface IProfile {
 
 export interface IProfileProps {
     profileData: IProfile;
-    onNameChange?: (newName: string) => void; // Колбек для изменения имени
+    onNameChange?: (newName: string) => void;
 }
 
 const Profile = ({ profileData, onNameChange }: IProfileProps) => {
     const [isEditingName, setIsEditingName] = useState(false);
-    const [name, setName] = useState<string>(profileData.name); // Локальное состояние для имени
+    const [name, setName] = useState<string>(profileData.name);
 
-    // Используем useMemo для запоминания случайной фразы
     const randomPhrase: IMotivationalPhrase = useMemo(() => {
         return motivationalPhrases[Math.floor(Math.random() * motivationalPhrases.length)];
-    }, []); // Пустой массив зависимостей позволяет вычислить значение только один раз при первом рендере
+    }, []);
 
     const handleEditName = () => {
         setIsEditingName(true);
     };
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value); // Обновляем состояние имени
+        setName(event.target.value);
     };
 
     const handleNameBlur = () => {
         setIsEditingName(false);
         if (onNameChange) {
-            onNameChange(name); // Вызываем колбек для обновления имени, если он передан
+            onNameChange(name);
         }
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            handleNameBlur(); // Завершаем редактирование при нажатии Enter
+            handleNameBlur();
         }
     };
 

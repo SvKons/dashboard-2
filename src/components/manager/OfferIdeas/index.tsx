@@ -15,7 +15,6 @@ const OfferIdeas = () => {
         const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
         if (storedData) {
             const localIdeas: IIdeasForm[] = JSON.parse(storedData);
-            // Фильтруем только идеи, предложенные пользователем (не включаем predefinedIdeas для менеджера)
             setIdeas(localIdeas);
         } else {
             localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([]));

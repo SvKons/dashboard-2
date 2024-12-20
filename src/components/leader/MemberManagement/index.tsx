@@ -1,57 +1,43 @@
 import { useState, useEffect } from 'react';
-import { IMember, members as initialMembers } from './utils';
 import Button from '../../Button';
 import Popup from '../../Popup';
 import AddEmployeeForm from '../AddEmployeeForm';
 import './MemberManagement.scss';
 import EditDeleteIcons from '../../EditDeleteIcons';
-
-const LOCAL_STORAGE_KEY = 'members';
+import { IMember } from '../../../types/types';
+import useAddMemberStore from '../../../store/useAddMemberStore';
 
 const MemberManagement = () => {
-    const [members, setMembers] = useState<IMember[]>([]);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const { members, loadMembers, addMember, updateMember, deleteMember } = useAddMemberStore();
+    const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
     const [formState, setFormState] = useState<IMember | null>(null);
 
     useEffect(() => {
-        const storedMembers = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-        if (storedMembers) {
-            setMembers(JSON.parse(storedMembers));
-        } else {
-            setMembers(initialMembers);
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(initialMembers));
-        }
-    }, []);
+        loadMembers();
+    }, [loadMembers]);
 
     const handleSaveMember = (newMember: IMember) => {
         if (formState) {
-            const updatedMembers = members.map(member => (member.name === formState.name ? newMember : member));
-            setMembers(updatedMembers);
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedMembers));
+            updateMember(newMember);
         } else {
-            const updatedMembers = [...members, newMember];
-            setMembers(updatedMembers);
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedMembers));
+            addMember(newMember);
         }
-
         setIsPopupOpen(false);
         setFormState(null);
     };
 
-    const handleEditMember = (index: number) => {
-        const memberToEdit = members[index];
-        setFormState(memberToEdit);
+    const handleEditMember = (id: string) => {
+        const memberToEdit = members.find(member => member.id === id);
+        setFormState(memberToEdit || null);
         setIsPopupOpen(true);
     };
 
-    const handleDeleteMember = (index: number) => {
-        const updatedMembers = members.filter((_, i) => i !== index);
-        setMembers(updatedMembers);
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedMembers));
+    const handleDeleteMember = (id: string) => {
+        deleteMember(id);
     };
 
     const handleAddMember = () => {
+        setFormState(null);
         setIsPopupOpen(true);
     };
 
@@ -76,7 +62,7 @@ const MemberManagement = () => {
                     </thead>
                     <tbody className="table-employee__table-body">
                         {members.map((member, index) => (
-                            <tr className="table-employee__table-row" key={`${member.name}-${index}`}>
+                            <tr className="table-employee__table-row" key={member.id}>
                                 <td className="table-employee__cell-body">{index + 1}</td>
                                 <td className="table-employee__cell-body">{member.name}</td>
                                 <td className="table-employee__cell-body">{member.position}</td>
@@ -84,7 +70,7 @@ const MemberManagement = () => {
                                 <td className="table-employee__cell-body">
                                     <div className="table-employee__wrap-content">
                                         {member.phone}
-                                        <EditDeleteIcons<number> onEdit={index => handleEditMember(index)} onDelete={index => handleDeleteMember(index)} data={index} />
+                                        <EditDeleteIcons<string> onEdit={() => handleEditMember(member.id)} onDelete={() => handleDeleteMember(member.id)} data={member.id} />
                                     </div>
                                 </td>
                             </tr>
@@ -100,5 +86,4 @@ const MemberManagement = () => {
         </>
     );
 };
-
 export default MemberManagement;

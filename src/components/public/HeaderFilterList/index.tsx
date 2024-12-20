@@ -25,7 +25,6 @@ const HeaderFilterList = ({ onFilterChange, setDate, date, filterOption, onCusto
     const location = useLocation(); // Получаем текущий URL
 
     const handleClickOutside = (event: MouseEvent) => {
-        // Проверка, был ли клик вне календаря
         if (datePickerRef.current && !datePickerRef.current.contains(event.target as Node)) {
             setOpenDate(false);
         }

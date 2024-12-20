@@ -19,9 +19,7 @@
         }
 
         &:hover {
-            // background-color: var(--hover-yellow);
             color: var(--white-color);
-            // background: linear-gradient(90deg, rgba(255, 237, 0, 1) 0%, rgba(0, 0, 0, 0.022934173669467817) 100%);
             box-shadow: inset 0px 0px 10px rgba(255, 212, 59, 0.5), inset 0px 0px 10px rgb(255 255 255 / 50%), 0px 0px 10px rgba(255, 212, 59, 0.5);
         }
 

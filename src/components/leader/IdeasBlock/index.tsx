@@ -24,15 +24,13 @@ const IdeasBlock = () => {
     const [filter, setFilter] = useState<IdeaStatus | 'all'>('all');
 
     useEffect(() => {
-        // Загружаем идеи из localStorage
         const storedIdeas = localStorage.getItem(LOCAL_STORAGE_KEY);
         const localIdeas: IIdeasForm[] = storedIdeas ? JSON.parse(storedIdeas) : [];
 
-        // Сначала объединяем predefinedIdeas с локальными идеями
         const mergedIdeas: IIdeaWithStatus[] = [
-            ...predefinedIdeas, // Предварительно заданные идеи
+            ...predefinedIdeas,
             ...localIdeas.map((idea: IIdeasForm) => ({
-                id: idea.id.toString(), // Преобразуем id в строку
+                id: idea.id.toString(),
                 offer: idea.offer,
                 employeeName: 'Менеджер',
                 status: idea.status,
@@ -40,13 +38,12 @@ const IdeasBlock = () => {
         ];
 
         setIdeas(mergedIdeas);
-    }, []); // useEffect вызывается только один раз при монтировании компонента
+    }, []);
 
     const handleStatusChange = (id: string, status: IdeaStatus) => {
         const updatedIdeas = ideas.map(idea => (idea.id === id ? { ...idea, status } : idea));
         setIdeas(updatedIdeas);
 
-        // Сохраняем только идеи, которые были добавлены пользователем
         const localIdeas = updatedIdeas.filter(idea => !predefinedIdeas.some(predefined => predefined.id === idea.id));
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(localIdeas));
     };

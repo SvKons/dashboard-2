@@ -47,7 +47,6 @@ const MainPage = () => {
 
     const [isAutoSwitching, setIsAutoSwitching] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    // const menuPaths = ['/', '/department-statistics', '/employees-statistics', '/goals', '/achievements'];
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -55,7 +54,7 @@ const MainPage = () => {
     const [currentUser] = useState({
         id: '1',
         name: 'Marisa',
-        role: UserRole.Public,
+        role: UserRole.Leader,
     });
 
     // Обработчики фильтрации периода
